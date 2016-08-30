@@ -1,0 +1,1128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBg">
+
+    <View
+        android:id="@+id/vehicle_details_header_bar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/slate"></View>
+
+    <Button
+        android:id="@+id/vehicle_details_edit_vehicle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:layout_marginRight="21dp"
+        android:layout_marginTop="13dp"
+        android:background="#00000000"
+        android:textColor="@color/colorWhite"
+        android:text="Edit" />
+
+    <TextView
+        android:id="@+id/vehicle_details_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="Vicky's Car"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="65dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vehicle_details_images_viewpager"
+                android:layout_width="match_parent"
+                android:background="@color/colorWhite"
+                android:layout_height="370dp" />
+            <ProgressBar
+                android:id="@+id/vehicle_details_profile_indicator"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/horizontal_progress_bg" />
+            <TextView
+                android:id="@+id/vehicle_details_profile_indicator_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:text="Vehicle Profile:"
+                android:textColor="@color/colorWhite"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/vehicle_details_my_car_name"
+                android:layout_marginTop="230dp"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="Vicky’s Car"
+                android:textStyle="bold"
+                android:textColor="@color/slate"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/vehicle_details_my_car_model"
+                android:layout_below="@id/vehicle_details_my_car_name"
+                android:layout_centerHorizontal="true"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="2012 Audi A4 2.0T  •  3,745 Miles"
+                android:textColor="@color/slate"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/vehicle_details_my_car_scheduled_next_service"
+                android:layout_below="@id/vehicle_details_my_car_model"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next scheduled service: Aug 27, 2016"
+                android:textColor="@color/colorTextLight"
+                android:textSize="13sp" />
+            <RelativeLayout
+                android:id="@+id/vehicle_details_service_data_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/vehicle_details_images_viewpager"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorWhite">
+
+                <TextView
+                    android:id="@+id/vehicle_details_service_records_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Service Records"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/vehicle_details_service_schedule_btn"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="21.5dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@mipmap/schedule_btn" />
+
+                <View
+                    android:id="@+id/vehicle_details_service_schedule_divider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/vehicle_details_service_records_tv"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorBg" />
+
+                <TextView
+                    android:id="@+id/vehicle_details_service_history_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/vehicle_details_service_schedule_divider"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Service History"
+
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/vehicle_details_service_history_details_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/vehicle_details_service_history_title_tv"
+                    android:layout_marginBottom="17dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="6.5dp"
+                    android:text="Last service date:"
+                    android:textColor="@color/slate" />
+
+                <Button
+                    android:id="@+id/vehicle_details_service_history_nav_btn"
+                    android:layout_width="7.5dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/vehicle_details_service_schedule_divider"
+                    android:layout_marginRight="21.5dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@mipmap/learn_more_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/vehicle_details_manufacture_warranty_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/vehicle_details_service_data_layout"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorWhite">
+
+                <LinearLayout
+                    android:id="@+id/vehicle_details_manufacture_warranty_indicator_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:paddingBottom="30dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <ProgressBar
+                            android:id="@+id/vehicle_details_manufacturer_warranty_months_indicator"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="250dp"
+                            android:layout_height="250dp"
+                            android:layout_centerInParent="true"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="75"
+                            android:progressDrawable="@drawable/circular_progress_pumpkin_bg"
+                            android:secondaryProgress="100" />
+
+                        <TextView
+                            android:id="@+id/vehicle_details_warranty_months_completed_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="18"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/vehicle_details_warranty_months_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/vehicle_details_manufacturer_warranty_months_indicator"
+                            android:layout_marginTop="15.5dp"
+                            android:gravity="center"
+                            android:text="Manufacturer Warranty Months"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <ProgressBar
+                            android:id="@+id/vehicle_details_manufacturer_warranty_miles_indicator"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="250dp"
+                            android:layout_height="250dp"
+                            android:layout_centerInParent="true"
+                            android:indeterminate="false"
+                            android:max="100"
+                            android:progress="75"
+                            android:progressDrawable="@drawable/circular_progress_blue_bg"
+                            android:secondaryProgress="100" />
+
+                        <TextView
+                            android:id="@+id/vehicle_details_warranty_miles_completed_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="18958"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/vehicle_details_warranty_miles_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/vehicle_details_manufacturer_warranty_miles_indicator"
+                            android:layout_marginTop="15.5dp"
+                            android:gravity="center"
+                            android:text="Manufacturer Warranty Miles"
+                            android:textSize="13sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/vehicle_details_vin_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_details_manufacture_warranty_layout"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorWhite"
+                android:paddingLeft="20dp"
+                android:paddingTop="15.5dp"
+                android:text="Vehicle identification no. (VIN)"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/vehicle_details_vin_details_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_details_vin_title_tv"
+                android:background="@color/colorWhite"
+                android:paddingBottom="15dp"
+                android:paddingLeft="20dp"
+                android:text="VW1234567890AS"
+                android:textColor="@color/slate"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/vehicle_details_tag_expiration_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_details_vin_details_tv"
+                android:layout_marginTop="1dp"
+                android:background="@color/colorWhite"
+                android:paddingLeft="20dp"
+                android:paddingTop="15.5dp"
+                android:text="Tag expiration"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/vehicle_details_tag_expiration_detail_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_details_tag_expiration_title_tv"
+                android:background="@color/colorWhite"
+                android:paddingBottom="15dp"
+                android:paddingLeft="20dp"
+                android:text="November 28, 2025"
+                android:textColor="@color/slate"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/vehicle_details_insurance_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_details_tag_expiration_detail_tv"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorWhite"
+                android:paddingBottom="22dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="19.5dp"
+                android:text="Insurance"
+                android:textColor="@color/colorTextDark"
+                android:textSize="20sp" />
+
+
+            <ImageView
+                android:id="@+id/vehicle_details_insurance_nav_iv"
+                android:layout_width="7.5dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/vehicle_details_tag_expiration_detail_tv"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="25dp"
+                android:background="@mipmap/learn_more_arrow" />
+
+            <ImageView
+                android:id="@+id/vehicle_details_insurance_priview_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/vehicle_details_tag_expiration_detail_tv"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_toLeftOf="@id/vehicle_details_insurance_nav_iv"
+                android:background="@mipmap/addvehicle_btn" />
+
+            <TextView
+                android:id="@+id/vehicle_details_extended_warranty_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_details_insurance_title_tv"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorWhite"
+                android:paddingBottom="22dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="19.5dp"
+                android:text="Extended Warranty"
+                android:textColor="@color/colorTextDark"
+                android:textSize="20sp" />
+
+
+            <ImageView
+                android:id="@+id/vehicle_details_extended_warranty_nav_iv"
+                android:layout_width="7.5dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/vehicle_details_insurance_title_tv"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="25dp"
+                android:background="@mipmap/learn_more_arrow" />
+
+            <ImageView
+                android:id="@+id/vehicle_details_extended_warranty_priview_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/vehicle_details_insurance_title_tv"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_toLeftOf="@id/vehicle_details_insurance_nav_iv"
+                android:background="@mipmap/addvehicle_btn" />
+
+
+            <TextView
+                android:id="@+id/vehicle_details_car_manual_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_details_extended_warranty_title_tv"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorWhite"
+                android:paddingBottom="22dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="19.5dp"
+                android:text="Car Manual"
+                android:textColor="@color/colorTextDark"
+                android:textSize="20sp" />
+
+
+            <ImageView
+                android:id="@+id/vehicle_details_car_manual_nav_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/vehicle_details_extended_warranty_title_tv"
+                android:layout_marginRight="21.5dp"
+                android:layout_marginTop="15dp"
+                android:background="@mipmap/open_inbrowser_icon" />
+
+            <TextView
+                android:id="@+id/vehicle_details_roadside_assistance_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_details_car_manual_title_tv"
+                android:layout_marginTop="1dp"
+                android:background="@color/colorWhite"
+                android:paddingBottom="22dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="19.5dp"
+                android:text="Roadside Assistance"
+                android:textColor="@color/colorTextDark"
+                android:textSize="20sp" />
+
+
+            <ImageView
+                android:id="@+id/vehicle_details_roadside_assistance_nav_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/vehicle_details_car_manual_title_tv"
+                android:layout_marginRight="21.5dp"
+                android:layout_marginTop="15dp"
+                android:background="@mipmap/call_icon" />
+
+
+        </RelativeLayout>
+
+        <!-- <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="fill_parent"
+             android:orientation="vertical">
+             <android.support.v4.view.ViewPager
+                 android:id="@+id/viewpager"
+                 android:layout_width="fill_parent"
+                 android:layout_height="300dp" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/textView_VehicleName"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="10dp"
+                 android:text="@string/car_name"
+                 android:textAppearance="?android:attr/textAppearanceLarge"
+                 android:textSize="24sp" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="15dp"
+                 android:background="#000000" />
+
+             <LinearLayout
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal"
+                 android:weightSum="4">
+
+                 <LinearLayout
+                     android:layout_width="fill_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:orientation="vertical">
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_horizontal"
+                         android:layout_marginTop="15dp"
+                         android:text="@string/make_year" />
+
+                     <TextView
+                         android:id="@+id/textView_Makeyear"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_horizontal"
+                         android:layout_marginBottom="15dp"
+                         android:layout_marginTop="5dp"
+                         android:text="2012"
+                         android:textStyle="bold" />
+
+                 </LinearLayout>
+
+                 <View
+                     android:layout_width="1dp"
+                     android:layout_height="fill_parent"
+                     android:background="#000000" />
+
+                 <LinearLayout
+                     android:layout_width="fill_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:orientation="vertical">
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_horizontal"
+                         android:layout_marginTop="15dp"
+                         android:text="@string/miles" />
+
+                     <TextView
+                         android:id="@+id/textView_Miles"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_horizontal"
+                         android:layout_marginBottom="15dp"
+                         android:layout_marginTop="5dp"
+                         android:text="40000"
+                         android:textStyle="bold" />
+
+                 </LinearLayout>
+
+                 <View
+                     android:layout_width="1dp"
+                     android:layout_height="fill_parent"
+                     android:background="#000000" />
+
+                 <LinearLayout
+                     android:layout_width="fill_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:orientation="vertical">
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_horizontal"
+                         android:layout_marginTop="15dp"
+                         android:text="@string/fuel" />
+
+                     <TextView
+                         android:id="@+id/textView_Fuel"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_horizontal"
+                         android:layout_marginBottom="15dp"
+                         android:layout_marginTop="5dp"
+                         android:text="Petrol"
+                         android:textStyle="bold" />
+                 </LinearLayout>
+
+                 <View
+                     android:layout_width="1dp"
+                     android:layout_height="fill_parent"
+                     android:background="#000000" />
+
+                 <LinearLayout
+                     android:layout_width="fill_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:orientation="vertical">
+
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_horizontal"
+                         android:layout_marginTop="15dp"
+                         android:text="@string/engine" />
+
+                     <TextView
+                         android:id="@+id/textView_Engine"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_horizontal"
+                         android:layout_marginBottom="15dp"
+                         android:layout_marginTop="5dp"
+                         android:text="1798cc"
+                         android:textStyle="bold" />
+
+                 </LinearLayout>
+             </LinearLayout>
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="15dp"
+                 android:text="@string/vin"
+                 android:textSize="20sp" />
+
+             <TextView
+                 android:id="@+id/textView_VIN_VehicleDetails"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="5dp"
+                 android:text="VW1234567890AC"
+                 android:textSize="20sp"
+                 android:textStyle="bold" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="15dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="15dp"
+                 android:text="@string/licence_plate_no"
+                 android:textSize="20sp" />
+
+             <TextView
+                 android:id="@+id/textView_Licence_plateno"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="5dp"
+                 android:text="ATI 123"
+                 android:textSize="20sp"
+                 android:textStyle="bold" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="15dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="15dp"
+                 android:text="@string/tag_expiration"
+                 android:textSize="20sp" />
+
+             <TextView
+                 android:id="@+id/textView_Tag_Expiration"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="5dp"
+                 android:text="November 25, 2025"
+                 android:textSize="20sp"
+                 android:textStyle="bold" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="2dp"
+                 android:layout_marginTop="15dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="20dp"
+                 android:text="@string/loan_finance_info"
+                 android:textAppearance="?android:attr/textAppearanceLarge"
+                 android:textSize="24sp" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="20dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="15dp"
+                 android:text="@string/amount_financed"
+                 android:textSize="20sp" />
+
+             <TextView
+                 android:id="@+id/textView_Amount_Financed"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="5dp"
+                 android:text="$30000.00(with 20% rate of interest)"
+                 android:textSize="20sp"
+                 android:textStyle="bold" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="15dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="15dp"
+                 android:text="@string/payments_terms"
+                 android:textSize="20sp" />
+
+             <TextView
+                 android:id="@+id/textView_Payment_terms"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="5dp"
+                 android:text="36 months (followed by $428.80 per month)"
+                 android:textSize="20sp"
+                 android:textStyle="bold" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="15dp"
+                 android:background="#000000" />
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <TextView
+                     android:id="@+id/textView_AN"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="15dp"
+                     android:text="@string/agent_name"
+                     android:textSize="20sp" />
+
+                 <TextView
+                     android:id="@+id/textView_Agentname"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_below="@+id/textView_AN"
+                     android:layout_marginBottom="15dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="5dp"
+                     android:text="Patrik Smith"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+
+                 <ImageView
+                     android:id="@+id/imageView_CallAgent"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="10dp"
+                     android:layout_toLeftOf="@+id/imageView_MailToAgent"
+                     android:src="@mipmap/call_icon" />
+
+                 <ImageView
+                     android:id="@+id/imageView_MailToAgent"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="10dp"
+                     android:src="@mipmap/message_icon" />
+             </RelativeLayout>
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="2dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="20dp"
+                 android:text="@string/insurance"
+                 android:textAppearance="?android:attr/textAppearanceLarge"
+                 android:textSize="24sp" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="20dp"
+                 android:background="#000000" />
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <TextView
+                     android:id="@+id/textView_CN"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="15dp"
+                     android:text="@string/company_name"
+                     android:textSize="20sp" />
+
+                 <TextView
+                     android:id="@+id/textView_Companyname"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_below="@+id/textView_CN"
+                     android:layout_marginBottom="15dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="5dp"
+                     android:text="American Internation Group (AIG)"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+
+                 <ImageView
+                     android:id="@+id/imageView_InsuranceCopy"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="10dp"
+                     android:src="@mipmap/message_icon" />
+             </RelativeLayout>
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="15dp"
+                 android:text="@string/policy_no"
+                 android:textSize="20sp" />
+
+             <TextView
+                 android:id="@+id/textView_Policy_no"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="5dp"
+                 android:text="FPV/S8480269/2C/05/003575"
+                 android:textSize="20sp"
+                 android:textStyle="bold" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="15dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="15dp"
+                 android:text="@string/policy_expiresno"
+                 android:textSize="20sp" />
+
+             <TextView
+                 android:id="@+id/textView_Policy_Expireson"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="5dp"
+                 android:text="September 25, 2017"
+                 android:textSize="20sp"
+                 android:textStyle="bold" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="2dp"
+                 android:layout_marginTop="15dp"
+                 android:background="#000000" />
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="15dp"
+                     android:text="@string/service_history"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="10dp"
+                     android:text="23  >"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+
+             </RelativeLayout>
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <TextView
+                     android:id="@+id/textView_ls"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="15dp"
+                     android:text="@string/last_serviced"
+                     android:textSize="20sp" />
+
+                 <TextView
+                     android:id="@+id/textView_LastServiceddate"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_below="@+id/textView_ls"
+                     android:layout_marginBottom="15dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="5dp"
+                     android:text="July 28,2016"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+
+                 <ImageView
+                     android:id="@+id/imageView_LastServicedCopy"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="10dp"
+                     android:src="@mipmap/message_icon" />
+             </RelativeLayout>
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <TextView
+                     android:id="@+id/textView_us"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="15dp"
+                     android:text="@string/upcoming_service"
+                     android:textSize="20sp" />
+
+                 <TextView
+                     android:id="@+id/textView_UpcomingService"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_below="@+id/textView_us"
+                     android:layout_marginBottom="15dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="5dp"
+                     android:text="September 16, 2016"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+
+                 <ImageView
+                     android:id="@+id/imageView_ServiceBook"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="10dp"
+                     android:src="@mipmap/message_icon" />
+             </RelativeLayout>
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="2dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="20dp"
+                 android:text="@string/extended_warranty"
+                 android:textAppearance="?android:attr/textAppearanceLarge"
+                 android:textSize="24sp" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="20dp"
+                 android:background="#000000" />
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <TextView
+                     android:id="@+id/textView_CN2"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="15dp"
+                     android:text="@string/company_name"
+                     android:textSize="20sp" />
+
+                 <TextView
+                     android:id="@+id/textView_ExtendedWarranty_Companyname"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_below="@+id/textView_CN2"
+                     android:layout_marginBottom="15dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="5dp"
+                     android:text="AA Auto protection (5 years)"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="10dp"
+                     android:text=">"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+             </RelativeLayout>
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="2dp"
+                 android:background="#000000" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="10dp"
+                 android:layout_marginTop="20dp"
+                 android:text="@string/vehicle_value_kbb"
+                 android:textAppearance="?android:attr/textAppearanceLarge"
+                 android:textSize="24sp" />
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:layout_marginTop="20dp"
+                 android:background="#000000" />
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <TextView
+                     android:id="@+id/textView_tiv"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="15dp"
+                     android:text="@string/trade_in_value"
+                     android:textSize="20sp" />
+
+                 <TextView
+                     android:id="@+id/textView_TradeinValue"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_below="@+id/textView_tiv"
+                     android:layout_marginBottom="15dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="5dp"
+                     android:text="$38,324 - $ 42,768"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+
+                 <ImageView
+                     android:id="@+id/imageView_Sell"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:layout_centerVertical="true"
+                     android:layout_marginRight="10dp"
+                     android:src="@mipmap/message_icon" />
+             </RelativeLayout>
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:background="#000000" />
+
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent">
+
+                 <TextView
+                     android:id="@+id/textView_ppv"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="15dp"
+                     android:text="@string/private_party_value"
+                     android:textSize="20sp" />
+
+                 <TextView
+                     android:id="@+id/textView_PrivatePartyValue"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentLeft="true"
+                     android:layout_below="@+id/textView_ppv"
+                     android:layout_marginBottom="15dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginTop="5dp"
+                     android:text="$38,324 - $ 42,768"
+                     android:textSize="20sp"
+                     android:textStyle="bold" />
+
+             </RelativeLayout>
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="1dp"
+                 android:background="#000000" /> </LinearLayout>-->
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

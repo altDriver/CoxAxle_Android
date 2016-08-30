@@ -1,0 +1,183 @@
+<resources>
+    <string name="app_name">Cox Axle</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <string name="mygarage">My Garage</string>
+    <string name="dealership_services">Dealership Services</string>
+    <string name="ondemand_services">On-Demand Services</string>
+    <string name="dealership">Dealership</string>
+    <string name="schedule_appointment">Schedule Appointment</string>
+    <string name="service_history">Service History</string>
+    <string name="my_cars">My Cars</string>
+    <string name="search_new_and_used_cars">Search New and Used Cars</string>
+    <string name="saved_cars">Saved Cars</string>
+    <string name="call_us">Call Us</string>
+    <string name="email_us">Email Us</string>
+    <string name="direction">Direction</string>
+
+    <!-- Strings related to home screen-->
+    <string name="home">Home</string>
+    <string name="notification">Notification</string>
+    <string name="settings">Settings</string>
+
+
+    <!-- Strings related to login/registration/settings -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="email_or_phone_number">Email/Phone Number</string>
+    <string name="language">Language</string>
+    <string name="current_dealership">Current Dealership</string>
+    <string name="zip_code">Zip Code</string>
+    <string name="select_a_dealer_group">Select a dealer group</string>
+    <string name="app_plugins">APP PLUG-INS</string>
+    <string name="vehicle_type">Vehicle Type </string>
+
+    <string name="do_not_have_account">Don’t have an account? Sign up</string>
+
+    <string name="action_sign_in">Sign in </string>
+    <string name="action_sign_up">Sign up </string>
+    <string name="action_register">Create an Account</string>
+    <string name="action_forgot_password_text">Forgot Password</string>
+    <string name="action_guest_user">Continue as Guest</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <!-- Strings related to on dealer services -->
+    <string name="dealer_services">Dealer Services</string>
+    <string name="service">Service</string>
+    <string name="make_an_appointment">Make an Appointment</string>
+    <string name="chat_with_service_technician">Chat with Service Technician</string>
+    <string name="service_tracker">Service Tracker</string>
+    <string name="review_service_experience">Review Service Experience</string>
+    <string name="specials">Specials</string>
+    <string name="service_specials">Service Specials</string>
+    <string name="new_and_used_car_specials">New "" Used Car Specials</string>
+    <string name="pricing">Pricing</string>
+    <string name="routine_maintenance">Routine Maintenance</string>
+    <string name="general_repair">General Repairs</string>
+    <string name="enhancements">Enhancements</string>
+    <string name="payment">Payment</string>
+    <string name="pay_for_service">Pay for Service</string>
+    <string name="invoice_history">Invoice History</string>
+
+
+    <!-- Strings related to on demand services -->
+    <string name="on_demand_services">ON DEMAND SERVICES</string>
+    <string name="towing">Towing</string>
+    <string name="locksmith">Locksmith</string>
+    <string name="fuel">Fuel</string>
+    <string name="battery_jump">Battery Jump</string>
+    <string name="flat_tire">Flat Tire</string>
+
+    <!-- Strings related to dealership -->
+    <string name="contact_dealership">Contact Dealership</string>
+    <string name="call_sales_team">Call Sales Team</string>
+    <string name="call_service_department">Call Service Department</string>
+    <string name="call_collision_center">Call Collision Center</string>
+    <string name="dealer_inventory">Dealer Inventory</string>
+    <string name="new_cars">New Cars</string>
+    <string name="used_cars">Used Cars</string>
+    <string name="saved_searches">Saved Searches</string>
+    <string name="customer_care">Customer Care</string>
+    <string name="payment_calculator">Payment Calculator</string>
+    <string name="reward_program">Reward Program</string>
+
+    <string name="add_vehicle">Add Vehicle</string>
+
+
+    <string name="vehicle_name">Vehicle Name</string>
+    <string name="vehicle_new">New</string>
+    <string name="vehicle_used">Used</string>
+    <string name="vehicle_cpo">CPO</string>
+    <string name="vehicle_vin">Enter VIN</string>
+    <string name="vehicle_miles_driven">Miles Driven</string>
+    <string name="vehicle_make">Select Make</string>
+    <string name="vehicle_model">Select Model</string>
+    <string name="vehicle_year">Select Year</string>
+    <string name="vehicle_tag_expiration">Tag Expiration</string>
+    <string name="vehicle_addphoto_text">Sed ut perspiciatis unde omnis \n iste natus error sit voluptatem</string>
+
+    <string name="vehicle_entername">Enter Vehicle Name</string>
+    <string name="vehicle_selectmake">Select Make</string>
+    <string name="vehicle_entervin">Enter VIN</string>
+    <string name="vehicle_selectyear">Select Year</string>
+    <string name="vehicle_selectmodel">Select Model</string>
+    <string name="vehicle_entermilesdriven">Enter Miles Driven</string>
+    <string name="vehicle_selecttagexpdate">Select Tag Expiration Date</string>
+    <string name="vehicle_insurance_expiration_date">Expiration date</string>
+    <string name="vehicle_insurance_card">Insurance Card</string>
+    <string name="vehicle_selectinsuranceexpdate">Insurance Expiration Date</string>
+    <string name="vehicle_vehicle_details">Vehicle Details</string>
+    <string name="vehicle_insurance_details">Insurance Details</string>
+    <string name="vehicle_done">done</string>
+    <string name="vehicle_next">Next</string>
+
+
+
+    <!-- Strings Related to Vehicle Details -->
+    <string name="car_name">Audi A4 2.0T Premium</string>
+    <string name="make_year">Make</string>
+    <string name="miles">Miles</string>
+    <string name="engine">Engine</string>
+    <string name="vin">Vehicle identification number (VIN)</string>
+    <string name="licence_plate_no">Licence plate no</string>
+    <string name="tag_expiration">Tag expiration</string>
+    <string name="loan_finance_info">Loan / Finance Info</string>
+    <string name="amount_financed">Amount financed</string>
+    <string name="payments_terms">Payment terms</string>
+    <string name="agent_name">Agent Name</string>
+    <string name="insurance">Insurance</string>
+    <string name="company_name">Company name</string>
+    <string name="policy_no">Policy no</string>
+    <string name="policy_expiresno">Policy expires no</string>
+    <!--<string name="service_history">Service History</string>-->
+    <string name="last_serviced">Last Serviced</string>
+    <string name="upcoming_service">Upcoming service</string>
+    <string name="extended_warranty">Extended warranty</string>
+    <string name="vehicle_value_kbb">Vehicle Value (KBB)</string>
+    <string name="trade_in_value">Trade in Value></string>
+    <string name="private_party_value">Private party value</string>
+
+    <!-- Strings Related to Add Vehicle, Registration -->
+    <string name="user_id">User Id</string>
+    <string name="vehicle_color">Vehicle Color</string>
+    <string name="vehicle_photo1">Vehicle Photo1</string>
+    <string name="vehicle_photo2">Vehicle Photo2</string>
+    <string name="vehicle_photo3">Vehicle Photo3</string>
+    <string name="vehicle_warrenty_from">Warrenty From</string>
+    <string name="vehicle_warrenty_to">Warrenty To</string>
+    <string name="vehicle_extended_warrenty_from">Extended Warrenty From</string>
+    <string name="vehicle_extended_warrenty_to">Extended Warrenty To</string>
+    <string name="vehicle_manual">Vehicle Manual</string>
+    <string name="vehicle_loan_amount">Vehicle Loan Amount</string>
+    <string name="vehicle_emi">Vehicle Emi</string>
+    <string name="vehicle_interest">Vehicle Interest</string>
+    <string name="vehicle_loan_tenure">Vehicle Loan Tenure</string>
+    <string name="vehicle_insurance_document">Insurance Document</string>
+    <string name="vehicle_tag_renewal_date">Vehicle Tag Renewal Date</string>
+    <string name="vehicle_last_service_apt">Vehicle Last Service Apt</string>
+    <string name="vehicle_next_service_apt">Vehicle Next Service Apt</string>
+    <string name="vehicle_trim">Vehicle Trim</string>
+    <string name="vehicle_style">Vehicle Style</string>
+    <string name="vehicle_mileage">Vehicle Milage</string>
+    <string name="vehicle_ownership_type">Vehicle Ownership Type</string>
+
+
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background_img"
+    android:orientation="vertical">
+
+    <ImageButton
+        android:id="@+id/imageButton_login"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_marginTop="30dp"
+        android:textSize="16sp"
+        android:layout_centerInParent="true"
+        android:background="@mipmap/login_btn"
+        android:textColor="@color/colorWhite"
+        android:contentDescription="@null" />
+
+    <ImageButton
+        android:id="@+id/imageButton_Guest"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="33dp"
+        android:layout_marginRight="33dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/imageButton_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@mipmap/continue_as_guest_btn"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/nav_to_registration_action_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButton_Guest"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/do_not_have_account"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_semi_transparent"></View>
+
+    <TextView
+        android:id="@+id/login_options_watermark_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="13dp"
+        android:layout_marginLeft="55dp"
+        android:text="Powered by"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/axle_logo_image"
+        android:layout_width="60dp"
+        android:layout_height="17dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/login_options_watermark_tv"
+        android:layout_marginBottom="13dp"
+        android:background="@mipmap/axle_logo_white_darkbg" />
+
+    <TextView
+        android:id="@+id/login_options_watermark_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="13dp"
+        android:layout_toRightOf="@id/axle_logo_image"
+        android:text="A Cox Automotive Brand"
+        android:textColor="@color/colorWhite"
+        android:textSize="14sp" />
+
+</RelativeLayout>

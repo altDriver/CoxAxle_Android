@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background_img"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_centerInParent="true"
+        android:background="@mipmap/preloader"
+        android:layout_width="82dp"
+        android:layout_height="82dip" />
+
+    <!--<ImageView
+        android:id="@+id/main_progress"
+        android:layout_alignParentBottom="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/progress_wheel_animation"
+        android:layout_marginBottom="170dip"
+        android:visibility="visible" />-->
+
+</RelativeLayout>

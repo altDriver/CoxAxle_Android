@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--<LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="245dp"
+        android:background="@mipmap/backgroud"
+        android:orientation="vertical">-->
+
+        <ImageView
+            android:layout_alignParentTop="true"
+            android:id="@+id/my_car_image"
+            android:layout_width="match_parent"
+            android:layout_height="219dp"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/car_img" />
+    <!--<TextView
+        android:id="@+id/my_car_name"
+        android:layout_below="@id/my_car_image"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Vicky’s Car"
+        android:textStyle="bold"
+        android:textColor="@color/slate"
+        android:textSize="20sp" />
+    <TextView
+        android:id="@+id/my_car_model"
+        android:layout_below="@id/my_car_name"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="2012 Audi A4 2.0T  •  3,745 Miles"
+        android:textColor="@color/slate"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/my_car_scheduled_next_service"
+        android:layout_below="@id/my_car_model"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Audi A4 2.0T Premium"
+        android:textColor="@color/colorTextLight"
+        android:textSize="13sp" />-->
+
+       <!-- <TextView
+            android:id="@+id/my_car_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Audi A4 2.0T Premium"
+            android:textColor="@color/home_screen_title_text_color"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/my_car_next_service_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:text="Next service : Aug 27, 2016"
+            android:textSize="13sp" />
+
+
+    </LinearLayout>-->
+</RelativeLayout>

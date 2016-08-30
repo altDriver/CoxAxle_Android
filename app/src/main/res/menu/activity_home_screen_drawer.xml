@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+        <group android:checkableBehavior="single">
+            &lt;!&ndash;Home, Notification, Settings, My Garage, Dealer Services, On-Demand Services, Dealership &ndash;&gt;
+        </group>-->
+    <group
+        android:id="@+id/menu_home"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_camera"
+            android:state_pressed="true"
+            android:title="Home" />
+    </group>
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_notifications"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Notifications" />
+    </group>
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_menu_slideshow"
+        android:title="Settings" />
+
+    <item
+        android:id="@+id/nav_my_garage"
+        android:icon="@drawable/ic_menu_manage"
+        android:title="My Garage" />
+
+
+    <item
+        android:id="@+id/nav_dealer_services"
+        android:icon="@drawable/ic_menu_share"
+        android:title="Dealer Services" />
+
+
+    <item
+        android:id="@+id/nav_ondemand_services"
+        android:icon="@drawable/ic_menu_send"
+        android:title="On-Demand Services" />
+
+
+    <item
+        android:id="@+id/nav_dealership"
+        android:icon="@drawable/ic_menu_send"
+        android:title="Dealership" />
+
+
+</menu>
