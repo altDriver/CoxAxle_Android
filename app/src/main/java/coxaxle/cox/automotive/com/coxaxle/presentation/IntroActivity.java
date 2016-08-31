@@ -1,7 +1,6 @@
 package coxaxle.cox.automotive.com.coxaxle.presentation;
 
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -32,7 +31,7 @@ public class IntroActivity extends ActionBarActivity implements ViewPager.OnPage
         mViewPager.setAdapter(mAdapter);
         // dotsCount = mViewPager.getChildCount();
         // Set a PageTransformer
-        Typeface face= Typeface.createFromAsset(getAssets(), "font/font.ttf");
+        //Typeface face= Typeface.createFromAsset(getAssets(), "font/font.ttf");
         mViewPager.setPageTransformer(true, new IntroPageTransformer());
 
 
