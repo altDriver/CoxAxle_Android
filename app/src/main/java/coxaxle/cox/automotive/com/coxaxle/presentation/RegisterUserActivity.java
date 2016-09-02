@@ -46,6 +46,7 @@ import java.util.Map;
 import coxaxle.cox.automotive.com.coxaxle.HomeScreen;
 import coxaxle.cox.automotive.com.coxaxle.R;
 import coxaxle.cox.automotive.com.coxaxle.common.Permissions;
+import coxaxle.cox.automotive.com.coxaxle.common.UserSessionManager;
 import coxaxle.cox.automotive.com.coxaxle.common.Utility;
 import coxaxle.cox.automotive.com.coxaxle.model.Constants;
 
@@ -680,10 +681,16 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                 JSONArray jsonArr = jsonData.getJSONArray("data");
 
                 JSONObject jsonobj = jsonArr.getJSONObject(0);
-                String strToken = jsonobj.getString("token");
-                String strUid = jsonobj.getString("uid");
-                Utility.setPreferenceValue(RegisterUserActivity.this, Utility.STR_TOKEN, strToken);
-                Utility.setPreferenceValue(RegisterUserActivity.this, Utility.STR_USERID, strUid);
+                //String strUid = jsonobj.getString("uid");
+
+                HashMap<String, String> userDetails = new HashMap<String, String>();
+                userDetails.put(UserSessionManager.KEY_FIRSTNAME, jsonobj.getString("first_name"));
+                userDetails.put(UserSessionManager.KEY_LASTNAME, jsonobj.getString("last_name"));
+                userDetails.put(UserSessionManager.KEY_EMAIL, jsonobj.getString("email"));
+                userDetails.put(UserSessionManager.KEY_PHONENUMBER, jsonobj.getString("phone"));
+                userDetails.put(UserSessionManager.KEY_USERID, jsonobj.getString("uid"));
+                UserSessionManager objManager = new UserSessionManager(this);
+                objManager.saveUserDetailsPref(userDetails);
 
             }
             isSuccess = Boolean.parseBoolean(mainObject.getString("status").toLowerCase());

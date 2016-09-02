@@ -4,10 +4,12 @@ package coxaxle.cox.automotive.com.coxaxle.presentation;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import coxaxle.cox.automotive.com.coxaxle.R;
 import coxaxle.cox.automotive.com.coxaxle.adapters.IntroAdapter;
+import coxaxle.cox.automotive.com.coxaxle.common.FontsOverride;
 
 
 public class IntroActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener{
@@ -24,6 +26,9 @@ public class IntroActivity extends ActionBarActivity implements ViewPager.OnPage
        // requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.intro_layout);
+
+        FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
+        fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mAdapter = new IntroAdapter(getSupportFragmentManager());

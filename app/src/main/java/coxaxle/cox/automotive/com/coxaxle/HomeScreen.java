@@ -15,7 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -35,11 +35,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import coxaxle.cox.automotive.com.coxaxle.adapters.MyCarsPageAdapter;
-import coxaxle.cox.automotive.com.coxaxle.common.Utility;
-import coxaxle.cox.automotive.com.coxaxle.model.AlertDFragment;
+import coxaxle.cox.automotive.com.coxaxle.common.FontsOverride;
+import coxaxle.cox.automotive.com.coxaxle.common.UserSessionManager;
+import coxaxle.cox.automotive.com.coxaxle.common.AlertDFragment;
 import coxaxle.cox.automotive.com.coxaxle.model.Constants;
 import coxaxle.cox.automotive.com.coxaxle.presentation.AddVehicleActivity;
-import coxaxle.cox.automotive.com.coxaxle.presentation.ImageUploadActivity;
+import coxaxle.cox.automotive.com.coxaxle.presentation.ChangePasswordActivity;
 import coxaxle.cox.automotive.com.coxaxle.presentation.ScheduleAppointmentActivity;
 import coxaxle.cox.automotive.com.coxaxle.presentation.UserAccountInfoActivity;
 
@@ -51,71 +52,19 @@ public class HomeScreen extends AppCompatActivity
     private ActionBarDrawerToggle mDrawerToggle;
     ViewPager mMyCarsViewPager;
     ScrollView mHomeScreenScrollView;
-    ImageView call_us, ivDrection, ivAddNewCars, ivCall, ivMail;
-    ImageView message_me;
+    ImageView ivDrection, ivAddNewCars, ivCall, ivMail;
     //MyCarsPageAdapter mMyCarsPageAdapter;
-    String strToken, strUserId;
-
+    String strUserId;
+    UserSessionManager mUserSessionManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        getListOfVehicles();
-
-        strToken = Utility.GetPreferenceValueByKey(HomeScreen.this, Utility.STR_TOKEN);
-        strUserId = Utility.GetPreferenceValueByKey(HomeScreen.this, Utility.STR_USERID);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.mipmap.hamburger_icon);
-
-        ivDrection = (ImageView) findViewById(R.id.map_image);
-        ivDrection.setOnClickListener(this);
-        ivAddNewCars = (ImageView) findViewById(R.id.add_new_vehicle);
-        ivCall = (ImageView) findViewById(R.id.call_us_image);
-        ivMail = (ImageView) findViewById(R.id.message_image);
-        ivAddNewCars.setOnClickListener(this);
-        ivCall.setOnClickListener(this);
-        ivMail.setOnClickListener(this);
-
-        Button uploadImage = (Button) findViewById(R.id.notification_icon_btn);
-
-        mMyCarsViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mHomeScreenScrollView = (ScrollView) findViewById(R.id.scrollView);
-
-        mMyCarsViewPager.setAdapter(new MyCarsPageAdapter(this));
-
-        mMyCarsViewPager.setClipToPadding(false);
-        // set padding manually, the more you set the padding the more you see of prev & next page
-        mMyCarsViewPager.setPadding(40, 0, 40, 0);
-        // sets a margin b/w individual pages to ensure that there is a gap b/w them
-        mMyCarsViewPager.setPageMargin(20);
-
-
-
-        /*mMyCarsViewPager.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent vehicleDetailsIntent = new Intent(HomeScreen.this, VehicleDetailsActivity.class);
-
-                startActivity(vehicleDetailsIntent);
-
-            }
-        });*/
-
-        uploadImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                /*Intent imageUploadActivity = new Intent(HomeScreen.this, ImageUploadActivity.class);
-                startActivity(imageUploadActivity);*/
-
-            }
-        });
+        loadViews();
 
       /*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -127,56 +76,70 @@ public class HomeScreen extends AppCompatActivity
         });*/
 
 
-        call_us = (ImageView) findViewById(R.id.call_us_image);
-        call_us.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                callIntent.setData(Uri.parse("tel:1234567890"));
-                startActivity(callIntent);
-            }
-        });
-        message_me = (ImageView) findViewById(R.id.message_image);
-        message_me.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent.setType("text/plain");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"xxx@gmail.com"});
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "Add Message here");
-                emailIntent.setType("message/rfc822");
 
-                try {
-                    startActivity(Intent.createChooser(emailIntent, "Send email using..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(getApplicationContext(), "No email clients installed.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        RelativeLayout scheduleAnAppointment = (RelativeLayout) findViewById(R.id.nav_schedule_an_appointment_layout);
-
-        scheduleAnAppointment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent scheduleAppointment = new Intent(HomeScreen.this, ScheduleAppointmentActivity.class);
-
-                startActivity(scheduleAppointment);
-
-
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
+
+
+     void loadViews(){
+         mUserSessionManager = new UserSessionManager(this);
+         strUserId = mUserSessionManager.getUserId();
+
+         getListOfVehicles();
+
+         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+         setSupportActionBar(toolbar);
+         toolbar.setNavigationIcon(R.mipmap.hamburger_icon);
+
+         ivDrection = (ImageView) findViewById(R.id.map_image);
+         ivDrection.setOnClickListener(this);
+         ivAddNewCars = (ImageView) findViewById(R.id.add_new_vehicle);
+         ivCall = (ImageView) findViewById(R.id.call_us_image);
+         ivMail = (ImageView) findViewById(R.id.message_image);
+         ivAddNewCars.setOnClickListener(this);
+         ivCall.setOnClickListener(this);
+         ivMail.setOnClickListener(this);
+
+         mMyCarsViewPager = (ViewPager) findViewById(R.id.viewpager);
+         mHomeScreenScrollView = (ScrollView) findViewById(R.id.scrollView);
+
+         mMyCarsViewPager.setAdapter(new MyCarsPageAdapter(this));
+
+         mMyCarsViewPager.setClipToPadding(false);
+         // set padding manually, the more you set the padding the more you see of prev & next page
+         mMyCarsViewPager.setPadding(40, 0, 40, 0);
+         // sets a margin b/w individual pages to ensure that there is a gap b/w them
+         mMyCarsViewPager.setPageMargin(20);
+
+         RelativeLayout scheduleAnAppointment = (RelativeLayout) findViewById(R.id.nav_schedule_an_appointment_layout);
+
+         scheduleAnAppointment.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+
+                 Intent scheduleAppointment = new Intent(HomeScreen.this, ScheduleAppointmentActivity.class);
+
+                 startActivity(scheduleAppointment);
+
+
+             }
+         });
+
+         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+         drawer.setDrawerListener(toggle);
+         toggle.syncState();
+
+         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+         navigationView.setNavigationItemSelectedListener(this);
+
+         FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
+         fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
+    }
+
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -220,9 +183,9 @@ public class HomeScreen extends AppCompatActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_notifications) {
-            Intent settingsScreenIntent = new Intent(HomeScreen.this, ImageUploadActivity.class);
+           /* Intent settingsScreenIntent = new Intent(HomeScreen.this, ImageUploadActivity.class);
 
-            startActivity(settingsScreenIntent);
+            startActivity(settingsScreenIntent);*/
         } else if (id == R.id.nav_settings) {
 
             Intent settingsScreenIntent = new Intent(HomeScreen.this, UserAccountInfoActivity.class);
@@ -231,11 +194,17 @@ public class HomeScreen extends AppCompatActivity
 
         } else if (id == R.id.nav_my_garage) {
 
+
+
+
         } else if (id == R.id.nav_dealer_services) {
 
         } else if (id == R.id.nav_ondemand_services) {
 
-        } else if (id == R.id.nav_dealership) {
+        } else if (id == R.id.nav_changepassword) {
+
+            Intent changePasswordIntent = new Intent(HomeScreen.this, ChangePasswordActivity.class);
+            startActivity(changePasswordIntent);
 
         }
 
@@ -248,28 +217,24 @@ public class HomeScreen extends AppCompatActivity
     @Override
     public void onClick(View view) {
 
-        if (view == ivDrection)
-        {
+        if (view == ivDrection) {
             FragmentManager fm = getSupportFragmentManager();
             AlertDFragment alertdFragment = new AlertDFragment();
             alertdFragment.show(fm, "Alert Dialog Fragment");
         }
-        if(view == ivAddNewCars)
-        {
+        if (view == ivAddNewCars) {
             Intent addVehicleIntent = new Intent(HomeScreen.this, AddVehicleActivity.class);
             startActivity(addVehicleIntent);
         }
-        if(view == ivCall)
-        {
+        if (view == ivCall) {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
             callIntent.setData(Uri.parse("tel:1234567890"));
             startActivity(callIntent);
         }
-        if(view == ivMail)
-        {
+        if (view == ivMail) {
             final Intent emailIntent = new Intent(Intent.ACTION_SEND);
             emailIntent.setType("text/plain");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{  "xxx@gmail.com"});
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"xyz@gmail.com"});
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
             emailIntent.putExtra(Intent.EXTRA_TEXT, "Add Message here");
             emailIntent.setType("message/rfc822");
@@ -354,7 +319,6 @@ public class HomeScreen extends AppCompatActivity
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("uid", strUserId);
-                    params.put("token", strToken);
 
                     Log.v("params>>>", "" + params);
                     return params;

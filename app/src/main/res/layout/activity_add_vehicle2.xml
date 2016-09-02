@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@color/colorTextDark"
@@ -14,26 +14,43 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:id="@+id/AddVehicle_InsuranceDetailsHeader_tv"
             android:textColor="@color/colorWhite"
             android:text="@string/vehicle_insurance_details" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Vehicle_done2of4_tv"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:textSize="17sp"
-            android:textColor="@color/colorWhite"
-            android:text="@string/vehicle_done" />
 
     </RelativeLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:src="@mipmap/progressbar2of4"
-        android:id="@+id/imageView_ProgressBar2of4" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:weightSum="4"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="#EE7700">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/colorWhite"
+                android:id="@+id/AddVehicle_Step2of4_tv"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="Step 2 of 4" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="#ACB3BC">
+        </LinearLayout>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -56,7 +73,6 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="20dp"
             style="@style/CustomFontStyle"
-            android:textStyle="bold"
             android:gravity="right"
             android:background="@android:color/transparent"
             android:hint="@string/vehicle_selectinsuranceexpdate"
@@ -89,13 +105,46 @@
             android:src="@mipmap/adddocumenticon"
             android:layout_marginRight="20dp"
             android:id="@+id/AddVehicle_AddInsurancePhoto_iv" />
-        </RelativeLayout>
-    <View
-        android:layout_width="fill_parent"
-        android:layout_marginTop="20dp"
-        android:layout_height="1dp"
-        android:background="#E4EAEE" />
 
 
+    </RelativeLayout>
+    <!--<View-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#E4EAEE" />-->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:id="@+id/AddVehicle_AddInsurancePhotos_ll"
+            android:layout_height="wrap_content"/>
+
+    </HorizontalScrollView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom"
+        android:orientation="vertical" >
+
+
+
+        <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="@string/vehicle_done"
+        android:textColor="@color/colorWhite"
+        android:background="#00A6ED"
+        android:textSize="20sp"
+        android:id="@+id/AddVehicle_Save_button"
+        android:layout_marginTop="20dp" />
+        </LinearLayout>
 
 </LinearLayout>

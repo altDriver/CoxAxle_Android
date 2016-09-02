@@ -2,9 +2,7 @@ package coxaxle.cox.automotive.com.coxaxle.presentation;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.widget.ImageView;
 
 import coxaxle.cox.automotive.com.coxaxle.R;
 
@@ -12,8 +10,8 @@ import coxaxle.cox.automotive.com.coxaxle.R;
  */
 public class SplashScreen extends Activity {
 
-    private AnimationDrawable animationDrawable;
-    private ImageView mProgressBar;
+   /* private AnimationDrawable animationDrawable;
+    private ImageView mProgressBar;*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -29,7 +27,7 @@ public class SplashScreen extends Activity {
         Thread timerThread = new Thread() {
             public void run() {
                 try {
-                    sleep(3000);
+                    sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {

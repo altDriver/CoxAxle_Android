@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -34,8 +35,8 @@ import java.util.Map;
 import coxaxle.cox.automotive.com.coxaxle.HomeScreen;
 import coxaxle.cox.automotive.com.coxaxle.R;
 import coxaxle.cox.automotive.com.coxaxle.common.AxleApplication;
+import coxaxle.cox.automotive.com.coxaxle.common.FontsOverride;
 import coxaxle.cox.automotive.com.coxaxle.common.UserSessionManager;
-import coxaxle.cox.automotive.com.coxaxle.common.Utility;
 import coxaxle.cox.automotive.com.coxaxle.common.WsRequest;
 import coxaxle.cox.automotive.com.coxaxle.model.Constants;
 
@@ -66,6 +67,10 @@ public class LoginActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
+        fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
+
         isrememberUser = false;
         requestParams = new HashMap<String, String>();
         axleApplication = (AxleApplication) getApplicationContext();
@@ -212,48 +217,26 @@ public class LoginActivity extends AppCompatActivity  {
         try {
 
             JSONObject mainresponceObject = new JSONObject(jsonObj);
-            //JSONArray dataArray = mainObject.getJSONArray("data");
+
             String responceMessage = mainresponceObject.getString("message");
 
-            JSONObject  jsonDataObject = new JSONObject(mainresponceObject.getString("response"));
-
-            //Get the instance of JSONArray that contains JSONObjects
-            JSONArray jsonDataArray = jsonDataObject.optJSONArray("data");
-
-            JSONObject jsonObject = jsonDataArray.getJSONObject(0);
-            //JSONObject jsonObject = responceArray.getJSONObject(0);
-
             isSuccess = Boolean.parseBoolean(mainresponceObject.getString("status").toLowerCase());
-            //Log.d("responce 2", isSuccess + "====" + mainresponceObject);
 
             if (isSuccess) {
-                mUserSessionManager.createUserLoginSession( Integer.toString(jsonObject.getInt("uid")),jsonObject.getString("email"),isrememberUser);
-               /* if (rememberMeCheckBox.isChecked()) {
-                   // mUserSessionManager.createUserLoginSession("", "", true);
-                }*/
+                JSONObject  jsonDataObject = new JSONObject(mainresponceObject.getString("response"));
+                //Get the instance of JSONArray that contains JSONObjects
+                JSONArray jsonDataArray = jsonDataObject.optJSONArray("data");
 
-               /* try {
-                    JSONObject jsonResponse = new JSONObject(response);
+                JSONObject jsonObject = jsonDataArray.getJSONObject(0);
 
-                    String strStatus = jsonResponse.getString("status");
-                    String strMessage = jsonResponse.getString("message");
-                    if (strStatus.equals("True")) {
-                        JSONObject jsonData = jsonResponse.getJSONObject("response");
-                        JSONArray jsonArr = jsonData.getJSONArray("data");
-
-                        JSONObject jsonobj = jsonArr.getJSONObject(0);*/
-
-                        String strToken = jsonObject.getString("token");
-                        String strUid = jsonObject.getString("uid");
-                        Utility.setPreferenceValue(LoginActivity.this, Utility.STR_TOKEN, strToken);
-                        Utility.setPreferenceValue(LoginActivity.this, Utility.STR_USERID, strUid);
-                        //tvVehicleName.setText(jsonResponse.getString("name"));
-                   /* }
-
-                }catch (Exception e)
-                {
-                    e.printStackTrace();
-                }*/
+                HashMap<String, String> userDetails = new HashMap<String, String>();
+                userDetails.put(UserSessionManager.KEY_FIRSTNAME, jsonObject.getString("first_name"));
+                userDetails.put(UserSessionManager.KEY_LASTNAME, jsonObject.getString("last_name"));
+                userDetails.put(UserSessionManager.KEY_EMAIL, jsonObject.getString("email"));
+                userDetails.put(UserSessionManager.KEY_PHONENUMBER, jsonObject.getString("phone"));
+                userDetails.put(UserSessionManager.KEY_USERID, jsonObject.getString("uid"));
+                UserSessionManager objManager = new UserSessionManager(this);
+                objManager.saveUserDetailsPref(userDetails);
 
                 Toast.makeText(LoginActivity.this, responceMessage, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LoginActivity.this, HomeScreen.class);

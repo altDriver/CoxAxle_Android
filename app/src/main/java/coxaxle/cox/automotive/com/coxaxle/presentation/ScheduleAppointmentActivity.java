@@ -11,28 +11,62 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import coxaxle.cox.automotive.com.coxaxle.R;
+import coxaxle.cox.automotive.com.coxaxle.common.UserSessionManager;
+import coxaxle.cox.automotive.com.coxaxle.model.Constants;
 
 public class ScheduleAppointmentActivity extends AppCompatActivity {
 
     WebView xtimeWebView;
     ProgressBar progress;
 
+    HashMap<String, String> userData;// = getUserDetails();
+    UserSessionManager mUserSessionManager;
+
+    String strFirstName, strLastName, strEmail, strPhoneNumber, strUserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_appointment);
+        mUserSessionManager = new UserSessionManager(this);
 
+        userData = mUserSessionManager.getUserDetails();
+
+        strFirstName = userData.get(UserSessionManager.KEY_FIRSTNAME);
+        strLastName = userData.get(UserSessionManager.KEY_LASTNAME);
+        strEmail = userData.get(UserSessionManager.KEY_EMAIL);
+        strPhoneNumber = userData.get(UserSessionManager.KEY_PHONENUMBER);
+        //strUserId = userData.get(UserSessionManager.KEY_USERID);
        /* String url = "https://consumer-ptr1.xtime.com/scheduling/?webKey=HUS20131206112630208569&VIN=&Provider=COAXEL&Keyword=" +
                 "SCHEDULE&cfn=JOAN&cln=SMITH&cpn=6785551212cem=JSMITH@FAKEMAIL." +
                 "COM&NOTE=NOTE4Q3&extid=SCHEDULE&extctxt=COAXLE";*/
 
-        String url = "https://consumer-ptr1.xtime.com/scheduling/?" +
-                "webKey=hus20131206112630208569&VIN=5J6RE3H74AL049448&" +
-                "Provider=COXAXLE&Keyword=SCHEDULE&cfn=kishore&cln=thorata&" +
-                "cpn=9700964538&cem=kishore.thorata@vensaiinc.com&NOTE=NOTE4Q3&" +
-                "extid=SCHEDULE&extctxt=COXAXLE&dest=VEHICLE";
+        String url = "https://consumer-ptr1.xtime.com/scheduling/?webKey=hus20131206112630208569" +
+                "&VIN=5J6RE3H74AL049448" +
+                "&Provider=COXAXLE" +
+                "&Keyword=SCHEDULE" +
+                "&cfn="+strFirstName +
+                "&cln="+strLastName+
+                "&cpn="+strPhoneNumber+
+                "&cem="+strEmail+
+                "&NOTE=NOTE4Q3" +
+                "&extid=SCHEDULE" +
+                "&extctxt=COXAXLE" +
+                "&dest=VEHICLE";
 
         progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.setMax(100);
@@ -54,12 +88,12 @@ public class ScheduleAppointmentActivity extends AppCompatActivity {
 }*/
     class XTimeBrowser extends WebViewClient {
 
-       @SuppressWarnings("deprecation")
-       @Override
-       public boolean shouldOverrideUrlLoading(WebView view, String url) {
-           view.loadUrl(url);
-           return true;
-       }
+        @SuppressWarnings("deprecation")
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
 
         @TargetApi(Build.VERSION_CODES.N)
         @Override
@@ -70,7 +104,7 @@ public class ScheduleAppointmentActivity extends AppCompatActivity {
 
         @SuppressWarnings("deprecation")
         @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view,String url) {
+        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
             return super.shouldInterceptRequest(view, url);
         }
 
@@ -98,4 +132,48 @@ public class ScheduleAppointmentActivity extends AppCompatActivity {
         }
     }
 
-  }
+
+
+    void getUrlAndPassToWebView(){
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.LOGIN_URL,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //parseJsonAndNavToHomeScreen(response);
+                        parseResponceAndOpenWebview(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ScheduleAppointmentActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                    /*Log.d("Request", requestParams.get("email"));
+                    Log.d("Request", requestParams.get("password"));*/
+              /*  params.put("email", requestParams.get("email"));
+                params.put("password", requestParams.get("password"));*/
+
+
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+
+    }
+
+    void parseResponceAndOpenWebview(String responce){
+
+
+
+    }
+}

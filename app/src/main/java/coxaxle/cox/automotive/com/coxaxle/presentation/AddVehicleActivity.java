@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,14 +39,16 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import coxaxle.cox.automotive.com.coxaxle.R;
+import coxaxle.cox.automotive.com.coxaxle.common.FontsOverride;
 import coxaxle.cox.automotive.com.coxaxle.common.Utility;
+
 /**
  * Created by Lakshman on 24-08-2016.
  */
 public class AddVehicleActivity extends AppCompatActivity implements View.OnClickListener{
     Button btnNext;
     LinearLayout llNew, llUsed, llCPO;
-    TextView tvNew, tvUsed, tvCPO, tvAddPhotoText;
+    TextView tvNew, tvUsed, tvCPO, tvAddPhotoText, tvVehicleDetailsHeader;
     ImageView imgAddPhoto, imgAddPhotoMain;
     EditText etVehicleName, etVin, etMake, etModel, etMilesDriven, etTagExpiration, etSelectYear;
     final String[] modelitems = { "Accent", "Azera", "Elantra", "SE Sedan 4D" , "Limited Sedan 4D", "Sport Sedan 4D", "Coupe 2D", "GT Hatchback 4D", "Equus", "Genesis", "Genesis Coupe", "Santa Fe", "Santa Fe Sport"};
@@ -60,11 +63,17 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
     private DatePickerDialog tagDatePickerDialog;
     private SimpleDateFormat dateFormatter;
     String strphotob64, strType;
+    Typeface fontBoldHelvetica, fontNormalHelvetica;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_vehicle);
+
+        fontNormalHelvetica = Typeface.createFromAsset(getAssets(), "font/HelveticaNeue.ttf");
+        fontBoldHelvetica = Typeface.createFromAsset(getAssets(), "font/helvetica-neue-bold.ttf");
+        FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
+        fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
 
         loadViews();
         calendar = Calendar.getInstance();
@@ -130,21 +139,21 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         if (view == llNew) {
             strType = "New";
-            tvNew.setTypeface(null, Typeface.BOLD);
-            tvUsed.setTypeface(null, Typeface.NORMAL);
-            tvCPO.setTypeface(null, Typeface.NORMAL);
+            tvNew.setTypeface(fontBoldHelvetica);
+            tvUsed.setTypeface(fontNormalHelvetica);
+            tvCPO.setTypeface(fontNormalHelvetica);
         }
         if (view == llUsed) {
             strType = "Used";
-            tvNew.setTypeface(null, Typeface.NORMAL);
-            tvUsed.setTypeface(null, Typeface.BOLD);
-            tvCPO.setTypeface(null, Typeface.NORMAL);
+            tvNew.setTypeface(fontNormalHelvetica);
+            tvUsed.setTypeface(fontBoldHelvetica);
+            tvCPO.setTypeface(fontNormalHelvetica);
         }
         if (view == llCPO) {
             strType = "CPO";
-            tvNew.setTypeface(null, Typeface.NORMAL);
-            tvUsed.setTypeface(null, Typeface.NORMAL);
-            tvCPO.setTypeface(null, Typeface.BOLD);
+            tvNew.setTypeface(fontNormalHelvetica);
+            tvUsed.setTypeface(fontNormalHelvetica);
+            tvCPO.setTypeface(fontBoldHelvetica);
         }
         if (view == imgAddPhoto) {
             selectImage();
@@ -169,10 +178,14 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             Boolean valid_vehicle_photo = Utility.CommonValidation(strphotob64);
 
             if (!valid_vin) {
+                //DialogFragment newFragment = CustomDialogFragment.setDialog( 0, "Cox Axle", "Enter 17 digit Vin", "Ok", "");
+                //newFragment.show(getSupportFragmentManager(), "dialog");
                 Toast.makeText(AddVehicleActivity.this, "Enter 17 digit VIN", Toast.LENGTH_SHORT).show();
                 etVin.requestFocus();
             }else if (!valid_vehicle_type) {
                 Toast.makeText(AddVehicleActivity.this, "Select valid Vehicle Type", Toast.LENGTH_SHORT).show();
+               // DialogFragment newFragment = CustomDialogFragment.setDialog( 0, "Cox Axle", "Select valid Vehicle Type", "Ok", "");
+               // newFragment.show(getSupportFragmentManager(), "dialog");
             }else if (!valid_vehicle_photo) {
                 Toast.makeText(AddVehicleActivity.this, "Select valid Vehicle Photo", Toast.LENGTH_SHORT).show();
             }else if (!valid_vehicle_make) {
@@ -210,9 +223,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
     }
     public void loadViews()
     {
-        //Typeface fontStyle = Typeface.createFromAsset(getAssets(), "font/HelveticaNeue.ttf");
-        //Typeface fontStyleBold = Typeface.createFromAsset(getAssets(), "font/helvetica-neue-bold.ttf");
-
+        tvVehicleDetailsHeader = (TextView) findViewById(R.id.AddVehicle_VehicleDetailsHeader_tv);
         tvNew = (TextView)findViewById(R.id.AddVehicle_New_tv);
         tvUsed  = (TextView)findViewById(R.id.AddVehicle_Used_tv);
         tvCPO = (TextView)findViewById(R.id.AddVehicle_CPO_tv);
@@ -237,18 +248,16 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         imgAddPhoto.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 
-//        tvNew.setTypeface(fontStyle);
-//        tvUsed.setTypeface(fontStyle);
-//        tvCPO.setTypeface(fontStyle);
-//        tvAddPhotoText.setTypeface(fontStyle);
-//        etSelectYear.setTypeface(fontStyleBold);
-//        etVehicleName.setTypeface(fontStyleBold);
-//        etVin.setTypeface(fontStyleBold);
-//        etMake.setTypeface(fontStyleBold);
-//        etModel.setTypeface(fontStyleBold);
-//        etMilesDriven.setTypeface(fontStyleBold);
-//        etTagExpiration.setTypeface(fontStyleBold);
-//        btnNext.setTypeface(fontStyleBold);
+
+        etSelectYear.setTypeface(fontBoldHelvetica);
+        etVehicleName.setTypeface(fontBoldHelvetica);
+        etVin.setTypeface(fontBoldHelvetica);
+        etMake.setTypeface(fontBoldHelvetica);
+        etModel.setTypeface(fontBoldHelvetica);
+        etMilesDriven.setTypeface(fontBoldHelvetica);
+        etTagExpiration.setTypeface(fontBoldHelvetica);
+        btnNext.setTypeface(fontBoldHelvetica);
+        tvVehicleDetailsHeader.setTypeface(fontBoldHelvetica);
     }
 
     private void selectImage() {
@@ -377,7 +386,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         title_txt.setGravity(Gravity.CENTER);
         title_txt.setText(title);
         title_txt.setHeight(150);
-        title_txt.setTypeface(null, Typeface.BOLD);
+        title_txt.setTypeface(fontBoldHelvetica);
         title_txt.setTextColor(ContextCompat.getColor(AddVehicleActivity.this, R.color.colorTextDark));
         title_txt.setTextSize(17);
         builder.setCustomTitle(title_txt);

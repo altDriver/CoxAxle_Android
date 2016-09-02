@@ -29,9 +29,13 @@
     <!-- Strings related to login/registration/settings -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_current_password">Current Password</string>
+    <string name="prompt_new_password">New Password</string>
+    <string name="prompt_confirm_password">Confirm New Password</string>
     <string name="remember_me">Remember me</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="change_password">Change Password</string>
     <string name="email_address">Email Address</string>
     <string name="phone_number">Phone Number</string>
     <string name="email_or_phone_number">Email/Phone Number</string>
@@ -41,7 +45,7 @@
     <string name="select_a_dealer_group">Select a dealer group</string>
     <string name="app_plugins">APP PLUG-INS</string>
     <string name="vehicle_type">Vehicle Type </string>
-
+    <string name="sign_up_with_email">Sign up with Email</string>
     <string name="do_not_have_account">Don’t have an account? Sign up</string>
 
     <string name="action_sign_in">Sign in </string>
@@ -97,7 +101,6 @@
     <string name="reward_program">Reward Program</string>
 
     <string name="add_vehicle">Add Vehicle</string>
-
 
     <string name="vehicle_name">Vehicle Name</string>
     <string name="vehicle_new">New</string>

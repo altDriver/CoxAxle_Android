@@ -5,7 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="black_overlay">#66000000</color>
-    <color name="colorBg">#EFF0F0</color>
     <color name="colorTextDark">#4E5A6F</color>
     <color name="colorTextLight">#404447</color>
     <color name="colorPumpkin">#EE7700</color>
@@ -19,7 +18,12 @@
     <color name="activity_bg">#e4e5e5</color>
     <color name="second_primary">#e0ac69</color>
     <color name="second_primarydark">#c68642</color>
-    <color name="home_screen_bg">#EDEDEE</color>
+    <color name="colorBg">#EDEDEE</color>
+
+
+    <!--horizontal progress bar colors-->
+    <color name="progressBarSecondaryColor">#10000000</color>
+    <color name="transparentColor">#00000000</color>
 
     <color name="primary_purple">#673AB7</color>
     <color name="primary_dark_purple">#512DA8</color>

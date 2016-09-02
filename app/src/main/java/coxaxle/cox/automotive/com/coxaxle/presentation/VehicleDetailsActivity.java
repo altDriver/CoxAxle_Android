@@ -1,77 +1,78 @@
 package coxaxle.cox.automotive.com.coxaxle.presentation;
 
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.view.animation.DecelerateInterpolator;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import coxaxle.cox.automotive.com.coxaxle.R;
 import coxaxle.cox.automotive.com.coxaxle.adapters.MyCarDetailsImagesPageAdapter;
+import coxaxle.cox.automotive.com.coxaxle.common.FontsOverride;
 
 /**
  * Created by Lakshmana on 11-08-2016.
  */
 public class VehicleDetailsActivity extends Activity { //implements View.OnClickListener {
     ViewPager mMyCarsViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vehicle_details);
-       LoadViews();
+        FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
+        fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
+
+        loadViews();
         //new LoadVehicleDetailsAsync().execute();
     }
-    private void LoadViews() {
+
+    private void loadViews() {
 
         mMyCarsViewPager = (ViewPager) findViewById(R.id.vehicle_details_images_viewpager);
 
 
         mMyCarsViewPager.setAdapter(new MyCarDetailsImagesPageAdapter(this));
 
-        //mMyCarsViewPager.setClipToPadding(false);
-        // set padding manually, the more you set the padding the more you see of prev & next page
-        //mMyCarsViewPager.setPadding(40, 0, 40, 0);
-        // sets a margin b/w individual pages to ensure that there is a gap b/w them
-       // mMyCarsViewPager.setPageMargin(20);
         initProfileIndicator();
         initProfileIndicator();
         initWarrentyMilesIndicatorProgress();
     }
 
-    void initProfileIndicator(){
-        Resources res = getResources();
-        Drawable drawable = res.getDrawable(R.drawable.horizontal_progress_bg);
+    void initProfileIndicator() {
+        //Resources res = getResources();
+        Drawable drawable = ContextCompat.getDrawable(this, R.drawable.horizontal_progress_bg);
         ProgressBar mProgress = (ProgressBar) findViewById(R.id.vehicle_details_profile_indicator);
         mProgress.setProgress(25);   // Main Progress
         mProgress.setSecondaryProgress(50); // Secondary Progress
         mProgress.setMax(100); // Maximum Progress
         mProgress.setProgressDrawable(drawable);
 
-        ObjectAnimator animation = ObjectAnimator.ofInt(mProgress, "progress", 0, 50);
+        /*ObjectAnimator animation = ObjectAnimator.ofInt(mProgress, "progress", 0, 50);
         animation.setDuration(990);
         animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
+        animation.start();*/
     }
 
-    void initWarrentyMonthsIndicatorProgress(){
+    void initWarrentyMonthsIndicatorProgress() {
         Resources res = getResources();
         //Drawable drawable = res.getDrawable(R.drawable.horizontal_progress_bg);
         ProgressBar mProgress = (ProgressBar) findViewById(R.id.vehicle_details_manufacturer_warranty_months_indicator);
         mProgress.setProgress(25);   // Main Progress
         mProgress.setSecondaryProgress(50); // Secondary Progress
         mProgress.setMax(100); // Maximum Progress
-       //mProgress.setProgressDrawable(drawable);
+        //mProgress.setProgressDrawable(drawable);
 
-        ObjectAnimator animation = ObjectAnimator.ofInt(mProgress, "progress", 0, 50);
+       /* ObjectAnimator animation = ObjectAnimator.ofInt(mProgress, "progress", 0, 50);
         animation.setDuration(990);
         animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
+        animation.start();*/
     }
 
-    void initWarrentyMilesIndicatorProgress(){
+    void initWarrentyMilesIndicatorProgress() {
         Resources res = getResources();
         //Drawable drawable = res.getDrawable(R.drawable.horizontal_progress_bg);
         ProgressBar mProgress = (ProgressBar) findViewById(R.id.vehicle_details_manufacturer_warranty_miles_indicator);
@@ -80,10 +81,10 @@ public class VehicleDetailsActivity extends Activity { //implements View.OnClick
         mProgress.setMax(100); // Maximum Progress
         //mProgress.setProgressDrawable(drawable);
 
-        ObjectAnimator animation = ObjectAnimator.ofInt(mProgress, "progress", 0, 50);
+       /* ObjectAnimator animation = ObjectAnimator.ofInt(mProgress, "progress", 0, 50);
         animation.setDuration(990);
         animation.setInterpolator(new DecelerateInterpolator());
-        animation.start();
+        animation.start();*/
     }
 
     /*ImageView ivCallAgent, ivMailtoAgent;

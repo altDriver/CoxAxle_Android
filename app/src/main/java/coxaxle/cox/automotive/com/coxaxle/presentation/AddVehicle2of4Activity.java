@@ -5,16 +5,21 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -38,6 +44,8 @@ import java.util.Map;
 
 import coxaxle.cox.automotive.com.coxaxle.HomeScreen;
 import coxaxle.cox.automotive.com.coxaxle.R;
+import coxaxle.cox.automotive.com.coxaxle.common.FontsOverride;
+import coxaxle.cox.automotive.com.coxaxle.common.UserSessionManager;
 import coxaxle.cox.automotive.com.coxaxle.common.Utility;
 import coxaxle.cox.automotive.com.coxaxle.model.Constants;
 
@@ -45,8 +53,8 @@ import coxaxle.cox.automotive.com.coxaxle.model.Constants;
  * Created by Lakshmana on 29-08-2016.
  */
 public class AddVehicle2of4Activity extends Activity implements View.OnClickListener{
-    String strphotoInsurance64;
-    TextView tvDone;
+    //String strphotoInsurance64;
+    Button btnSave;
     ImageView ivAddInsurancePhoto;
     EditText etInsuranceExpirationDate;
     private DatePickerDialog tagDatePickerDialog;
@@ -55,16 +63,22 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
     private int year, month, day;
     HashMap<String,String> page1Values;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    Typeface fontBoldHelvetica;
+    LinearLayout llAddImages;
+    ArrayList<Bitmap> bitmapArray;
+    String strImages, strInsuranceExp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //FontsOverride.setDefaultFont(this, "normal", "font/HelveticaNeue.ttf");
-        //FontsOverride.overrideFont(this, "monospace", "font/helvetica-neue-bold.ttf");
         setContentView(R.layout.activity_add_vehicle2);
+        fontBoldHelvetica = Typeface.createFromAsset(getAssets(), "font/helvetica-neue-bold.ttf");
+        FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
+        fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
         page1Values = (HashMap<String,String>) getIntent().getExtras().get("Page1Values");
         loadViews();
 
+        bitmapArray = new ArrayList<Bitmap>();
 
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -76,28 +90,44 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
     }
     public void loadViews()
     {
-        //Typeface fontStyle = Typeface.createFromAsset(getAssets(), "font/HelveticaNeue.ttf");
-        //Typeface fontStyleBold = Typeface.createFromAsset(getAssets(), "font/helvetica-neue-bold.ttf");
-
-        tvDone = (TextView) findViewById(R.id.Vehicle_done2of4_tv);
+        TextView tvInsuranceDetails = (TextView) findViewById(R.id.AddVehicle_InsuranceDetailsHeader_tv);
+        btnSave = (Button) findViewById(R.id.AddVehicle_Save_button);
         etInsuranceExpirationDate = (EditText) findViewById(R.id.AddVehicle_InsuranceExpiration_et);
         ivAddInsurancePhoto = (ImageView) findViewById(R.id.AddVehicle_AddInsurancePhoto_iv);
+        llAddImages = (LinearLayout) findViewById(R.id.AddVehicle_AddInsurancePhotos_ll);
 
-        tvDone.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
         ivAddInsurancePhoto.setOnClickListener(this);
         etInsuranceExpirationDate.setOnClickListener(this);
 
-        //etInsuranceExpirationDate.setTypeface(fontStyleBold);
+        etInsuranceExpirationDate.setTypeface(fontBoldHelvetica);
+        tvInsuranceDetails.setTypeface(fontBoldHelvetica);
     }
 
     @Override
     public void onClick(View view)
     {
-        if(view == tvDone)
+        if(view == btnSave)
         {
-            String strInsuranceExp = etInsuranceExpirationDate.getText().toString();
+            strInsuranceExp = etInsuranceExpirationDate.getText().toString();
             Boolean valid_InsuranceDate = Utility.CommonValidation(strInsuranceExp);
-            Boolean valid_insurance_photo = Utility.CommonValidation(strphotoInsurance64);
+            Boolean valid_insurance_photo;
+
+            if(bitmapArray.size() > 0)
+            {
+                valid_insurance_photo = true;
+                for(int i =0; i<bitmapArray.size() ; i++)
+                {
+                    Bitmap imgbitmap = bitmapArray.get(i);
+                    byte[] photo1_byte = convertBitmapToByteArray(imgbitmap);
+                    String strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
+                    strImages = strphotoInsurance64 +",";
+                }
+            }
+            else
+                valid_insurance_photo = false;
+
+            //Boolean valid_insurance_photo = Utility.CommonValidation(strphotoInsurance64);
 
             if (!valid_InsuranceDate) {
                 Toast.makeText(AddVehicle2of4Activity.this, "Enter Insurance Expiration date", Toast.LENGTH_SHORT).show();
@@ -141,12 +171,11 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                 @Override
                 protected Map<String,String> getParams(){
 
-                    String strToken = Utility.GetPreferenceValueByKey(AddVehicle2of4Activity.this, Utility.STR_TOKEN);
-                    String strUid = Utility.GetPreferenceValueByKey(AddVehicle2of4Activity.this, Utility.STR_USERID);
+                    UserSessionManager obj = new UserSessionManager(AddVehicle2of4Activity.this);
+                    String strUid = obj.getUserId();
 
                     Map<String,String> params = new HashMap<String, String>();
                     params.put("uid", strUid);
-                    params.put("token", strToken);
                     params.put("name", page1Values.get("vehicle_name"));
                     params.put("dealer_id", "2");
                     params.put("manual", "");
@@ -155,6 +184,7 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                     params.put("make", page1Values.get("vehicle_make"));
                     params.put("model", page1Values.get("vehicle_model"));
                     params.put("year", page1Values.get("vehicle_year"));
+                    params.put("tag_expiration_date",page1Values.get("vehicle_tagexpiration"));
                     params.put("color", "Red");
                     params.put("emi", "10000");
                     params.put("interest", "2000");
@@ -168,8 +198,9 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                     params.put("style", "sports");
                     params.put("mileage", "20");
                     params.put("kbb_price","100");
+                    params.put("expiration_date", strInsuranceExp );
                     params.put("photo",page1Values.get("vehicle_photo"));
-                    params.put("insurance_document", strphotoInsurance64);
+                    params.put("insurance_card", strImages);
                     //params.put("insurance_expiration_date", "");
                     Log.v("params>>>",""+params);
                     return params;
@@ -270,12 +301,12 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
         }
 
 
-        ivAddInsurancePhoto.setImageBitmap(thumbnail);
-
+        //ivAddInsurancePhoto.setImageBitmap(thumbnail);
+        addBitmapToLayout(thumbnail);
         // Convert bitmap to byte[]
-        byte[] photo1_byte = convertBitmapToByteArray(thumbnail);
+        //byte[] photo1_byte = convertBitmapToByteArray(thumbnail);
         // convert byteArray to base64 String
-        strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
+        //strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
         //Log.i("photo1String1", "" + photo1String);
 
     }
@@ -292,14 +323,49 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
             }
         }
 
-        ivAddInsurancePhoto.setImageBitmap(bm);
+        //ivAddInsurancePhoto.setImageBitmap(bm);
         // Convert bitmap to byte[]
-        byte[] photo1_byte = convertBitmapToByteArray(bm);
+//        ImageView image = new ImageView(this);
+//        image.setLayoutParams(new android.view.ViewGroup.LayoutParams(200,180));
+//        image.setMaxHeight(45);
+//        image.setMaxWidth(42);
+//        image.setPadding(10,5,10,5);
+//        image.setImageBitmap(bm);
+//        // Adds the view to the layout
+//        llAddImages.addView(image);
+
+        addBitmapToLayout(bm);
+
+
+
+
+        //byte[] photo1_byte = convertBitmapToByteArray(bm);
         // convert byteArray to base64 String
-        strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
+        //strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
         //Log.i("photo1String1", "" + photo1String);
 
     }
+    private void addBitmapToLayout(Bitmap bitmap) {
+        LayoutInflater inflater = LayoutInflater.from(AddVehicle2of4Activity.this);
+        final View layout = inflater.inflate(R.layout.insurance_images_custom_layout, null, true);
+        ImageView iv = (ImageView) layout.findViewById(R.id.AddInsurance_ImageMain_iv);
+        iv.setImageBitmap(bitmap);
+        ImageView ivdelete = (ImageView) layout.findViewById(R.id.AddInsurance_ImageCross_iv);
+
+        bitmapArray.add(bitmap);
+
+        ivdelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int index = ((ViewGroup) layout.getParent()).indexOfChild(layout);
+                llAddImages.removeView(layout);
+                bitmapArray.remove(index);
+            }
+        });
+        llAddImages.addView(layout);
+    }
+
     public static byte[] convertBitmapToByteArray(Bitmap bitmap) {
         if (bitmap == null) {
             return null;

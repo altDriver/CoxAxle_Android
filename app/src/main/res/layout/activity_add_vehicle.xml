@@ -19,34 +19,49 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textSize="20sp"
-            android:textStyle="bold"
             android:id="@+id/AddVehicle_VehicleDetailsHeader_tv"
             android:textColor="@color/colorWhite"
-            android:text="@string/vehicle_vehicle_details" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:textSize="17sp"
-            android:id="@+id/AddVehicle_DoneHeader_tv"
-            android:textColor="@color/colorWhite"
-            android:text="@string/vehicle_done" />
-
-
-
+            android:text="@string/add_vehicle" />
     </RelativeLayout>
-    <ImageView
-        android:layout_width="match_parent"
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="20dp"
+        android:weightSum="4"
         android:layout_below="@+id/rl_addvehicletop"
-        android:src="@mipmap/progressbar1of4"
-        android:id="@+id/imageView_ProgressBar1of4" />
+        android:id="@+id/ProgressBar1of4_ll"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#EE7700">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="@color/colorWhite"
+                android:id="@+id/AddVehicle_Step1of4_tv"
+                android:layout_marginRight="5dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:text="Step 1 of 4" />
+        </RelativeLayout>
+
+                <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:background="#ACB3BC">
+                </LinearLayout>
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_below="@+id/imageView_ProgressBar1of4"
+        android:layout_below="@+id/ProgressBar1of4_ll"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -221,7 +236,6 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
                     android:id="@+id/AddVehicle_VIN_et"
-                    android:textStyle="bold"
                     android:gravity="right"
                     android:background="@android:color/transparent"
                     android:hint="@string/vehicle_entervin"
@@ -257,7 +271,6 @@
                     android:layout_marginRight="20dp"
                     android:id="@+id/AddVehicle_SelectYear_et"
                     android:gravity="right"
-                    android:textStyle="bold"
                     android:background="@android:color/transparent"
                     android:hint="@string/vehicle_selectyear"
                     style="@style/CustomFontStyle"
@@ -294,7 +307,6 @@
                     style="@style/CustomFontStyle"
                     android:gravity="right"
                     android:id="@+id/AddVehicle_Make_et"
-                    android:textStyle="bold"
                     android:background="@android:color/transparent"
                     android:hint="@string/vehicle_selectmake"
                     android:layout_weight="2" />
@@ -327,7 +339,6 @@
                     android:layout_marginRight="20dp"
                     style="@style/CustomFontStyle"
                     android:gravity="right"
-                    android:textStyle="bold"
                     android:background="@android:color/transparent"
                     android:hint="@string/vehicle_selectmodel"
                     android:id="@+id/Addvehicle_Model_et"
@@ -361,7 +372,6 @@
                     android:layout_marginRight="20dp"
                     style="@style/CustomFontStyle"
                     android:gravity="right"
-                    android:textStyle="bold"
                     android:background="@android:color/transparent"
                     android:hint="@string/vehicle_entermilesdriven"
                     android:id="@+id/AddVehicle_MilesDriven_et"
@@ -394,15 +404,12 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
                     style="@style/CustomFontStyle"
-                    android:textStyle="bold"
                     android:gravity="right"
                     android:background="@android:color/transparent"
                     android:hint="@string/vehicle_selecttagexpdate"
                     android:id="@+id/AddVehicle_TagExpiration_et"
                     android:layout_weight="2" />
             </LinearLayout>
-
-
 
             <Button
                 android:layout_width="match_parent"

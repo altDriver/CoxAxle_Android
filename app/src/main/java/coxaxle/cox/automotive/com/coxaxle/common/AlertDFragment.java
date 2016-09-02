@@ -1,4 +1,4 @@
-package coxaxle.cox.automotive.com.coxaxle.model;
+package coxaxle.cox.automotive.com.coxaxle.common;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

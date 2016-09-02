@@ -7,11 +7,11 @@
             android:useLevel="true"
             android:thicknessRatio="14.0">
 
-            <gradient
+         <!--   <gradient
                 android:startColor="#00000000"
                 android:endColor="#00000000"
                 android:centerColor="#00000000"
-                android:type="sweep" />
+                android:type="sweep" />-->
         </shape>
     </item>
     <item android:id="@android:id/progress">

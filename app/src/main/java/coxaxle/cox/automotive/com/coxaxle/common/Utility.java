@@ -1,8 +1,5 @@
 package coxaxle.cox.automotive.com.coxaxle.common;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -97,7 +94,7 @@ public class Utility {
     }
 
     public static boolean VinValidation(String vehicle_vin) {
-        if (vehicle_vin != null && vehicle_vin.length() >= 17) {
+        if (vehicle_vin != null && vehicle_vin.length() >= 16) {
 
             return true;
         }
@@ -121,18 +118,4 @@ public class Utility {
     }
 
 
-
-    public static void setPreferenceValue(Context objContext, String strKey, String strValue)
-    {
-        SharedPreferences objPreferences = objContext.getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor objEditor = objPreferences.edit();
-        objEditor.putString(strKey, strValue);
-        objEditor.commit();
-    }
-
-    public static String GetPreferenceValueByKey(Context objContext, String strKey)
-    {
-        SharedPreferences objPreferences = objContext.getSharedPreferences(PREFS_NAME, 0);
-        return objPreferences.getString(strKey, "");
-    }
 }

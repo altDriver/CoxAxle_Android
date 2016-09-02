@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import java.util.Map;
 
 import coxaxle.cox.automotive.com.coxaxle.HomeScreen;
 import coxaxle.cox.automotive.com.coxaxle.R;
+import coxaxle.cox.automotive.com.coxaxle.common.FontsOverride;
 import coxaxle.cox.automotive.com.coxaxle.model.Constants;
 
 public class LoginOptionsActivity extends AppCompatActivity {
@@ -32,6 +34,10 @@ public class LoginOptionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
+        fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
+
         setContentView(R.layout.activity_login_options);
 
         ImageButton navToLoginActivityBtn = (ImageButton)findViewById(R.id.imageButton_login);
@@ -45,7 +51,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(LoginOptionsActivity.this, RegisterUserActivity.class);
+                Intent intent = new Intent(LoginOptionsActivity.this, RegisterWithEmailActivity.class);
                 startActivity(intent);
             }
         });

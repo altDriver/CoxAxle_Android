@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="230dp"
             android:layout_gravity="center"
-            android:src="@mipmap/car_img" />
+            android:src="@mipmap/placeholder" />
 
         <TextView
             android:id="@+id/cars_list_name"

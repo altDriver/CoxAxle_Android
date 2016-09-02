@@ -22,13 +22,13 @@ public class CarsListActivity extends Activity {
             "Michelle Dorminey"
     } ;
     Integer[] imageId = {
-            R.mipmap.car_img,
-            R.mipmap.car_img,
-            R.mipmap.car_img,
-            R.mipmap.car_img,
-            R.mipmap.car_img,
-            R.mipmap.car_img,
-            R.mipmap.car_img
+            R.mipmap.placeholder,
+            R.mipmap.placeholder,
+            R.mipmap.placeholder,
+            R.mipmap.placeholder,
+            R.mipmap.placeholder,
+            R.mipmap.placeholder,
+            R.mipmap.placeholder
 
 
     };

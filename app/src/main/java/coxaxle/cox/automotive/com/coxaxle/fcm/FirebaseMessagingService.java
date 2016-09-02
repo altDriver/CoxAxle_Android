@@ -7,8 +7,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 
-import coxaxle.cox.automotive.com.coxaxle.HomeScreen;
 import coxaxle.cox.automotive.com.coxaxle.R;
+import coxaxle.cox.automotive.com.coxaxle.presentation.NotificationActivity;
 
 /**
  * Created by kishore on 19-08-2016.
@@ -23,7 +23,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     private void showNotification(String message) {
 
-        Intent i = new Intent(this,HomeScreen.class);
+        Intent i = new Intent(this,NotificationActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,i,PendingIntent.FLAG_UPDATE_CURRENT);

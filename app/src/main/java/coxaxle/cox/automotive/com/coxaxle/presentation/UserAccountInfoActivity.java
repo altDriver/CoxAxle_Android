@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import coxaxle.cox.automotive.com.coxaxle.R;
+import coxaxle.cox.automotive.com.coxaxle.common.FontsOverride;
 import coxaxle.cox.automotive.com.coxaxle.common.UserSessionManager;
 import coxaxle.cox.automotive.com.coxaxle.model.Constants;
 
@@ -42,15 +44,18 @@ public class UserAccountInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_account_info);
+        FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
+        fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
+
         usermanager = new UserSessionManager(this);
-        initUI();
+        loadViews();
         userId = usermanager.getUserId();
         getUserDetails();
         //updateUserDetails();
     }
 
 
-    void initUI() {
+    void loadViews() {
 
         firstName_edt = (EditText) findViewById(R.id.settings_user_first_name);
         lastName_edt = (EditText) findViewById(R.id.settings_user_first_name);
