@@ -152,7 +152,7 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-                <View
+                <!--<View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/colorBg" />
@@ -176,7 +176,7 @@
                         android:textColor="@color/home_screen_title_text_color"
                         android:textSize="17sp" />
 
-                </android.support.design.widget.TextInputLayout>
+                </android.support.design.widget.TextInputLayout>-->
 
             </LinearLayout>
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="coxaxle.cox.automotive.com.coxaxle.presentation.ScheduleAppointmentActivity">
+    tools:context="coxaxle.cox.automotive.com.android.presentation.ScheduleAppointmentActivity">
 
     <WebView
         android:id="@+id/schedule_appointment_webview"
