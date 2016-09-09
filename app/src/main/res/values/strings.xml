@@ -19,7 +19,7 @@
     <string name="call_us">Call Us</string>
     <string name="email_us">Email Us</string>
     <string name="direction">Direction</string>
-
+    <string name="try_again">Try Again</string>
     <!-- Strings related to home screen-->
     <string name="home">Home</string>
     <string name="notification">Notification</string>
@@ -29,6 +29,7 @@
     <!-- Strings related to login/registration/settings -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
     <string name="prompt_current_password">Current Password</string>
     <string name="prompt_new_password">New Password</string>
     <string name="prompt_confirm_password">Confirm New Password</string>

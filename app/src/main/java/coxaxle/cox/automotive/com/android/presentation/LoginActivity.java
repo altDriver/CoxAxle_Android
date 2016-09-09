@@ -3,13 +3,12 @@ package coxaxle.cox.automotive.com.android.presentation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,17 +31,19 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.AxleApplication;
+import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.common.FontsOverride;
+import coxaxle.cox.automotive.com.android.common.NoInternetDialogFragment;
 import coxaxle.cox.automotive.com.android.common.UserSessionManager;
+import coxaxle.cox.automotive.com.android.common.Utility;
 import coxaxle.cox.automotive.com.android.common.WsRequest;
 import coxaxle.cox.automotive.com.android.model.Constants;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity  {
+public class LoginActivity extends AppCompatActivity {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -55,43 +56,37 @@ public class LoginActivity extends AppCompatActivity  {
     private View mLoginFormView;
     WsRequest request;
     AxleApplication axleApplication;
-    HashMap<String, String> requestParams;
+    //HashMap<String, String> requestParams;
     UserSessionManager mUserSessionManager;
-    boolean isrememberUser;
+    //boolean isrememberUser;
     HashMap<String, String> userDetails;
-
-    //CheckBox rememberMeCheckBox;
+    String strEmail, strPassword;
+    String base64Password = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
-        fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().hide();
 
-        isrememberUser = false;
-        requestParams = new HashMap<String, String>();
+        FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
+        fontsOverrideobj.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
+
+        //isrememberUser = false;
+        //requestParams = new HashMap<String, String>();
         axleApplication = (AxleApplication) getApplicationContext();
         mUserSessionManager = new UserSessionManager(this);
-
-        //rememberMeCheckBox = (CheckBox) findViewById(R.id.rememberMeCheckBox);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
         request = new WsRequest();
 
-        if (mUserSessionManager.isRememberMeChecked()) {
-            //rememberMeCheckBox.setChecked(true);
-            isrememberUser = true;
-            //userDetails = mUserSessionManager.getEmailId();
-            mEmailView.setText(mUserSessionManager.getEmailId());
-        }
-
         mPasswordView = (EditText) findViewById(R.id.password);
 
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        /*mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -101,54 +96,35 @@ public class LoginActivity extends AppCompatActivity  {
                 }
                 return false;
             }
-        });
+        });*/
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestParams.put("email", mEmailView.getText().toString());
-                String base64 = "";
-                try {
-                    byte[] data = mPasswordView.getText().toString().getBytes("UTF-8");
-                    base64 = Base64.encodeToString(data, Base64.DEFAULT);
-                } catch (UnsupportedEncodingException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+
+                if(validateUserDetails()){
+                    attemptLogin();
                 }
-                requestParams.put("password", base64);
-                //isrememberUser = rememberMeCheckBox.isChecked();
-                attemptLogin();
+
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
-        /*TextView mUserRegistrationTxt = (TextView) findViewById(R.id.register_user_action_text);
-        mUserRegistrationTxt.setOnClickListener(new OnClickListener() {
+
+        TextView mGuestUserActionTxt = (TextView) findViewById(R.id.login_forgot_password_tv);
+        mGuestUserActionTxt.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                callUserRegistrationActivity();
+
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordEmailResetActivity.class);
+                startActivity(intent);
             }
         });
 
 
-        TextView mGuestUserActionTxt = (TextView) findViewById(R.id.guest_user_action_text);
-        mGuestUserActionTxt.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //attemptLogin();
-            }
-        });*/
-
-    }
-
-    private void callUserRegistrationActivity() {
-
-        Intent intent = new Intent(LoginActivity.this, RegisterUserActivity.class);
-        startActivity(intent);
-        //finish();
     }
 
     /**
@@ -161,14 +137,44 @@ public class LoginActivity extends AppCompatActivity  {
         //AxleApplication
         if (axleApplication.isNetworkAvailable()) {
 
-           wsLogin();
+            try {
+                byte[] data = strPassword.getBytes("UTF-8");
+                base64Password = Base64.encodeToString(data, Base64.DEFAULT);
+            } catch (UnsupportedEncodingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            wsLogin();
 
         } else {
-            Toast.makeText(getApplicationContext(), "No network available", Toast.LENGTH_LONG).show();
+            NoInternetDialogFragment dialogFragment = new NoInternetDialogFragment();
+            dialogFragment.show(getSupportFragmentManager(), "dialog");
         }
     }
 
+    boolean validateUserDetails() {
+        boolean valid = true;
+        strEmail = mEmailView.getText().toString();
+        strPassword = mPasswordView.getText().toString();
 
+        if (TextUtils.isEmpty(strEmail)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            //focusView = etEmail;
+            valid = false;
+        } else if (!Utility.emailValidate(strEmail)) {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            //focusView = etEmail;
+            valid = false;
+        }
+        if (TextUtils.isEmpty(strPassword) && !Utility.passwordValidation(strPassword)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            valid = false;
+        }
+
+
+        return valid;
+
+    }
 
 
     void wsLogin() {
@@ -195,16 +201,35 @@ public class LoginActivity extends AppCompatActivity  {
 
                     /*Log.d("Request", requestParams.get("email"));
                     Log.d("Request", requestParams.get("password"));*/
-                params.put("email", requestParams.get("email"));
-                params.put("password", requestParams.get("password"));
+                params.put("email", strEmail);
+                params.put("password", base64Password);
 
 
                 return params;
             }
         };
 
+        /*stringRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });*/
+
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+
+
     }
 
     void parseLoginResponceAndNavToHomeScreen(String jsonObj) {
@@ -222,7 +247,7 @@ public class LoginActivity extends AppCompatActivity  {
             isSuccess = Boolean.parseBoolean(mainresponceObject.getString("status").toLowerCase());
 
             if (isSuccess) {
-                JSONObject  jsonDataObject = new JSONObject(mainresponceObject.getString("response"));
+                JSONObject jsonDataObject = new JSONObject(mainresponceObject.getString("response"));
                 //Get the instance of JSONArray that contains JSONObjects
                 JSONArray jsonDataArray = jsonDataObject.optJSONArray("data");
 
@@ -234,11 +259,14 @@ public class LoginActivity extends AppCompatActivity  {
                 userDetails.put(UserSessionManager.KEY_EMAIL, jsonObject.getString("email"));
                 userDetails.put(UserSessionManager.KEY_PHONENUMBER, jsonObject.getString("phone"));
                 userDetails.put(UserSessionManager.KEY_USERID, jsonObject.getString("uid"));
+                userDetails.put(UserSessionManager.IS_USER_LOGGED_IN, isSuccess + "");
+
                 UserSessionManager objManager = new UserSessionManager(this);
                 objManager.saveUserDetailsPref(userDetails);
 
                 Toast.makeText(LoginActivity.this, responceMessage, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LoginActivity.this, HomeScreen.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
 
@@ -251,11 +279,9 @@ public class LoginActivity extends AppCompatActivity  {
         }
 
 
-
-
     }
 
-    void forGotPasswordRequest() {
+    /*void forGotPasswordRequest() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FORGOT_PASSWORD_RESET_LINK,
                 new Response.Listener<String>() {
                     @Override
@@ -275,8 +301,8 @@ public class LoginActivity extends AppCompatActivity  {
                 Map<String, String> params = new HashMap<String, String>();
 
 
-                    /*Log.d("Request", requestParams.get("email"));
-                    Log.d("Request", requestParams.get("password"));*/
+                    *//*Log.d("Request", requestParams.get("email"));
+                    Log.d("Request", requestParams.get("password"));*//*
                 params.put("email", requestParams.get("email"));
                 params.put("password", requestParams.get("password"));
 
@@ -287,7 +313,7 @@ public class LoginActivity extends AppCompatActivity  {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
-    }
+    }*/
 
 
 }

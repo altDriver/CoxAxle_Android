@@ -22,19 +22,19 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="coxaxle.cox.automotive.com.android.AxleApplication"
+        android:name=".AxleApplication"
         android:allowBackup="true"
         android:icon="@mipmap/cox_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.HomeScreen"
+            android:name=".presentation.HomeScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.SplashScreen"
+            android:name=".presentation.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/CoxAxleTheme">
@@ -45,47 +45,53 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.LoginActivity"
+            android:name=".presentation.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.RegisterUserActivity"
+            android:name=".presentation.RegisterUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.IntroActivity"
+            android:name=".presentation.IntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.LoginOptionsActivity"
+            android:name=".presentation.LoginOptionsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.ScheduleAppointmentActivity"
+            android:name=".presentation.ScheduleAppointmentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.AddVehicleActivity"
+            android:name=".presentation.AddVehicleActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.VehicleDetailsActivity"
+            android:name=".presentation.VehicleDetailsActivity"
             android:screenOrientation="portrait" />
 
-        <service android:name="coxaxle.cox.automotive.com.android.fcm.FirebaseMessagingService">
+        <service android:name=".fcm.FirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="coxaxle.cox.automotive.com.android.fcm.FirebaseInstanceIDService">
+        <service android:name=".fcm.FirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.UserAccountInfoActivity"
+            android:name=".presentation.UserAccountInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.EditVehicleActivity"
+            android:name=".presentation.DealerInventorySearchResultsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.AddVehicle2of4Activity"
+            android:name=".presentation.CarsListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.EditVehicleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.AddVehicle2of4Activity"
             android:screenOrientation="portrait" />
 
         <meta-data
@@ -93,10 +99,13 @@
             android:value="api-project-992102545864" />
 
         <activity
-            android:name="coxaxle.cox.automotive.com.android.presentation.NotificationActivity"
+            android:name=".presentation.NotificationActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="coxaxle.cox.automotive.com.android.presentation.RegisterWithEmailActivity" />
-        <activity android:name="coxaxle.cox.automotive.com.android.presentation.ChangePasswordActivity"></activity>
+        <activity android:name=".presentation.RegisterWithEmailActivity" />
+        <activity android:name=".presentation.ChangePasswordActivity" />
+        <activity android:name=".presentation.ForgotPasswordEmailResetActivity" />
+        <activity android:name=".presentation.DealerInventorySearchActivity" />
+        <activity android:name=".presentation.GuestUserActivity"></activity>
     </application>
 
 </manifest>

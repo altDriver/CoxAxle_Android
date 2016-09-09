@@ -13,6 +13,8 @@ import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
@@ -91,6 +93,125 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         }
         yearArray = new String[years.size()];
         yearArray = years.toArray(yearArray);
+        etVehicleName.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0)
+                    etVehicleName.setTypeface(fontBoldHelvetica);
+                else
+                    etVehicleName.setTypeface(fontNormalHelvetica);
+            }
+        });
+        etMake.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0)
+                    etMake.setTypeface(fontBoldHelvetica);
+                else
+                    etMake.setTypeface(fontNormalHelvetica);
+            }
+        });
+        etVin.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0)
+                    etVin.setTypeface(fontBoldHelvetica);
+                else
+                    etVin.setTypeface(fontNormalHelvetica);
+            }
+        });
+        etModel.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0)
+                    etModel.setTypeface(fontBoldHelvetica);
+                else
+                    etModel.setTypeface(fontNormalHelvetica);
+            }
+        });
+        etSelectYear.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0)
+                    etSelectYear.setTypeface(fontBoldHelvetica);
+                else
+                    etSelectYear.setTypeface(fontNormalHelvetica);
+            }
+        });
+        etTagExpiration.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0)
+                    etTagExpiration.setTypeface(fontBoldHelvetica);
+                else
+                    etTagExpiration.setTypeface(fontNormalHelvetica);
+            }
+        });
+        etMilesDriven.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 0)
+                    etMilesDriven.setTypeface(fontBoldHelvetica);
+                else
+                    etMilesDriven.setTypeface(fontNormalHelvetica);
+            }
+        });
         etMake.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -180,7 +301,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             if (!valid_vin) {
                 //DialogFragment newFragment = CustomDialogFragment.setDialog( 0, "Cox Axle", "Enter 17 digit Vin", "Ok", "");
                 //newFragment.show(getSupportFragmentManager(), "dialog");
-                Toast.makeText(AddVehicleActivity.this, "Enter 17 digit VIN", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddVehicleActivity.this, "Enter 16 digit VIN", Toast.LENGTH_SHORT).show();
                 etVin.requestFocus();
             }else if (!valid_vehicle_type) {
                 Toast.makeText(AddVehicleActivity.this, "Select valid Vehicle Type", Toast.LENGTH_SHORT).show();
@@ -248,14 +369,6 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         imgAddPhoto.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 
-
-        etSelectYear.setTypeface(fontBoldHelvetica);
-        etVehicleName.setTypeface(fontBoldHelvetica);
-        etVin.setTypeface(fontBoldHelvetica);
-        etMake.setTypeface(fontBoldHelvetica);
-        etModel.setTypeface(fontBoldHelvetica);
-        etMilesDriven.setTypeface(fontBoldHelvetica);
-        etTagExpiration.setTypeface(fontBoldHelvetica);
         btnNext.setTypeface(fontBoldHelvetica);
         tvVehicleDetailsHeader.setTypeface(fontBoldHelvetica);
     }

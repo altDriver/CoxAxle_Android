@@ -688,6 +688,7 @@ public class RegisterUserActivity extends AppCompatActivity implements View.OnCl
                 userDetails.put(UserSessionManager.KEY_EMAIL, jsonobj.getString("email"));
                 userDetails.put(UserSessionManager.KEY_PHONENUMBER, jsonobj.getString("phone"));
                 userDetails.put(UserSessionManager.KEY_USERID, jsonobj.getString("uid"));
+                userDetails.put(UserSessionManager.IS_USER_LOGGED_IN, isSuccess+"");
                 UserSessionManager objManager = new UserSessionManager(this);
                 objManager.saveUserDetailsPref(userDetails);
 

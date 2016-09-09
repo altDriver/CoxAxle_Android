@@ -33,6 +33,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
 
         FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
         fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
@@ -71,7 +72,7 @@ public class LoginOptionsActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //wsLogin();
-                Intent intent = new Intent(LoginOptionsActivity.this, HomeScreen.class);
+                Intent intent = new Intent(LoginOptionsActivity.this, GuestUserActivity.class);
                 startActivity(intent);
                 finish();
 

@@ -17,30 +17,29 @@ import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.model.VehicleInfo;
 
 /**
- * Created by Srinivas on 29-08-2016.
+ * Created by Srinivas B on 08-09-2016.
  */
-public class CarsListAdapter extends ArrayAdapter<VehicleInfo> {
+public class DealerSearchInventoryResultsAdapter extends ArrayAdapter<VehicleInfo> {
 
     private ArrayList<VehicleInfo> vehicleInfoList;
 
-    public CarsListAdapter(Context context, int activity_dealer_inventory_list_row, ArrayList<VehicleInfo> vehicleInfoList) {
+    public DealerSearchInventoryResultsAdapter(Context context, int activity_dealer_inventory_list_row, ArrayList<VehicleInfo> vehicleInfoList) {
         super( context, activity_dealer_inventory_list_row, vehicleInfoList);
         this.vehicleInfoList = new ArrayList<VehicleInfo>();
         this.vehicleInfoList.addAll(vehicleInfoList);
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater vi = (LayoutInflater)parent.getContext().getSystemService(
                     Context.LAYOUT_INFLATER_SERVICE);
-            convertView = vi.inflate(R.layout.activity_cars_list_row, null);
+            convertView = vi.inflate(R.layout.activity_dealer_inventory_list_row, null);
         }
-        // Locate the TextViews in viewpager_item.xml
-        final ImageView imgCar = (ImageView)convertView.findViewById(R.id.cars_list_image);
-        TextView txtCarName = (TextView) convertView.findViewById(R.id.cars_list_name);
-        TextView txtCarNextServicedate = (TextView) convertView.findViewById(R.id.car_list_next_service_date);
+        final ImageView imgCar = (ImageView)convertView.findViewById(R.id.dealer_inventory_list_image);
+        TextView txtCarName  = (TextView) convertView.findViewById(R.id.dealer_inventory_list_name);
+        TextView txtCarmiles = (TextView) convertView.findViewById(R.id.dealer_inventory_list_miles);
+        TextView txtCarprice = (TextView) convertView.findViewById(R.id.dealer_inventory_list_doller);
 
         VehicleInfo objVehicle = this.vehicleInfoList.get(position);
         ArrayList<String> arrImageUrls = objVehicle.vehicle_image;
@@ -48,7 +47,6 @@ public class CarsListAdapter extends ArrayAdapter<VehicleInfo> {
         {
             final String strImg = arrImageUrls.get(0);
             strImg.replace("\\", "");
-            //String strUrl = Constants.GET_IMAGES + strImg;
 
             Thread thread = new Thread(new Runnable()
             {
@@ -57,7 +55,7 @@ public class CarsListAdapter extends ArrayAdapter<VehicleInfo> {
                 {
                     try
                     {
-                        URL url = new URL(strImg);//"http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicles/7_9007_25080.png"
+                        URL url = new URL(strImg);
                         Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                         imgCar.setImageBitmap(image);
                     }
@@ -72,7 +70,8 @@ public class CarsListAdapter extends ArrayAdapter<VehicleInfo> {
         else
             imgCar.setImageResource(R.mipmap.placeholder);
         txtCarName.setText(objVehicle.name);
-        txtCarNextServicedate.setText(objVehicle.vehicle_model);
+        txtCarmiles.setText(objVehicle.vehicle_mileage+" Miles");
+        txtCarprice.setText("$"+objVehicle.kbb_price);
 
         return convertView;
     }

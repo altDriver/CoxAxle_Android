@@ -36,9 +36,9 @@ import coxaxle.cox.automotive.com.android.model.Constants;
 
 public class RegisterWithEmailActivity extends AppCompatActivity {
 
-    EditText etFirstName, etLastName, etPassword, etEmail;//, etPhoneNumber;
+    EditText etFirstName, etLastName, etPassword, etEmail, etPhoneNumber;
     Button btnSignUpEmail;
-    String strFirstName, strLastName, strPassword, strEmail;//, strPhoneNumber;
+    String strFirstName, strLastName, strPassword, strEmail, strPhoneNumber;
 
 
     @Override
@@ -60,7 +60,7 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
         etLastName = (EditText) findViewById(R.id.email_signup_last_name_edt);
         etPassword = (EditText) findViewById(R.id.email_signup_password_edt);
         etEmail = (EditText) findViewById(R.id.email_signup_email_edt);
-        //etPhoneNumber = (EditText) findViewById(R.id.email_signup_phone_number_edt);
+        etPhoneNumber = (EditText) findViewById(R.id.email_signup_phone_number_edt);
         btnSignUpEmail = (Button) findViewById(R.id.email_signup_button);
 
         btnSignUpEmail.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +92,7 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
         strLastName = etLastName.getText().toString();
         strPassword = etPassword.getText().toString();
         strEmail = etEmail.getText().toString();
-        //strPhoneNumber = etPhoneNumber.getText().toString();
+        strPhoneNumber = etPhoneNumber.getText().toString();
         //Boolean valid_password = Utility.passwordValidation(strPassword);
 
         if (TextUtils.isEmpty(strFirstName)) {
@@ -168,7 +168,8 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
                 params.put("last_name",strLastName);
                 params.put("password",strPassword);
                 params.put("email", strEmail);
-               // params.put("phone", strPhoneNumber);
+                params.put("phone", strPhoneNumber);
+                params.put("dealer_code","KH001");
 
                 Log.v("params>>>", "" + params);
                 return params;
@@ -204,6 +205,8 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
                 userDetails.put(UserSessionManager.KEY_EMAIL, jsonobj.getString("email"));
                 userDetails.put(UserSessionManager.KEY_PHONENUMBER, jsonobj.getString("phone"));
                 userDetails.put(UserSessionManager.KEY_USERID, strUid);
+                userDetails.put(UserSessionManager.IS_USER_LOGGED_IN, isSuccess+"");
+
                 UserSessionManager objManager = new UserSessionManager(this);
                 objManager.saveUserDetailsPref(userDetails);
 

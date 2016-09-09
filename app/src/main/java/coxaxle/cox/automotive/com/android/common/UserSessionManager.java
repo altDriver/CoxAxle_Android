@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 
+import coxaxle.cox.automotive.com.android.presentation.HomeScreen;
 import coxaxle.cox.automotive.com.android.presentation.LoginActivity;
 
 /**
@@ -36,8 +37,9 @@ public class UserSessionManager {
     public static final String KEY_PHONENUMBER = "phone";
     public static final String KEY_USERID = "user_id";
     public static final String KEY_EMAIL = "email";
+    //public static final String REMEMBER_ME = "rememberMe";
 
-    public static final String REMEMBER_ME = "rememberMe";
+    public static final String IS_USER_LOGGED_IN = "isUserLoggedIn";
 
     String FCM_TOKEN_ID = "fcmTokenId";
 
@@ -50,11 +52,11 @@ public class UserSessionManager {
         editor = pref.edit();
     }
 
-    //Create login session
+   /* //Create login session
     public void createUserLoginSession(String userId, String email, boolean rememberMe){
 
         // Storing login value as TRUE
-        editor.putBoolean(REMEMBER_ME, false);
+        editor.putBoolean(IS_USER_LOGGED_IN, false);
 
         editor.putString(KEY_USERID, userId);
 
@@ -64,11 +66,11 @@ public class UserSessionManager {
             // Storing email in pref
             editor.putString(KEY_EMAIL, email);
 
-            editor.putBoolean(REMEMBER_ME, rememberMe);
+            editor.putBoolean(IS_USER_LOGGED_IN, rememberMe);
         }
         // commit changes
         editor.commit();
-    }
+    }*/
 
     /**
      * Check login method will check user login status
@@ -77,10 +79,10 @@ public class UserSessionManager {
      * */
     public boolean checkLogin(){
         // Check login status
-        if(!this.isRememberMeChecked()){
+        if(!this.isUserLoggedIn()){
 
             // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, LoginActivity.class);
+            Intent i = new Intent(_context, HomeScreen.class);
 
             // Closing all the Activities from stack
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -108,6 +110,7 @@ public class UserSessionManager {
         editor.putString(KEY_LASTNAME, mapDetails.get(KEY_LASTNAME));
         editor.putString(KEY_EMAIL, mapDetails.get(KEY_EMAIL));
         editor.putString(KEY_PHONENUMBER, mapDetails.get(KEY_PHONENUMBER));
+        editor.putBoolean(IS_USER_LOGGED_IN, Boolean.parseBoolean(mapDetails.get(IS_USER_LOGGED_IN)));
 
         editor.commit();
     }
@@ -123,7 +126,7 @@ public class UserSessionManager {
         user.put(KEY_LASTNAME, pref.getString(KEY_LASTNAME, null));
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
         user.put(KEY_USERID, pref.getString(KEY_USERID, null));
-        user.put(KEY_PHONENUMBER, pref.getString(KEY_PHONENUMBER, null));
+        user.put(IS_USER_LOGGED_IN, pref.getString(IS_USER_LOGGED_IN, null));
         // return user
         return user;
     }
@@ -141,10 +144,10 @@ public class UserSessionManager {
         Intent i = new Intent(_context, LoginActivity.class);
 
         // Closing all the Activities
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         // Add new Flag to start new Activity
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         // Staring Login Activity
         _context.startActivity(i);
@@ -152,9 +155,9 @@ public class UserSessionManager {
 
 
     // Check for login
-    public boolean isRememberMeChecked(){
+    public boolean isUserLoggedIn(){
 
-        return pref.getBoolean(REMEMBER_ME, false);
+        return pref.getBoolean(IS_USER_LOGGED_IN, false);
     }
 
     public String getUserId(){
