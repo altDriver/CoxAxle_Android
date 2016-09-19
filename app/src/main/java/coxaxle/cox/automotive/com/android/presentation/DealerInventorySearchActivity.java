@@ -127,10 +127,10 @@ public class DealerInventorySearchActivity extends AppCompatActivity {
 
                             }
                             //ModelsInfo objModelsInfo = new ModelsInfo();
-
+/*
                             MakesInfo objMakesInfo = new MakesInfo(jsonMakeObject.getString("makes") ,modelsInfoArrayList);
 
-                            makesInfoArrayList.add(objMakesInfo);
+                            makesInfoArrayList.add(objMakesInfo);*/
 
 
 

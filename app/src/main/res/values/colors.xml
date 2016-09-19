@@ -19,8 +19,8 @@
     <color name="second_primary">#e0ac69</color>
     <color name="second_primarydark">#c68642</color>
     <color name="colorBg">#EDEDEE</color>
-
-
+    <color name="colorMenuLight">#A6ACB7</color>
+    <color name="colorBlueLight">#80D2F6</color>
     <!--horizontal progress bar colors-->
     <color name="progressBarSecondaryColor">#10000000</color>
     <color name="transparentColor">#00000000</color>
@@ -36,6 +36,8 @@
     <color name="activity_bg_black">#374046</color>
 
     <color name="color_semi_transparent">#68000000</color>
+
+
 
 
 

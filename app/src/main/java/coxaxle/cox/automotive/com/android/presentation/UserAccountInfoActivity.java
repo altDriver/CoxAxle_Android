@@ -233,10 +233,4 @@ public class UserAccountInfoActivity extends AppCompatActivity {
         }
     }
 
-    String getUserIdFromPreferences() {
-        String userId = "";
-
-
-        return userId;
-    }
 }

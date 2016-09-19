@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
@@ -39,9 +40,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -51,6 +54,7 @@ import coxaxle.cox.automotive.com.android.common.FontsOverride;
 import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 import coxaxle.cox.automotive.com.android.common.Utility;
 import coxaxle.cox.automotive.com.android.model.Constants;
+import coxaxle.cox.automotive.com.android.model.VehicleInfo;
 
 /**
  * Created by Lakshmana on 29-08-2016.
@@ -61,7 +65,7 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
     ImageView ivAddInsurancePhoto;
     EditText etInsuranceExpirationDate;
     private DatePickerDialog tagDatePickerDialog;
-    private SimpleDateFormat dateFormatter;
+    private SimpleDateFormat dateFormatter, dateFormateToSend;
     private Calendar calendar;
     private int year, month, day;
     HashMap<String, String> page1Values;
@@ -70,7 +74,8 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
     LinearLayout llAddImages;
     ArrayList<Bitmap> bitmapArray;
     String strImages, strInsuranceExp;
-
+    int flag;
+    VehicleInfo vehicleListItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,8 +95,46 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        dateFormatter = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+        dateFormatter = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
+        dateFormateToSend = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         setTagExpirationDate();
+        //Edit Vehicle
+        flag = this.getIntent().getIntExtra("Vehicle_Flag", 0);
+        if(flag == 1)
+        {
+            btnSave.setText("Update");
+            vehicleListItem = this.getIntent().getParcelableExtra("VehicleInfo");
+            String strDate = vehicleListItem.vehicle_insurance_expiration_date;
+            try{
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = sdf.parse(strDate);
+                strDate = dateFormatter.format(date.getTime());
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            etInsuranceExpirationDate.setText(strDate);
+
+            if (vehicleListItem.vehicle_insurance_document.length() > 0) {
+                final String strImg = vehicleListItem.vehicle_insurance_document;
+                strImg.replace("\\", "");
+
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            URL url = new URL(strImg);//"http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicles/7_9007_25080.png"
+                            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                            addBitmapToLayout(image);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                thread.start();
+            }
+        }
+
         etInsuranceExpirationDate.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -165,7 +208,7 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
 
     private void addVehicle() {
         try {
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.ADD_VEHICLE_URL,
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, flag == 1 ? Constants.EDIT_VEHICLE_URL : Constants.ADD_VEHICLE_URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -196,10 +239,13 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                 @Override
                 protected Map<String, String> getParams() {
 
+
                     UserSessionManager obj = new UserSessionManager(AddVehicle2of4Activity.this);
                     String strUid = obj.getUserId();
 
                     Map<String, String> params = new HashMap<String, String>();
+                    if (flag == 1)
+                        params.put("vid", vehicleListItem.id);
                     params.put("uid", strUid);
                     params.put("name", page1Values.get("vehicle_name"));
                     params.put("dealer_id", "2");
@@ -221,13 +267,23 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                     params.put("extended_waranty_to", "5");
                     params.put("trim", "6");
                     params.put("style", "sports");
-                    params.put("mileage", "20");
+                    params.put("mileage", page1Values.get("vehicle_miles"));
                     params.put("kbb_price", "100");
+                    try {
+                        Date date = dateFormatter.parse(strInsuranceExp);
+                        strInsuranceExp = dateFormateToSend.format(date.getTime());
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                     params.put("insurance_expiration_date", strInsuranceExp);
-                    params.put("photo", page1Values.get("vehicle_photo"));
+                    if (strImages.charAt(strImages.length() - 1) == ',')
+                        strImages = strImages.substring(0, strImages.length() - 1);
+                    params.put("photo", page1Values.get("vehicle_photo")); //page1Values.get("vehicle_photo")
                     params.put("insurance_document", strImages);
                     params.put("extended_waranty_document", "");
                     Log.v("params>>>", "" + params);
+
                     return params;
                 }
 

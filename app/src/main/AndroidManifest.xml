@@ -85,7 +85,7 @@
             android:name=".presentation.DealerInventorySearchResultsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.CarsListActivity"
+            android:name=".presentation.VehicleListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.EditVehicleActivity"
@@ -105,7 +105,9 @@
         <activity android:name=".presentation.ChangePasswordActivity" />
         <activity android:name=".presentation.ForgotPasswordEmailResetActivity" />
         <activity android:name=".presentation.DealerInventorySearchActivity" />
-        <activity android:name=".presentation.GuestUserActivity"></activity>
+        <activity android:name=".presentation.GuestUserActivity" />
+        <activity android:name=".presentation.CarShoppingActivity" />
+        <activity android:name=".presentation.DealerInventorySearchFiltersActivity"></activity>
     </application>
 
 </manifest>

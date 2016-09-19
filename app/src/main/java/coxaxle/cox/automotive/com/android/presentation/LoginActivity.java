@@ -34,7 +34,7 @@ import java.util.Map;
 import coxaxle.cox.automotive.com.android.AxleApplication;
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.common.FontsOverride;
-import coxaxle.cox.automotive.com.android.common.NoInternetDialogFragment;
+import coxaxle.cox.automotive.com.android.common.MyCustomDialog;
 import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 import coxaxle.cox.automotive.com.android.common.Utility;
 import coxaxle.cox.automotive.com.android.common.WsRequest;
@@ -43,7 +43,7 @@ import coxaxle.cox.automotive.com.android.model.Constants;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements MyCustomDialog.onSubmitListener{
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(validateUserDetails()){
+                if (validateUserDetails()) {
                     attemptLogin();
                 }
 
@@ -112,7 +112,6 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
 
         TextView mGuestUserActionTxt = (TextView) findViewById(R.id.login_forgot_password_tv);
         mGuestUserActionTxt.setOnClickListener(new OnClickListener() {
@@ -123,8 +122,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     /**
@@ -147,8 +144,10 @@ public class LoginActivity extends AppCompatActivity {
             wsLogin();
 
         } else {
-            NoInternetDialogFragment dialogFragment = new NoInternetDialogFragment();
-            dialogFragment.show(getSupportFragmentManager(), "dialog");
+            MyCustomDialog fragment1 = new MyCustomDialog();
+            fragment1.mListener = LoginActivity.this;
+            fragment1.setDialog(R.layout.fragment_nointernet_dialog, LoginActivity.this, 0, "", "", "", "");
+            fragment1.show(getFragmentManager(), "");
         }
     }
 
@@ -156,21 +155,30 @@ public class LoginActivity extends AppCompatActivity {
         boolean valid = true;
         strEmail = mEmailView.getText().toString();
         strPassword = mPasswordView.getText().toString();
+        mEmailView.setError(null);
+        mPasswordView.setError(null);
+
+        View focusView = null;
+        if (TextUtils.isEmpty(strPassword) && !Utility.passwordValidation(strPassword)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            //Toast.makeText(LoginActivity.this, responceMessage, Toast.LENGTH_LONG).show();
+            focusView = mPasswordView;
+            valid = false;
+        }
 
         if (TextUtils.isEmpty(strEmail)) {
             mEmailView.setError(getString(R.string.error_field_required));
-            //focusView = etEmail;
+            focusView = mEmailView;
             valid = false;
         } else if (!Utility.emailValidate(strEmail)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
-            //focusView = etEmail;
-            valid = false;
-        }
-        if (TextUtils.isEmpty(strPassword) && !Utility.passwordValidation(strPassword)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mEmailView;
             valid = false;
         }
 
+        if (!valid) {
+            focusView.requestFocus();
+        }
 
         return valid;
 
@@ -266,9 +274,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(LoginActivity.this, responceMessage, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LoginActivity.this, HomeScreen.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish();
+
 
             } else {
                 Toast.makeText(LoginActivity.this, responceMessage, Toast.LENGTH_LONG).show();
@@ -278,42 +286,10 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
     }
 
-    /*void forGotPasswordRequest() {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.FORGOT_PASSWORD_RESET_LINK,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //parseJsonAndNavToHomeScreen(response);
-                        //parseJsonAndNavToHomeScreen(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
+    @Override
+    public void setOnSubmitListener(int flag) {
 
-
-                    *//*Log.d("Request", requestParams.get("email"));
-                    Log.d("Request", requestParams.get("password"));*//*
-                params.put("email", requestParams.get("email"));
-                params.put("password", requestParams.get("password"));
-
-                return params;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
-    }*/
-
-
+    }
 }

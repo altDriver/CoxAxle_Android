@@ -19,8 +19,9 @@
         android:layout_marginRight="21dp"
         android:layout_marginTop="13dp"
         android:background="#00000000"
-        android:textColor="@color/colorWhite"
-        android:text="Edit" />
+        android:text="Edit"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite" />
 
     <TextView
         android:id="@+id/vehicle_details_name"
@@ -41,11 +42,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <android.support.v4.view.ViewPager
                 android:id="@+id/vehicle_details_images_viewpager"
                 android:layout_width="match_parent"
-                android:background="@color/colorWhite"
-                android:layout_height="370dp" />
+                android:layout_height="370dp"
+                android:background="@color/colorWhite" />
+
             <ProgressBar
                 android:id="@+id/vehicle_details_profile_indicator"
                 style="@android:style/Widget.ProgressBar.Horizontal"
@@ -54,6 +57,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/horizontal_progress_bg" />
+
             <TextView
                 android:id="@+id/vehicle_details_profile_indicator_text"
                 android:layout_width="match_parent"
@@ -67,25 +71,26 @@
 
             <TextView
                 android:id="@+id/vehicle_details_my_car_name"
-                android:layout_marginTop="230dp"
                 android:layout_width="match_parent"
-                android:gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="230dp"
+                android:gravity="center"
                 android:text="Vicky’s Car"
-                android:textStyle="bold"
                 android:textColor="@color/slate"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/vehicle_details_my_car_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/vehicle_details_my_car_name"
                 android:layout_centerHorizontal="true"
-                android:layout_width="match_parent"
                 android:gravity="center"
-                android:layout_height="wrap_content"
                 android:text="2012 Audi A4 2.0T  •  3,745 Miles"
                 android:textColor="@color/slate"
                 android:textSize="14sp" />
-            <TextView
+            <!--<TextView
                 android:id="@+id/vehicle_details_my_car_scheduled_next_service"
                 android:layout_below="@id/vehicle_details_my_car_model"
                 android:gravity="center"
@@ -93,22 +98,23 @@
                 android:layout_height="wrap_content"
                 android:text="Next scheduled service: Aug 27, 2016"
                 android:textColor="@color/colorTextLight"
-                android:textSize="13sp" />
+                android:textSize="13sp" />-->
             <RelativeLayout
                 android:id="@+id/vehicle_details_service_data_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/vehicle_details_images_viewpager"
                 android:layout_marginTop="5dp"
                 android:background="@color/colorWhite">
 
                 <TextView
-                    android:id="@+id/vehicle_details_service_records_tv"
+                    android:id="@+id/vehicle_details_service_center_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="16dp"
-                    android:text="Service Records"
+                    android:text="Service Center"
                     android:textColor="@color/colorTextDark"
                     android:textSize="20sp" />
 
@@ -117,19 +123,19 @@
                     android:layout_width="80dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="21.5dp"
-                    android:layout_marginTop="14dp"
                     android:background="@mipmap/schedule_btn" />
 
-                <View
+
+                <!--<View
                     android:id="@+id/vehicle_details_service_schedule_divider"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
                     android:layout_below="@id/vehicle_details_service_records_tv"
                     android:layout_marginTop="20dp"
                     android:background="@color/colorBg" />
-
-                <TextView
+                    <TextView
                     android:id="@+id/vehicle_details_service_history_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -159,7 +165,7 @@
                     android:layout_below="@id/vehicle_details_service_schedule_divider"
                     android:layout_marginRight="21.5dp"
                     android:layout_marginTop="30dp"
-                    android:background="@mipmap/learn_more_arrow" />
+                    android:background="@mipmap/learn_more_arrow" />-->
 
             </RelativeLayout>
 
@@ -175,7 +181,8 @@
                     android:id="@+id/vehicle_details_manufacture_warranty_indicator_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:paddingBottom="30dp">
+                    android:orientation="horizontal"
+                    android:paddingBottom="30dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"

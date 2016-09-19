@@ -2,7 +2,9 @@ package coxaxle.cox.automotive.com.android.presentation;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.common.UserSessionManager;
@@ -10,9 +12,8 @@ import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 /**
  */
 public class SplashScreen extends Activity {
-
-    /* private AnimationDrawable animationDrawable;
-     private ImageView mProgressBar;*/
+     private AnimationDrawable animationDrawable;
+     private ImageView mProgressBar;
     UserSessionManager mUserSessionManager;
 
     @Override
@@ -21,7 +22,7 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         mUserSessionManager = new UserSessionManager(this);
-        /*mProgressBar =(ImageView) findViewById(R.id.main_progress);
+       /* mProgressBar =(ImageView) findViewById(R.id.main_progress);
         mProgressBar.setBackgroundResource(R.drawable.progress_wheel_animation);
         animationDrawable = (AnimationDrawable)mProgressBar.getBackground();
         mProgressBar.setVisibility(View.VISIBLE);

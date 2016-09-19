@@ -100,8 +100,15 @@
     <string name="customer_care">Customer Care</string>
     <string name="payment_calculator">Payment Calculator</string>
     <string name="reward_program">Reward Program</string>
-
+    <string name="favorite_cars">Favorite Cars</string>
     <string name="add_vehicle">Add Vehicle</string>
+    <string name="calculators">Calculators</string>
+    <string name="affordability_calculator">Affordability Calculator</string>
+    <string name="lease_vs_purchase_calculator">Lease vs. Purchase Calculator</string>
+
+    <string name="vehicle_value">Vehicle Values</string>
+    <string name="price_new_or_used">Price New/Used  Cars</string>
+    <string name="my_cars_value">My Car’s Value</string>
 
     <string name="vehicle_name">Vehicle Name</string>
     <string name="vehicle_new">New</string>
@@ -118,7 +125,6 @@
     <string name="vehicle_entername">Enter Vehicle Name</string>
     <string name="vehicle_selectmake">Select Make</string>
     <string name="vehicle_entervin">Enter VIN</string>
-    <string name="vehicle_selectyear">Select Year</string>
     <string name="vehicle_selectmodel">Select Model</string>
     <string name="vehicle_entermilesdriven">Enter Miles Driven</string>
     <string name="vehicle_selecttagexpdate">Select Tag Expiration Date</string>
@@ -129,11 +135,11 @@
     <string name="vehicle_insurance_details">Insurance Details</string>
     <string name="vehicle_done">done</string>
     <string name="vehicle_next">Next</string>
-
+    <string name="year">Year</string>
 
     <!-- Strings Related to Vehicle Details -->
     <string name="car_name">Audi A4 2.0T Premium</string>
-    <string name="make_year">Make</string>
+    <string name="make">Make</string>
     <string name="miles">Miles</string>
     <string name="engine">Engine</string>
     <string name="vin">Vehicle identification number (VIN)</string>
@@ -176,9 +182,28 @@
     <string name="vehicle_next_service_apt">Vehicle Next Service Apt</string>
     <string name="vehicle_trim">Vehicle Trim</string>
     <string name="vehicle_style">Vehicle Style</string>
-    <string name="vehicle_mileage">Vehicle Milage</string>
+    <string name="vehicle_mileage">Vehicle Mileage</string>
     <string name="vehicle_ownership_type">Vehicle Ownership Type</string>
 
+    <string name="filters">Filters</string>
+    <string name="select_basic_options">Select Basic Options</string>
+    <string name="save_search">Save Search</string>
+    <string name="price">Price</string>
+    <string name="Select_more_options">Select More Options</string>
+     <string name="mileage">Mileage</string>
+    <string name="show_vehicles">Show Vehicles</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="fewer_options">Fewer Options</string>
+    <string name="Color">Color</string>
+    <string name="body_style">Body Style</string>
+    <string name="engine_type">Engine Type</string>
+
+
+    <string name="findvin_cantfindvin">Can\'t find your VIN</string>
+    <string name="findvin_herecommonplaces">Here are some common placess to find it</string>
+    <string name="findvin_mostcommonplaces">The driver side interior dash is the most common place to find your VIN</string>
+    <string name="vehicle_findmyvin">Find my VIN</string>
 
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="dummy_button">Dummy Button</string>

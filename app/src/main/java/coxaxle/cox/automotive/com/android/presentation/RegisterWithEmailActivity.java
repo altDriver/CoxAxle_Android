@@ -95,15 +95,11 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
         strPhoneNumber = etPhoneNumber.getText().toString();
         //Boolean valid_password = Utility.passwordValidation(strPassword);
 
-        if (TextUtils.isEmpty(strFirstName)) {
-            etFirstName.setError(getString(R.string.error_field_required));
-           focusView = etFirstName;
-            cancel = true;
-        }
 
-        if (TextUtils.isEmpty(strLastName)) {
-            etLastName.setError(getString(R.string.error_field_required));
-           focusView = etLastName;
+        // Check for a valid password, if the user entered one.
+        if (TextUtils.isEmpty(strPassword) && !Utility.passwordValidation(strPassword)) {
+            etPassword.setError(getString(R.string.error_invalid_password));
+            focusView = etPassword;
             cancel = true;
         }
 
@@ -117,17 +113,24 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
             focusView = etEmail;
             cancel = true;
         }
-        // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(strPassword) && !Utility.passwordValidation(strPassword)) {
-            etPassword.setError(getString(R.string.error_invalid_password));
-            focusView = etPassword;
-            cancel = true;
-        }
-       /* if (TextUtils.isEmpty(strPhoneNumber)) {
-            etPhoneNumber.setError(getString(R.string.error_field_required));
+
+        if (strPhoneNumber.length()<10) {
+            etPhoneNumber.setError("Enter a valid phone number");
             focusView = etPhoneNumber;
             cancel = true;
-        }*/
+        }
+
+        if (TextUtils.isEmpty(strLastName)) {
+            etLastName.setError(getString(R.string.error_field_required));
+            focusView = etLastName;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(strFirstName)) {
+            etFirstName.setError(getString(R.string.error_field_required));
+            focusView = etFirstName;
+            cancel = true;
+        }
 
 
         if (cancel) {

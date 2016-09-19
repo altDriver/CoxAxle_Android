@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -21,52 +22,34 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 import coxaxle.cox.automotive.com.android.model.Constants;
+import coxaxle.cox.automotive.com.android.model.VehicleInfo;
 
 public class ScheduleAppointmentActivity extends AppCompatActivity {
 
     WebView xtimeWebView;
     ProgressBar progress;
 
-    HashMap<String, String> userData;// = getUserDetails();
+    HashMap<String, String> userData;
     UserSessionManager mUserSessionManager;
 
-    String strFirstName, strLastName, strEmail, strPhoneNumber, strUserId;
+    String strFirstName, strLastName, strEmail, strPhoneNumber, strVIN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_appointment);
-        mUserSessionManager = new UserSessionManager(this);
 
-        userData = mUserSessionManager.getUserDetails();
+        getVehicleDetails();
 
-        strFirstName = userData.get(UserSessionManager.KEY_FIRSTNAME);
-        strLastName = userData.get(UserSessionManager.KEY_LASTNAME);
-        strEmail = userData.get(UserSessionManager.KEY_EMAIL);
-        strPhoneNumber = userData.get(UserSessionManager.KEY_PHONENUMBER);
-        //strUserId = userData.get(UserSessionManager.KEY_USERID);
-       /* String url = "https://consumer-ptr1.xtime.com/scheduling/?webKey=HUS20131206112630208569&VIN=&Provider=COAXEL&Keyword=" +
-                "SCHEDULE&cfn=JOAN&cln=SMITH&cpn=6785551212cem=JSMITH@FAKEMAIL." +
-                "COM&NOTE=NOTE4Q3&extid=SCHEDULE&extctxt=COAXLE";*/
-
-        String url = "https://consumer-ptr1.xtime.com/scheduling/?webKey=hus20131206112630208569" +
-                "&VIN=5J6RE3H74AL049448" +
-                "&Provider=COXAXLE" +
-                "&Keyword=SCHEDULE" +
-                "&cfn="+strFirstName +
-                "&cln="+strLastName+
-                "&cpn="+strPhoneNumber+
-                "&cem="+strEmail+
-                "&NOTE=NOTE4Q3" +
-                "&extid=SCHEDULE" +
-                "&extctxt=COXAXLE" +
-                "&dest=VEHICLE";
 
         progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.setMax(100);
@@ -80,12 +63,28 @@ public class ScheduleAppointmentActivity extends AppCompatActivity {
         xtimeWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         //xtimeWebView.clearCache(true);
         xtimeWebView.setWebViewClient(new XTimeBrowser());
-        xtimeWebView.loadUrl(url);
+        getUrlAndPassToWebView();
+
     }
 
     /*  }
   });
 }*/
+    void getVehicleDetails() {
+
+        VehicleInfo objVehicle = this.getIntent().getParcelableExtra("VehicleInfo");
+        strVIN = objVehicle.vehicle_vin;
+
+        mUserSessionManager = new UserSessionManager(this);
+        userData = mUserSessionManager.getUserDetails();
+
+        strFirstName = userData.get(UserSessionManager.KEY_FIRSTNAME);
+        strLastName = userData.get(UserSessionManager.KEY_LASTNAME);
+        strEmail = userData.get(UserSessionManager.KEY_EMAIL);
+        strPhoneNumber = userData.get(UserSessionManager.KEY_PHONENUMBER);
+
+    }
+
     class XTimeBrowser extends WebViewClient {
 
         @SuppressWarnings("deprecation")
@@ -133,15 +132,13 @@ public class ScheduleAppointmentActivity extends AppCompatActivity {
     }
 
 
+    void getUrlAndPassToWebView() {
 
-    void getUrlAndPassToWebView(){
-
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.LOGIN_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.XTIME_INFO_URL,
 
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //parseJsonAndNavToHomeScreen(response);
                         parseResponceAndOpenWebview(response);
                     }
                 },
@@ -155,11 +152,6 @@ public class ScheduleAppointmentActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
 
-                    /*Log.d("Request", requestParams.get("email"));
-                    Log.d("Request", requestParams.get("password"));*/
-              /*  params.put("email", requestParams.get("email"));
-                params.put("password", requestParams.get("password"));*/
-
 
                 return params;
             }
@@ -171,7 +163,65 @@ public class ScheduleAppointmentActivity extends AppCompatActivity {
 
     }
 
-    void parseResponceAndOpenWebview(String responce){
+    void parseResponceAndOpenWebview(String responce) {
+
+        boolean isSuccess = false;
+
+        Log.d("responce 1", responce.trim());
+        String strWebKey = "",
+                strProvider = "", strKeyword = "", strExtid = "", strExtctxt = "";
+        try {
+
+            JSONObject mainresponceObject = new JSONObject(responce);
+
+            String responceMessage = mainresponceObject.getString("message");
+
+            isSuccess = Boolean.parseBoolean(mainresponceObject.getString("status").toLowerCase());
+
+            if (isSuccess) {
+
+                JSONObject jsonDataObject = new JSONObject(mainresponceObject.getString("response"));
+
+                strWebKey = jsonDataObject.getString("WebKey");
+                strProvider = jsonDataObject.getString("Provider");
+                strKeyword = jsonDataObject.getString("Keyword");
+                strExtid = jsonDataObject.getString("Extid");
+                strExtctxt = jsonDataObject.getString("Extctxt");
+
+                String url = "https://consumer-ptr1.xtime.com/scheduling/" +
+
+                        "?webKey=" +
+                        strWebKey +
+                        "&VIN=" +
+                        strVIN +
+                        "&Provider=" +
+                        strProvider +
+                        "&Keyword=" +
+                        strKeyword +
+                        "&cfn=" + strFirstName +
+                        "&cln=" + strLastName +
+                        "&cpn=" + strPhoneNumber +
+                        "&cem=" + strEmail +
+                        "&NOTE=NOTE4Q3" +
+                        "&extid=" +
+                        strExtid +
+                        "&extctxt=" +
+                        strExtctxt +
+                        "&dest=" +
+                        "VEHICLE";
+
+                xtimeWebView.loadUrl(url);
+
+                Log.d("ScheduleURL","---"+url);
+
+            } else {
+                Toast.makeText(ScheduleAppointmentActivity.this, responceMessage, Toast.LENGTH_LONG).show();
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
 
 

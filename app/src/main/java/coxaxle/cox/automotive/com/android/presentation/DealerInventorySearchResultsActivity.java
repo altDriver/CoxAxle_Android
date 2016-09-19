@@ -59,7 +59,7 @@ public class DealerInventorySearchResultsActivity extends Activity{
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(DealerInventorySearchResultsActivity.this,CarsListActivity.class);
+                Intent intent = new Intent(DealerInventorySearchResultsActivity.this,VehicleListActivity.class);
                 intent.putParcelableArrayListExtra("vehicleList", vehicleInfoList);
                 startActivity(intent);
             }

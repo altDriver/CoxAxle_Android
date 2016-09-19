@@ -1,18 +1,13 @@
 package coxaxle.cox.automotive.com.android.fcm;
 
-import android.util.Log;
-
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-
-import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 
 /**
  * Created by kishore on 19-08-2016.
  */
 public class FirebaseInstanceIDService extends FirebaseInstanceIdService{
 
-    UserSessionManager mUserSessionManager;//StoreFCMTokenId
+    //UserSessionManager mUserSessionManager;//StoreFCMTokenId
 
     @Override
     public void onTokenRefresh() {
@@ -20,11 +15,11 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService{
         //mUserSessionManager = new UserSessionManager();
 
 
-        String token = FirebaseInstanceId.getInstance().getToken();
+        //String token = FirebaseInstanceId.getInstance().getToken();
 
-        registerToken(token);
+        //registerToken(token);
 
-        Log.d("Firebasetoken=======",token);
+        //Log.d("Firebasetoken=======",token);
     }
 
     private void registerToken(final String token) {

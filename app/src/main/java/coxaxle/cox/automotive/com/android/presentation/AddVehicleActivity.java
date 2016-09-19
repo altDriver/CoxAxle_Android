@@ -3,20 +3,28 @@ package coxaxle.cox.automotive.com.android.presentation;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -29,6 +37,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,21 +55,28 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import coxaxle.cox.automotive.com.android.AxleApplication;
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.common.FontsOverride;
+import coxaxle.cox.automotive.com.android.common.MyCustomDialog;
+import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 import coxaxle.cox.automotive.com.android.common.Utility;
+import coxaxle.cox.automotive.com.android.model.Constants;
+import coxaxle.cox.automotive.com.android.model.VehicleInfo;
 
 /**
  * Created by Lakshman on 24-08-2016.
  */
-public class AddVehicleActivity extends AppCompatActivity implements View.OnClickListener{
-    Button btnNext;
+public class AddVehicleActivity extends AppCompatActivity implements View.OnClickListener, MyCustomDialog.onSubmitListener{
+    Button btnNext, btnDelete, btnFindVIN;
     LinearLayout llNew, llUsed, llCPO;
     TextView tvNew, tvUsed, tvCPO, tvAddPhotoText, tvVehicleDetailsHeader;
-    ImageView imgAddPhoto, imgAddPhotoMain;
+    ImageView imgAddPhoto; //imgAddPhotoMain
     EditText etVehicleName, etVin, etMake, etModel, etMilesDriven, etTagExpiration, etSelectYear;
     final String[] modelitems = { "Accent", "Azera", "Elantra", "SE Sedan 4D" , "Limited Sedan 4D", "Sport Sedan 4D", "Coupe 2D", "GT Hatchback 4D", "Equus", "Genesis", "Genesis Coupe", "Santa Fe", "Santa Fe Sport"};
     final String[] makeitems = { "Acura", "Alfa Romeo", "Aston Martin", "Audi" , "Bentley", "BMW", "Bugatti", "Buick"};
@@ -63,15 +88,21 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
     private DatePickerDialog tagDatePickerDialog;
-    private SimpleDateFormat dateFormatter;
+    private SimpleDateFormat dateFormatter, dateFormateToSend;
     String strphotob64, strType;
     Typeface fontBoldHelvetica, fontNormalHelvetica;
+    //Edit vehile details
+    VehicleInfo vehicleListItem;
+    int flag;
+
+    ArrayList<Bitmap> bitmapArray;
+    ViewPager AddCarsViewPager;
+    //ArrayList<String> arrimages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_vehicle);
-
         fontNormalHelvetica = Typeface.createFromAsset(getAssets(), "font/HelveticaNeue.ttf");
         fontBoldHelvetica = Typeface.createFromAsset(getAssets(), "font/helvetica-neue-bold.ttf");
         FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
@@ -82,10 +113,9 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        dateFormatter = new SimpleDateFormat("MM-dd-yyyy", Locale.US);
+        dateFormatter = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
+        dateFormateToSend = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         setTagExpirationDate();
-
         ArrayList<String> years = new ArrayList<>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = thisYear; i >= 1980; i--) {
@@ -93,6 +123,17 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         }
         yearArray = new String[years.size()];
         yearArray = years.toArray(yearArray);
+
+        bitmapArray = new ArrayList<>();
+
+        //Edit Vehicle
+        flag = this.getIntent().getIntExtra("Vehicle_Flag", 0);
+        if(flag == 1)
+        {
+            vehicleListItem = this.getIntent().getParcelableExtra("VehicleInfo");
+            setDataToView();
+        }
+
         etVehicleName.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -256,6 +297,105 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
+    public  void setDataToView()
+    {
+        tvVehicleDetailsHeader.setText("Edit vehicle");
+        btnDelete.setVisibility(View.VISIBLE);
+        etVehicleName.setText(vehicleListItem.name);
+        etVin.setText(vehicleListItem.vehicle_vin);
+        etMake.setText(vehicleListItem.vehicle_make);
+        etModel.setText(vehicleListItem.vehicle_model);
+        etMilesDriven.setText(vehicleListItem.vehicle_mileage);
+        String strDate = vehicleListItem.vehicle_tag_expiration_date;
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = sdf.parse(strDate);
+            strDate = dateFormatter.format(date.getTime());
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        etTagExpiration.setText(strDate);
+        etSelectYear.setText(vehicleListItem.vehicle_year);
+
+        strType = vehicleListItem.vehicle_type;
+        if(strType.equalsIgnoreCase("New")) {
+            tvNew.setTypeface(fontBoldHelvetica);
+            tvUsed.setTypeface(fontNormalHelvetica);
+            tvCPO.setTypeface(fontNormalHelvetica);
+        }else if(strType.equalsIgnoreCase("Used")) {
+            tvNew.setTypeface(fontNormalHelvetica);
+            tvUsed.setTypeface(fontBoldHelvetica);
+            tvCPO.setTypeface(fontNormalHelvetica);
+        }
+        else {
+            tvNew.setTypeface(fontNormalHelvetica);
+            tvUsed.setTypeface(fontNormalHelvetica);
+            tvCPO.setTypeface(fontBoldHelvetica);
+        }
+
+        if (vehicleListItem.vehicle_image.size() > 0) {
+            AddCarsViewPager.setVisibility(View.VISIBLE);
+            ArrayList<String> arrImages = vehicleListItem.vehicle_image;
+            imgAddPhoto.setImageBitmap(null);
+            tvAddPhotoText.setText(null);
+            /*ArrayList<String> arrimages = new ArrayList<>();
+            for(int i =0; i< arrImages.size(); i++)
+            {
+                String strImg = vehicleListItem.vehicle_image.get(i);
+                strImg.replace("\\", "");
+                //Bitmap mBitmap = obj.getBitmap(strImg);
+                //bitmapArray.add(mBitmap);
+                arrimages.add(strImg);
+
+
+            }
+*/
+            AddCarsViewPager.setAdapter(new EditVehicleImagesPageAdapter(this, arrImages));
+            //AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
+            AddCarsViewPager.getAdapter().notifyDataSetChanged();
+            AddCarsViewPager.setOffscreenPageLimit(arrImages.size()-1);
+
+            /*if(AddCarsViewPager.getChildCount()>0)
+            {
+                for (int i = 0; i < AddCarsViewPager.getChildCount(); i++)
+                {
+                    View v = AddCarsViewPager.getChildAt(i);
+                    if (v != null)
+                    {
+                        NetworkImageView imgCar = (NetworkImageView) v.findViewById(R.id.VehicleDetails_my_car_image);
+                        Bitmap bitmap = ((BitmapDrawable) imgCar.getDrawable()).getBitmap();
+                        bitmapArray.add(bitmap);
+                        //byte[] photo1_byte = convertBitmapToByteArray(bitmap);
+                        //String strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
+                        //strphotob64 = strphotoInsurance64 + ",";
+                    }
+                }
+            }*/
+
+
+           /* Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        URL url = new URL(strImg);//"http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicles/7_9007_25080.png"
+                        Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                        //imgAddPhotoMain.setImageBitmap(image);
+                        byte[] photo1_byte = convertBitmapToByteArray(image);
+                        strphotob64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();*/
+        } else {
+            imgAddPhoto.setImageBitmap(null);
+            tvAddPhotoText.setText(null);
+            //imgAddPhotoMain.setImageResource(R.mipmap.placeholder);
+        }
+    }
+
     @Override
     public void onClick(View view) {
         if (view == llNew) {
@@ -277,7 +417,23 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             tvCPO.setTypeface(fontBoldHelvetica);
         }
         if (view == imgAddPhoto) {
+            AddCarsViewPager.setVisibility(View.VISIBLE);
             selectImage();
+        }
+        if(view == btnDelete)
+        {
+            MyCustomDialog fragmentDialog = new MyCustomDialog();
+            fragmentDialog.mListener = AddVehicleActivity.this;
+            fragmentDialog.setDialog(R.layout.custom_dialog, AddVehicleActivity.this, 1, "Cox Axle", "Are you sure want to delete vehicle?", "Ok", "Cancel");
+            fragmentDialog.show(getFragmentManager(), "");
+            //deleteVehicle();
+        }
+        if(view == btnFindVIN)
+        {
+            MyCustomDialog fragmentDialog = new MyCustomDialog();
+            fragmentDialog.mListener = AddVehicleActivity.this;
+            fragmentDialog.setDialog(R.layout.find_my_vin_dialog, AddVehicleActivity.this, 0, "", "", "", "");
+            fragmentDialog.show(getFragmentManager(), "");
         }
         if(view == btnNext)
         {
@@ -296,17 +452,42 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             Boolean valid_vehicle_year = Utility.VehicleYearValidation(strYear);
             Boolean valid_name = Utility.CommonValidation(strname);
             Boolean valid_tagExp = Utility.CommonValidation(strTagExp);
-            Boolean valid_vehicle_photo = Utility.CommonValidation(strphotob64);
+
+
+            Boolean valid_vehicle_photo;
+            if (bitmapArray.size() > 0) {
+                valid_vehicle_photo = true;
+                for (int i = 0; i < bitmapArray.size(); i++) {
+                    Bitmap imgbitmap = bitmapArray.get(i);
+                    byte[] photo1_byte = convertBitmapToByteArray(imgbitmap);
+                    String strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
+                    strphotob64 = strphotoInsurance64 + ",";
+                }
+            }else
+            {
+                if(AddCarsViewPager.getChildCount()>0) {
+                    valid_vehicle_photo = true;
+                    for (int i = 0; i < AddCarsViewPager.getChildCount(); i++) {
+                        View v = AddCarsViewPager.getChildAt(i);
+                        if (v != null) {
+                            NetworkImageView imgCar = (NetworkImageView) v.findViewById(R.id.VehicleDetails_my_car_image);
+                            Bitmap bitmap = ((BitmapDrawable) imgCar.getDrawable()).getBitmap();
+                            bitmapArray.add(bitmap);
+                            byte[] photo1_byte = convertBitmapToByteArray(bitmap);
+                            String strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
+                            strphotob64 = strphotoInsurance64 + ",";
+                        }
+                    }
+                }
+                else
+                    valid_vehicle_photo = false;
+            }
 
             if (!valid_vin) {
-                //DialogFragment newFragment = CustomDialogFragment.setDialog( 0, "Cox Axle", "Enter 17 digit Vin", "Ok", "");
-                //newFragment.show(getSupportFragmentManager(), "dialog");
                 Toast.makeText(AddVehicleActivity.this, "Enter 16 digit VIN", Toast.LENGTH_SHORT).show();
                 etVin.requestFocus();
             }else if (!valid_vehicle_type) {
                 Toast.makeText(AddVehicleActivity.this, "Select valid Vehicle Type", Toast.LENGTH_SHORT).show();
-               // DialogFragment newFragment = CustomDialogFragment.setDialog( 0, "Cox Axle", "Select valid Vehicle Type", "Ok", "");
-               // newFragment.show(getSupportFragmentManager(), "dialog");
             }else if (!valid_vehicle_photo) {
                 Toast.makeText(AddVehicleActivity.this, "Select valid Vehicle Photo", Toast.LENGTH_SHORT).show();
             }else if (!valid_vehicle_make) {
@@ -325,25 +506,97 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(AddVehicleActivity.this, "Enter valid Tag Expiration date", Toast.LENGTH_SHORT).show();
                 etTagExpiration.requestFocus();
             }else{
-                HashMap<String,String> page1Values = new HashMap<String, String>();
-                page1Values.put("vehicle_name",strname);
-                page1Values.put("vehicle_vin",strVIN);
-                page1Values.put("vehicle_make",strMake);
-                page1Values.put("vehicle_model",strModel);
-                page1Values.put("vehicle_year",strYear);
-                page1Values.put("vehicle_miles",strMiles);
-                page1Values.put("vehicle_tagexpiration",strTagExp);
-                page1Values.put("vehicle_type",strType);
-                page1Values.put("vehicle_photo", strphotob64);
+                try {
 
-                Intent intent = new Intent(AddVehicleActivity.this, AddVehicle2of4Activity.class);
-                intent.putExtra("Page1Values", page1Values);
-                startActivity(intent);
+                    HashMap<String, String> page1Values = new HashMap<String, String>();
+                    page1Values.put("vehicle_name", strname);
+                    page1Values.put("vehicle_vin", strVIN);
+                    page1Values.put("vehicle_make", strMake);
+                    page1Values.put("vehicle_model", strModel);
+                    page1Values.put("vehicle_year", strYear);
+                    page1Values.put("vehicle_miles", strMiles);
+
+                    Date date = dateFormatter.parse(strTagExp);
+                    strTagExp = dateFormateToSend.format(date.getTime());
+                    page1Values.put("vehicle_tagexpiration", strTagExp);
+                    page1Values.put("vehicle_type", strType);
+                    if (strphotob64.charAt(strphotob64.length() - 1) == ',')
+                        strphotob64 = strphotob64.substring(0, strphotob64.length() - 1);
+                    page1Values.put("vehicle_photo", strphotob64);
+
+                    if (flag == 1) {
+                        Intent intent = new Intent(AddVehicleActivity.this, AddVehicle2of4Activity.class);
+                        intent.putExtra("Page1Values", page1Values);
+                        intent.putExtra("VehicleInfo", vehicleListItem);
+                        intent.putExtra("Vehicle_Flag", 1);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(AddVehicleActivity.this, AddVehicle2of4Activity.class);
+                        intent.putExtra("Page1Values", page1Values);
+                        startActivity(intent);
+                    }
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
     }
+    private void deleteVehicle()
+    {
+        try {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.DELETE_VEHICLE_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.v("Delete Vehicle>>>", "" + response);
+
+                            try {
+                                JSONObject jsonobjListVehiclesResponse = new JSONObject(response);
+                                String strStatus = jsonobjListVehiclesResponse.getString("status");
+                                String strMessage = jsonobjListVehiclesResponse.getString("message");
+                                if (strStatus.equals("True")) {
+                                    Intent intent = new Intent(AddVehicleActivity.this, HomeScreen.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                                Toast.makeText(AddVehicleActivity.this, strMessage, Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.v("Error delete vehicle>>>", "" + error);
+                            Toast.makeText(AddVehicleActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+
+                    UserSessionManager obj = new UserSessionManager(AddVehicleActivity.this);
+                    String strUid = obj.getUserId();
+
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("vid", vehicleListItem.id);
+                    params.put("uid", strUid);
+
+                    Log.v("params>>>", "" + params);
+                    return params;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(AddVehicleActivity.this);
+            requestQueue.add(stringRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void loadViews()
     {
+        AddCarsViewPager = (ViewPager) findViewById(R.id.Add_vehicle_viewpager);
         tvVehicleDetailsHeader = (TextView) findViewById(R.id.AddVehicle_VehicleDetailsHeader_tv);
         tvNew = (TextView)findViewById(R.id.AddVehicle_New_tv);
         tvUsed  = (TextView)findViewById(R.id.AddVehicle_Used_tv);
@@ -358,7 +611,10 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         etSelectYear = (EditText) findViewById(R.id.AddVehicle_SelectYear_et);
         imgAddPhoto = (ImageView) findViewById(R.id.AddVehicle_AddImage_iv);
         btnNext = (Button) findViewById(R.id.AddVehicle_next_button);
-        imgAddPhotoMain = (ImageView) findViewById(R.id.AddVehicle_AddImageMain_iv);
+        //imgAddPhotoMain = (ImageView) findViewById(R.id.AddVehicle_AddImageMain_iv);
+        btnDelete = (Button) findViewById(R.id.Add_Vehicle_Delete_vehicle);
+        btnFindVIN = (Button) findViewById(R.id.AddVehicle_findMyVIN);
+        btnFindVIN.setPaintFlags(btnFindVIN.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         llNew = (LinearLayout) findViewById(R.id.AddVehicle_New_ll);
         llUsed = (LinearLayout) findViewById(R.id.AddVehicle_Used_ll);
@@ -368,12 +624,15 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         llCPO.setOnClickListener(this);
         imgAddPhoto.setOnClickListener(this);
         btnNext.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
+        btnFindVIN.setOnClickListener(this);
 
         btnNext.setTypeface(fontBoldHelvetica);
         tvVehicleDetailsHeader.setTypeface(fontBoldHelvetica);
+        btnDelete.setTypeface(fontNormalHelvetica);
     }
 
-    private void selectImage() {
+    public void selectImage() {
         final CharSequence[] items = { "Take Photo", "Choose from Library"};
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AddVehicleActivity.this);
@@ -414,19 +673,22 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
+            if (requestCode == SELECT_FILE) {
                 onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
+            }
+            else if (requestCode == REQUEST_CAMERA) {
                 onCaptureImageResult(data);
+            }
         }
     }
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+
+
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
 
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
+        File destination = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
 
         FileOutputStream fo;
         try {
@@ -441,13 +703,17 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         }
 
 
-        imgAddPhotoMain.setImageBitmap(thumbnail);
+        bitmapArray.add(thumbnail);
+        AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
+        AddCarsViewPager.getAdapter().notifyDataSetChanged();
+        AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size()-1);
+        //imgAddPhotoMain.setImageBitmap(thumbnail);
         imgAddPhoto.setImageBitmap(null);
         tvAddPhotoText.setText(null);
         // Convert bitmap to byte[]
-        byte[] photo1_byte = convertBitmapToByteArray(thumbnail);
+        //byte[] photo1_byte = convertBitmapToByteArray(thumbnail);
         // convert byteArray to base64 String
-        strphotob64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
+        // strphotob64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
 
     }
 
@@ -463,13 +729,18 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
-        imgAddPhotoMain.setImageBitmap(bm);
+        bitmapArray.add(bm);
+
+        AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
+        AddCarsViewPager.getAdapter().notifyDataSetChanged();
+        AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size()-1);
+        //imgAddPhotoMain.setImageBitmap(bm);
         imgAddPhoto.setImageBitmap(null);
         tvAddPhotoText.setText(null);
         // Convert bitmap to byte[]
-        byte[] photo1_byte = convertBitmapToByteArray(bm);
+        // byte[] photo1_byte = convertBitmapToByteArray(bm);
         // convert byteArray to base64 String
-        strphotob64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
+        //strphotob64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
 
     }
     public static byte[] convertBitmapToByteArray(Bitmap bitmap) {
@@ -559,5 +830,180 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
+
+    @Override
+    public void setOnSubmitListener(int flag) {
+        if(flag == 1)
+            deleteVehicle();
+    }
+
+
+    /**
+     * Created by Lakshmana on 16-09-2016.
+     */
+    public class AddCarsViewPagerAdapter  extends PagerAdapter {
+
+        private Context ctx;
+        ArrayList<Bitmap> objArrayList;
+        LayoutInflater mLayoutInflater;
+
+        public AddCarsViewPagerAdapter(Context context, ArrayList<Bitmap> objList) {
+            this.ctx = context;
+            objArrayList = objList;
+            mLayoutInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+
+        @Override
+        public int getCount() {
+            return objArrayList.size();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+
+        @Override
+        public Object instantiateItem(ViewGroup collection, int position) {
+            View view = mLayoutInflater.inflate(R.layout.addcars_viewpager_row, null);
+
+            ImageView imgCar = (ImageView) view.findViewById(R.id.add_car_image_row);
+
+            if (objArrayList.size() > 0) {
+                imgCar.setImageBitmap(objArrayList.get(position));
+            } else
+                imgCar.setImageResource(R.mipmap.placeholder);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectImage();
+                }
+            });
+            ((ViewPager) collection).addView(view);
+
+            return view;
+
+        }
+
+        @Override
+        public void destroyItem(ViewGroup collection, int position, Object view) {
+            //((ViewPager) collection).removeView((View) view);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void restoreState(Parcelable arg0, ClassLoader arg1) {
+        }
+
+        @Override
+        public void startUpdate(ViewGroup arg0) {
+        }
+
+        @Override
+        public void finishUpdate(ViewGroup arg0) {
+        }
+    }
+
+
+    public class EditVehicleImagesPageAdapter extends PagerAdapter {
+
+        private Context ctx;
+        ArrayList<String> objArrayList;
+        LayoutInflater mLayoutInflater;
+        com.android.volley.toolbox.ImageLoader imageLoader = AxleApplication.getInstance().getImageLoader();
+
+        public EditVehicleImagesPageAdapter(Context context, ArrayList<String> objList) {
+            this.ctx = context;
+            objArrayList = objList;
+            mLayoutInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+
+        @Override
+        public int getCount() {
+            return objArrayList.size();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+
+        @Override
+        public Object instantiateItem(ViewGroup collection, int position) {
+
+            if (imageLoader == null)
+                imageLoader = AxleApplication.getInstance().getImageLoader();
+            View view = mLayoutInflater.inflate(R.layout.content_vehicle_details_screen_my_car_images, null);
+
+
+            NetworkImageView imgCar = (NetworkImageView) view.findViewById(R.id.VehicleDetails_my_car_image);
+
+            if (objArrayList.size() > 0) {
+                final String strImg = objArrayList.get(position);
+                strImg.replace("\\", "");
+
+                imgCar.setImageUrl(strImg, imageLoader);
+                //Bitmap bitmap = ((BitmapDrawable) imgCar.getDrawable()).getBitmap();
+                //bitmapArray.add(bitmap);
+            } else
+                imgCar.setImageResource(R.mipmap.placeholder);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectImage();
+                }
+            });
+
+            ((ViewPager) collection).addView(view);
+
+            return view;
+
+        }
+
+        @Override
+        public void destroyItem(ViewGroup collection, int position, Object view) {
+            //((ViewPager) collection).removeView((View) view);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void restoreState(Parcelable arg0, ClassLoader arg1) {
+        }
+
+        @Override
+        public void startUpdate(ViewGroup arg0) {
+        }
+
+        @Override
+        public void finishUpdate(ViewGroup arg0) {
+        }
+    }
+
+
+
 
 }

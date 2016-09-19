@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/findvindialog_cancel"
+        android:src="@mipmap/closearrow"
+        android:layout_marginTop="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/findvin_cantfindvin"
+        android:id="@+id/findvindialog_Cantfindvin"
+        android:layout_marginTop="100dp"
+        android:textColor="@color/colorTextDark"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/findvin_herecommonplaces"
+        android:layout_centerHorizontal="true"
+        android:textSize="13sp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/colorTextLight"
+        android:layout_below="@+id/findvindialog_Cantfindvin"
+        android:id="@+id/findvindialog_herecommonplaces" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/findvin_mostcommonplaces"
+        android:layout_marginTop="25dp"
+        style="@style/CustomFontStyle"
+        android:singleLine="false"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/findvindialog_herecommonplaces"
+        android:id="@+id/findvindialog_mostcommonplaces" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/findvingraphics"
+        android:layout_below="@+id/findvindialog_mostcommonplaces"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

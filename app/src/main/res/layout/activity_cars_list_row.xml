@@ -14,12 +14,17 @@
         android:background="@drawable/list_row_selector"
         android:orientation="vertical">
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/cars_list_image"
             android:layout_width="match_parent"
             android:layout_height="223dp"
-            android:layout_gravity="center"
-            android:src="@mipmap/car_img" />
+            android:layout_gravity="center" />-->
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/cars_list_image"
+            android:layout_width="match_parent"
+            android:layout_height="223dp"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/cars_list_name"
@@ -28,7 +33,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="17dp"
             android:textStyle="bold"
-            android:text="Audi A4 2.0T Premium"
             android:textColor="@color/home_screen_title_text_color"
             android:textSize="17sp" />
 
@@ -39,7 +43,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="23dp"
-            android:text="Next scheduled service : Aug 27, 2016"
             android:textSize="13sp" />
     </LinearLayout>
+
+
+
 </RelativeLayout>

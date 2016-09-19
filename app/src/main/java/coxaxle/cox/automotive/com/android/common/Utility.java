@@ -1,5 +1,7 @@
 package coxaxle.cox.automotive.com.android.common;
 
+import android.text.TextUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,7 +72,7 @@ public class Utility {
     }
 
     public static boolean passwordValidation(String password) {
-        if (password != null && password.length() > 5) {
+        if (!TextUtils.isEmpty(password) && password != null && password.length() > 5) {
 
             return true;
         } else

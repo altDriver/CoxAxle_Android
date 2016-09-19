@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import java.util.HashMap;
 
 import coxaxle.cox.automotive.com.android.presentation.HomeScreen;
-import coxaxle.cox.automotive.com.android.presentation.LoginActivity;
+import coxaxle.cox.automotive.com.android.presentation.LoginOptionsActivity;
 
 /**
  * Created by Kishore on 7/21/2016.
@@ -126,7 +126,8 @@ public class UserSessionManager {
         user.put(KEY_LASTNAME, pref.getString(KEY_LASTNAME, null));
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
         user.put(KEY_USERID, pref.getString(KEY_USERID, null));
-        user.put(IS_USER_LOGGED_IN, pref.getString(IS_USER_LOGGED_IN, null));
+        user.put(KEY_PHONENUMBER, pref.getString(KEY_PHONENUMBER, null));
+         //user.put(IS_USER_LOGGED_IN, pref.getString(IS_USER_LOGGED_IN, null));
         // return user
         return user;
     }
@@ -141,7 +142,7 @@ public class UserSessionManager {
         editor.commit();
 
         // After logout redirect user to Login Activity
-        Intent i = new Intent(_context, LoginActivity.class);
+        Intent i = new Intent(_context, LoginOptionsActivity.class);
 
         // Closing all the Activities
         //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

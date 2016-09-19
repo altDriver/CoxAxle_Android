@@ -9,13 +9,21 @@
         android:background="@mipmap/backgroud"
         android:orientation="vertical">-->
 
-        <ImageView
-            android:layout_alignParentTop="true"
-            android:id="@+id/my_car_image"
-            android:layout_width="match_parent"
-            android:layout_height="219dp"
-            android:layout_centerInParent="true"
-            android:background="@mipmap/placeholder" />
+    <!--<ImageView
+        android:id="@+id/VehicleDetails_my_car_image"
+        android:layout_width="match_parent"
+        android:layout_height="219dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:background="@mipmap/placeholder" />-->
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/VehicleDetails_my_car_image"
+        android:layout_width="match_parent"
+        android:layout_height="219dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/placeholder" />
     <!--<TextView
         android:id="@+id/my_car_name"
         android:layout_below="@id/my_car_image"
@@ -46,24 +54,24 @@
         android:textColor="@color/colorTextLight"
         android:textSize="13sp" />-->
 
-       <!-- <TextView
-            android:id="@+id/my_car_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Audi A4 2.0T Premium"
-            android:textColor="@color/home_screen_title_text_color"
-            android:textSize="17sp" />
+    <!-- <TextView
+         android:id="@+id/my_car_name"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center"
+         android:text="Audi A4 2.0T Premium"
+         android:textColor="@color/home_screen_title_text_color"
+         android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/my_car_next_service_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+     <TextView
+         android:id="@+id/my_car_next_service_date"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
 
-            android:layout_gravity="center"
-            android:text="Next service : Aug 27, 2016"
-            android:textSize="13sp" />
+         android:layout_gravity="center"
+         android:text="Next service : Aug 27, 2016"
+         android:textSize="13sp" />
 
 
-    </LinearLayout>-->
+ </LinearLayout>-->
 </RelativeLayout>

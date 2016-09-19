@@ -2,10 +2,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.CarsListActivity" >
+    tools:context=".presentation.VehicleListActivity" >
+    <View
+        android:id="@+id/vehicle_list_header_bar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/slate"></View>
 
+    <!--<Button
+        android:id="@+id/vehicle_details_edit_vehicle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:layout_marginRight="21dp"
+        android:layout_marginTop="13dp"
+        android:background="#00000000"
+        android:text="Edit"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite" />-->
+
+    <TextView
+        android:id="@+id/vehicle_details_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="My Cars"
+
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp" />
+
+    <Button
+        android:textSize="50sp"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/colorMenuLight"
+        android:background="@color/transparentColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="+"/>
     <ListView
         android:id="@+id/list"
+        android:layout_below="@id/vehicle_list_header_bar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:divider="@null"/>

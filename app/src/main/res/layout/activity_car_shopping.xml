@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context="coxaxle.cox.automotive.com.android.presentation.CarShoppingActivity">
+
+    <RelativeLayout
+        android:background="@color/activity_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/car_shopping_dealer_inventory_tv"
+            style="@style/CarShoppingFontStyleSize20"
+            android:text="@string/dealer_inventory" />
+
+        <TextView
+            android:id="@+id/car_shopping_saved_searches_tv"
+            style="@style/CarShoppingFontStyleSize20"
+            android:layout_below="@id/car_shopping_dealer_inventory_tv"
+            android:text="@string/saved_searches" />
+
+        <TextView
+            android:id="@+id/car_shopping_favorite_cars_tv"
+            style="@style/CarShoppingFontStyleSize20"
+            android:layout_below="@id/car_shopping_saved_searches_tv"
+            android:text="@string/favorite_cars" />
+
+        <LinearLayout
+            android:id="@+id/car_shopping_calculators_root_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/car_shopping_favorite_cars_tv"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/car_shopping_calculators_header_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/car_shopping_calculators_tv"
+                    style="@style/CarShoppingFontStyleSize20"
+                    android:text="@string/calculators" />
+
+                <ImageView
+                    android:id="@+id/car_shopping_calculators_iv"
+                    android:layout_width="7.5dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="25dp"
+                    android:src="@mipmap/learn_more_arrow"
+                     />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/car_shopping_calculators_sub_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/car_shopping_calculators_header_layout">
+
+                <TextView
+                    android:id="@+id/car_shopping_payment_calculator_tv"
+                    style="@style/CarShoppingFontStyleSize16"
+                    android:text="@string/payment_calculator" />
+
+                <TextView
+                    android:id="@+id/car_shopping_affordability_calculator_tv"
+                    style="@style/CarShoppingFontStyleSize16"
+                    android:layout_below="@id/car_shopping_payment_calculator_tv"
+                    android:text="@string/affordability_calculator" />
+
+                <TextView
+                    android:id="@+id/car_shopping_lease_vs_purchase_calculator_tv"
+                    style="@style/CarShoppingFontStyleSize16"
+                    android:layout_below="@id/car_shopping_affordability_calculator_tv"
+                    android:text="@string/lease_vs_purchase_calculator" />
+
+                <ImageView
+                    android:layout_width="7.5dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@mipmap/learn_more_arrow" />
+
+                <ImageView
+                    android:layout_width="7.5dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/car_shopping_payment_calculator_tv"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@mipmap/learn_more_arrow" />
+
+                <ImageView
+                    android:layout_width="7.5dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/car_shopping_affordability_calculator_tv"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@mipmap/learn_more_arrow" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/car_shopping_vehicle_values_root_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/car_shopping_calculators_root_layout"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/car_shopping_vehicle_values_header_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/car_shopping_calculators_root_layout">
+
+                <TextView
+                    android:id="@+id/car_shopping_vehicle_values_tv"
+                    style="@style/CarShoppingFontStyleSize20"
+                    android:text="@string/vehicle_value" />
+
+                <ImageView
+                    android:id="@+id/car_shopping_vehicle_values_iv"
+                    android:layout_width="7.5dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="29dp"
+                    android:background="@mipmap/learn_more_arrow" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/car_shopping_vehicle_values_sub_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/car_shopping_calculators_header_layout">
+
+                <TextView
+                    android:id="@+id/car_shopping_price_new_or_used_tv"
+                    style="@style/CarShoppingFontStyleSize16"
+                    android:text="@string/price_new_or_used" />
+                <TextView
+                    android:id="@+id/car_shopping_my_cars_value_tv"
+                    android:layout_below="@id/car_shopping_price_new_or_used_tv"
+                    style="@style/CarShoppingFontStyleSize16"
+                    android:text="@string/my_cars_value" />
+
+                <ImageView
+                    android:layout_width="7.5dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@mipmap/learn_more_arrow" />
+
+                <ImageView
+                    android:layout_width="7.5dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/car_shopping_price_new_or_used_tv"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@mipmap/learn_more_arrow" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/car_shopping_dealer_inventory_iv"
+            android:layout_width="47dp"
+            android:layout_height="44dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="14dp"
+            android:src="@mipmap/blue_car_icon" />
+
+        <ImageView
+            android:layout_width="47dp"
+            android:layout_height="44dp"
+            android:layout_below="@id/car_shopping_saved_searches_tv"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="15dp"
+            android:src="@mipmap/saved_cars_icon" />
+        <ImageView
+            android:id="@+id/car_shopping_saved_searches_iv"
+            android:layout_width="47dp"
+            android:layout_height="44dp"
+            android:layout_below="@id/car_shopping_calculators_root_layout"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="15dp"
+            android:src="@mipmap/car_value_icon" />
+    </RelativeLayout>
+
+
+</ScrollView>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/activity_bg">
+
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_select_basic_options_tv"
+            style="@style/searchFiltersFontStyleSize20"
+            android:text="@string/select_basic_options" />
+
+        <LinearLayout
+            android:id="@+id/dealer_inventory_search_filters_make_model_year_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dealer_inventory_search_filters_select_basic_options_tv"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/dealer_inventory_search_filters_make_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorWhite" />
+
+            <Spinner
+                android:id="@+id/dealer_inventory_search_filters_model_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@color/colorWhite" />
+
+            <Spinner
+                android:id="@+id/dealer_inventory_search_filters_model_year_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:prompt="@string/year" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_price_tv"
+            style="@style/searchFiltersFontStyleSize20"
+            android:layout_below="@id/dealer_inventory_search_filters_make_model_year_layout"
+            android:layout_marginTop="1dp"
+            android:text="@string/price" />
+
+        <SeekBar
+            android:id="@+id/dealer_inventory_search_filters_price_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dealer_inventory_search_filters_price_tv" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_price_min_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/dealer_inventory_search_filters_price_seek_bar"
+            android:background="@color/colorWhite"
+            android:paddingLeft="24dp"
+            android:text="@string/min"
+            android:textColor="@color/activity_bg"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_price_max_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/dealer_inventory_search_filters_price_seek_bar"
+            android:paddingRight="24dp"
+            android:text="@string/min"
+            android:textColor="@color/activity_bg"
+            android:textSize="14dp" />
+
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_milage_tv"
+            style="@style/searchFiltersFontStyleSize20"
+            android:layout_below="@id/dealer_inventory_search_filters_price_min_tv"
+            android:text="@string/mileage" />
+
+        <SeekBar
+            android:id="@+id/dealer_inventory_search_filters_milage_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dealer_inventory_search_filters_milage_tv" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_milage_min_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/dealer_inventory_search_filters_milage_seek_bar"
+            android:background="@color/colorWhite"
+            android:paddingLeft="24dp"
+            android:text="@string/min"
+            android:textColor="@color/activity_bg"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_milage_max_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/dealer_inventory_search_filters_milage_seek_bar"
+            android:paddingRight="24dp"
+            android:text="@string/min"
+            android:textColor="@color/activity_bg"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_select_more_options_tv"
+            style="@style/searchFiltersFontStyleSize20"
+            android:layout_below="@id/dealer_inventory_search_filters_milage_min_tv"
+            android:text="@string/Select_more_options" />
+
+        <ImageView
+            android:id="@+id/dealer_inventory_search_filters_select_more_options_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/dealer_inventory_search_filters_milage_min_tv"
+            android:layout_marginRight="17dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/addvehicle_btn" />
+
+        <RelativeLayout
+            android:id="@+id/dealer_inventory_search_filters_select_more_options_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dealer_inventory_search_filters_select_more_options_tv"
+            android:paddingBottom="65dp">
+
+            <TextView
+                android:id="@+id/dealer_inventory_search_filters_color_header_tv"
+                style="@style/searchFiltersFontStyleSize20"
+                android:layout_marginTop="1dp"
+                android:text="@string/Color" />
+
+            <TextView
+                android:id="@+id/dealer_inventory_search_filters_body_style_header_tv"
+                style="@style/searchFiltersFontStyleSize20"
+                android:layout_below="@id/dealer_inventory_search_filters_color_header_tv"
+                android:layout_marginTop="1dp"
+                android:text="@string/body_style" />
+
+            <TextView
+                android:id="@+id/dealer_inventory_search_filters_engine_type_header_tv"
+                style="@style/searchFiltersFontStyleSize20"
+                android:layout_below="@id/dealer_inventory_search_filters_body_style_header_tv"
+                android:layout_marginTop="1dp"
+                android:text="@string/engine_type" />
+
+
+            <ImageView
+                android:id="@+id/nav_search_new_car_image"
+                android:layout_width="7.5dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="21.5dp"
+                android:layout_marginTop="18dp"
+                android:src="@mipmap/learn_more_arrow" />
+
+            <TextView
+                android:id="@+id/dealer_inventory_search_filters_selected_color_tv"
+                style="@style/searchFiltersSelectedFontStyleSize20"
+                android:layout_width="wrap_content"
+                android:layout_toLeftOf="@id/nav_search_new_car_image"
+                android:text="Color" />
+
+            <TextView
+                android:id="@+id/dealer_inventory_search_filters_selected_body_type_tv"
+                android:layout_below="@id/dealer_inventory_search_filters_color_header_tv"
+                style="@style/searchFiltersSelectedFontStyleSize20"
+                android:layout_width="wrap_content"
+                android:layout_toLeftOf="@id/nav_search_new_car_image"
+                android:text="Color" />
+
+            <TextView
+                android:id="@+id/dealer_inventory_search_filters_selected_engine_type_tv"
+                android:layout_below="@id/dealer_inventory_search_filters_body_style_header_tv"
+                style="@style/searchFiltersSelectedFontStyleSize20"
+                android:layout_width="wrap_content"
+                android:layout_toLeftOf="@id/nav_search_new_car_image"
+                android:text="enginetype" />
+
+            <ImageView
+                android:layout_width="7.5dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/dealer_inventory_search_filters_color_header_tv"
+                android:layout_marginRight="21.5dp"
+                android:layout_marginTop="18dp"
+                android:src="@mipmap/learn_more_arrow" />
+
+            <ImageView
+                android:layout_width="7.5dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/dealer_inventory_search_filters_body_style_header_tv"
+                android:layout_marginRight="21.5dp"
+                android:layout_marginTop="18dp"
+                android:background="@mipmap/learn_more_arrow" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_show_vehicles_btn"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorIndicatorBlue"
+            android:text="@string/show_vehicles"
+            android:textSize="20dp"
+            android:paddingBottom="10dp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_search_filters_show_vehicles_results_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:text="Results"
+            android:textColor="@color/colorBlueLight"
+            android:paddingBottom="5dp"
+            android:textSize="16dp" />
+    </RelativeLayout>
+</ScrollView>

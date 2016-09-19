@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/colorWhite"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        style="@style/CustomFontStyle"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView_title"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message"
+        style="@style/CustomFontStyle"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/textView_Message"
+        android:layout_below="@+id/textView_title"
+        android:layout_alignParentStart="true" />
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/textView_Message"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ok"
+            android:textSize="17sp"
+            android:background="#00A6ED"
+            android:textColor="@color/colorWhite"
+            android:layout_marginRight="10dp"
+            android:id="@+id/button_Ok" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="17sp"
+            android:background="#00A6ED"
+            android:textColor="@color/colorWhite"
+            android:text="Cancel"
+            android:id="@+id/button_Cancel" />
+    </LinearLayout>
+</RelativeLayout>

@@ -5,37 +5,40 @@
     android:paddingLeft="5dp"
     android:paddingRight="5dp">
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_marginTop="10dp"
         android:layout_width="300dp"
         android:layout_height="245dp"
         android:background="@mipmap/backgroud"
         android:orientation="vertical">
 
-        <ImageView
+        <!--<ImageView-->
+            <!--android:id="@+id/my_car_image"-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="175dp"/>-->
+
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/my_car_image"
             android:layout_width="300dp"
             android:layout_height="175dp"
-            android:layout_gravity="center"
-            android:src="@mipmap/car_img" />
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/my_car_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Audi A4 2.0T Premium"
-            android:textColor="@color/home_screen_title_text_color"
+            android:layout_below="@id/my_car_image"
+            android:layout_centerInParent="true"
             android:textSize="17sp" />
 
         <TextView
             android:id="@+id/my_car_next_service_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_gravity="center"
-            android:text="Next service : Aug 27, 2016"
+            android:layout_below="@id/my_car_name"
+            android:layout_centerInParent="true"
             android:textSize="13sp" />
+    </RelativeLayout>
 
 
-    </LinearLayout>
 </RelativeLayout>

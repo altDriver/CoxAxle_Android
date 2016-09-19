@@ -22,6 +22,18 @@
             android:text="@string/add_vehicle"
             android:textColor="@color/colorWhite"
             android:textSize="20sp" />
+        <Button
+            android:id="@+id/Add_Vehicle_Delete_vehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="21dp"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:visibility="invisible"
+            android:text="Delete"
+            android:textColor="@color/colorWhite" />
     </RelativeLayout>
 
     <LinearLayout
@@ -72,12 +84,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
 
-                <ImageView
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/Add_vehicle_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="370dp"
+                    android:visibility="invisible"
+                    android:background="@color/colorWhite" />
+
+                <!--<ImageView
                     android:id="@+id/AddVehicle_AddImageMain_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true" />-->
 
                 <ImageView
                     android:id="@+id/AddVehicle_AddImage_iv"
@@ -92,6 +111,7 @@
                     style="@style/CustomFontStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="false"
                     android:layout_below="@+id/AddVehicle_AddImage_iv"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
@@ -218,16 +238,34 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="2">
 
-                <TextView
-                    style="@style/CustomFontStyle"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:text="@string/vehicle_vin" />
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/CustomFontStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/vehicle_vin" />
+
+                    <Button
+                        android:id="@+id/AddVehicle_findMyVIN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/vehicle_findmyvin"
+                        android:background="@android:color/transparent"
+                        android:textColor="#00A6ED"
+                        android:textSize="11sp" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/AddVehicle_VIN_et"
@@ -237,7 +275,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:gravity="right"
                     android:hint="@string/vehicle_entervin"
@@ -276,7 +314,8 @@
                     android:layout_weight="2"
                     android:background="@android:color/transparent"
                     android:gravity="right"
-                    android:hint="@string/vehicle_selectyear"
+                    android:inputType="number"
+                    android:hint="@string/vehicle_year"
                     android:imeOptions="actionNext" />
 
             </LinearLayout>
@@ -386,6 +425,7 @@
                     android:background="@android:color/transparent"
                     android:gravity="right"
                     android:hint="@string/vehicle_entermilesdriven"
+                    android:inputType="number"
                     android:imeOptions="actionNext" />
             </LinearLayout>
 
@@ -422,7 +462,7 @@
                     android:background="@android:color/transparent"
                     android:gravity="right"
                     android:hint="@string/vehicle_selecttagexpdate"
-                    android:imeOptions="actionNext" />
+                    android:imeOptions="actionDone" />
             </LinearLayout>
 
             <Button

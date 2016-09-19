@@ -7,7 +7,7 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -42,16 +42,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import coxaxle.cox.automotive.com.android.R;
-import coxaxle.cox.automotive.com.android.adapters.MyCarsPageAdapter;
-import coxaxle.cox.automotive.com.android.common.CustomDialogFragment;
+import coxaxle.cox.automotive.com.android.adapters.MyVehicleInHomeScreenPageAdapter;
 import coxaxle.cox.automotive.com.android.common.FontsOverride;
 import coxaxle.cox.automotive.com.android.common.GPSTracker;
+import coxaxle.cox.automotive.com.android.common.MyCustomDialog;
 import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 import coxaxle.cox.automotive.com.android.model.Constants;
 import coxaxle.cox.automotive.com.android.model.VehicleInfo;
 
 public class HomeScreen extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, MyCustomDialog.onSubmitListener{
 
 
     private DrawerLayout mDrawerLayout;
@@ -59,7 +59,7 @@ public class HomeScreen extends AppCompatActivity
     ViewPager mMyCarsViewPager;
     ScrollView mHomeScreenScrollView;
     ImageView ivDrection, ivAddNewCars, ivCall, ivMail;
-    //MyCarsPageAdapter mMyCarsPageAdapter;
+    //MyVehicleInHomeScreenPageAdapter mMyCarsPageAdapter;
     String strUserId;
     UserSessionManager mUserSessionManager;
 
@@ -110,7 +110,7 @@ public class HomeScreen extends AppCompatActivity
         mMyCarsViewPager = (ViewPager) findViewById(R.id.viewpager);
         mHomeScreenScrollView = (ScrollView) findViewById(R.id.scrollView);
         linearLayout = (LinearLayout) findViewById(R.id.viewPagerCountDots);
-        //mMyCarsViewPager.setAdapter(new MyCarsPageAdapter(this,vehicleinfoList));
+        //mMyCarsViewPager.setAdapter(new MyVehicleInHomeScreenPageAdapter(this,vehicleinfoList));
 
         mMyCarsViewPager.setClipToPadding(false);
         // set padding manually, the more you set the padding the more you see of prev & next page
@@ -118,7 +118,7 @@ public class HomeScreen extends AppCompatActivity
         // sets a margin b/w individual pages to ensure that there is a gap b/w them
         mMyCarsViewPager.setPageMargin(10);
 
-       /* mMyCarsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mMyCarsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -126,15 +126,19 @@ public class HomeScreen extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
-                //position = mMyCarsViewPager.getCurrentItem();
-                //drawPageSelectionIndicator(position);
+
+                for (int i = 0; i < dotsCount; i++) {
+                    dots[i].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null));
+                    //ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null);
+                }
+                dots[position].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
             }
-        });*/
+        });
 
 
         RelativeLayout serchUsedAndNewCars = (RelativeLayout) findViewById(R.id.nav_new_car_layout);
@@ -154,9 +158,10 @@ public class HomeScreen extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
+                navToListOfMyCars("ScheduleAppointmentActivity");
 
-                Intent scheduleAppointment = new Intent(HomeScreen.this, ScheduleAppointmentActivity.class);
-                startActivity(scheduleAppointment);
+                /*Intent scheduleAppointment = new Intent(HomeScreen.this, ScheduleAppointmentActivity.class);
+                startActivity(scheduleAppointment);*/
 
 
             }
@@ -175,28 +180,22 @@ public class HomeScreen extends AppCompatActivity
         fontsOverrideobj.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
     }
 
-    public void drawPageSelectionIndicator(int position) {
+    public void drawPageSelectionIndicator() {
 
         if (linearLayout != null) {
             linearLayout.removeAllViews();
         }
-
+        dotsCount = vehicleinfoList.size();
         dots = new ImageView[dotsCount];
         for (int i = 0; i < dotsCount; i++) {
-            dots[i] = new ImageView(getApplicationContext());
-            if (i == position)
-                dots[i].setImageDrawable(getResources().getDrawable(R.drawable.item_selected));
-            else
-                dots[i].setImageDrawable(getResources().getDrawable(R.drawable.item_unselected));
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-
-            params.setMargins(4, 0, 4, 0);
+            dots[i] = new ImageView(HomeScreen.this);
+            dots[i].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(10, 0, 10, 0);
             linearLayout.addView(dots[i], params);
         }
+        dots[0].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
         //dots[0].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
     }
 
@@ -252,10 +251,14 @@ public class HomeScreen extends AppCompatActivity
 
         } else if (id == R.id.nav_my_cars) {
 
-            navToListOfMyCars();
+            navToListOfMyCars("vehicleDetails");
 
 
         } else if (id == R.id.nav_dealer_services) {
+
+            Intent changePasswordIntent = new Intent(HomeScreen.this, DealerInventorySearchFiltersActivity.class);
+            startActivity(changePasswordIntent);
+
 
         } else if (id == R.id.nav_ondemand_services) {
 
@@ -295,11 +298,11 @@ public class HomeScreen extends AppCompatActivity
         return true;
     }
 
-    void navToListOfMyCars() {
+    void navToListOfMyCars(String navToActivity) {
 
-        Intent intent = new Intent(HomeScreen.this, CarsListActivity.class);
+        Intent intent = new Intent(HomeScreen.this, VehicleListActivity.class);
         intent.putParcelableArrayListExtra("vehicleList", vehicleinfoList);
-
+        intent.putExtra("navToActivity",navToActivity);
         startActivity(intent);
 
     }
@@ -309,72 +312,38 @@ public class HomeScreen extends AppCompatActivity
     public void onClick(View view) {
 
         if (view == ivDrection) {
-           /* FragmentManager fm = getSupportFragmentManager();
-            AlertDFragment alertdFragment = new AlertDFragment();
-            alertdFragment.show(fm, "Alert Dialog Fragment");*/
-
-            DialogFragment newFragment = CustomDialogFragment.setDialog("Cox Axle", "Are you sure want to go to maps?", "Ok", "Cancel", HomeScreen.this, doPositiveClickMaps());
-            newFragment.show(getSupportFragmentManager(), "dialog");
+            MyCustomDialog fragment1 = new MyCustomDialog();
+            fragment1.mListener = HomeScreen.this;
+            fragment1.setDialog(R.layout.custom_dialog, HomeScreen.this, 1, "Cox Axle", "Are you sure want to go to maps?", "Ok", "Cancel");
+            fragment1.show(getFragmentManager(), "");
         }
         if (view == ivAddNewCars) {
-            Intent addVehicleIntent = new Intent(HomeScreen.this, AddVehicleActivity.class);
-            startActivity(addVehicleIntent);
-        }
-        if (view == ivCall) {/*
-            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:1234567890"));
-            startActivity(callIntent);*/
+            int count = 0;
+            if (mMyCarsViewPager.getAdapter() != null) {
+                count = mMyCarsViewPager.getAdapter().getCount();
+            }
+            if (count >= 5) {
+                Toast.makeText(getApplicationContext(), "You can't add more than 5 vehicles. Please delete vehicles before adding a vehicle", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent addVehicleIntent = new Intent(HomeScreen.this, AddVehicleActivity.class);
+                addVehicleIntent.putExtra("Vehicle_Flag", 0);
+                startActivity(addVehicleIntent);
+            }
 
-            Intent callIntent = new Intent(Intent.ACTION_DIAL);
-            callIntent.setData(Uri.parse("tel:1234567890"));
-            DialogFragment newFragment = CustomDialogFragment.setDialog("Cox Axle", "Are you sure want to make a call?", "Ok", "Cancel", HomeScreen.this, callIntent);
-            newFragment.show(getSupportFragmentManager(), "dialog");
+
+        }
+        if (view == ivCall) {
+            MyCustomDialog fragmentDialog = new MyCustomDialog();
+            fragmentDialog.mListener = HomeScreen.this;
+            fragmentDialog.setDialog(R.layout.custom_dialog, HomeScreen.this, 2, "Cox Axle", "Are you sure want to make a call?", "Ok", "Cancel");
+            fragmentDialog.show(getFragmentManager(), "");
         }
         if (view == ivMail) {
-            final Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            emailIntent.setType("text/plain");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"xyz@gmail.com"});
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Add Message here");
-            emailIntent.setType("message/rfc822");
-
-            try {
-                DialogFragment newFragment = CustomDialogFragment.setDialog("Cox Axle", "Are you sure want to send a mail?", "Ok", "Cancel", HomeScreen.this, Intent.createChooser(emailIntent, "Send email using..."));
-                newFragment.show(getSupportFragmentManager(), "dialog");
-                //startActivity(Intent.createChooser(emailIntent, "Send email using..."));
-            } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(getApplicationContext(), "No email clients installed.", Toast.LENGTH_SHORT).show();
-            }
+            MyCustomDialog fragment1 = new MyCustomDialog();
+            fragment1.mListener = HomeScreen.this;
+            fragment1.setDialog(R.layout.custom_dialog, HomeScreen.this, 3, "Cox Axle", "Are you sure want to send a mail?", "Ok", "Cancel");
+            fragment1.show(getFragmentManager(), "");
         }
-    }
-
-    public Intent doPositiveClickMaps() {
-        Geocoder coder = new Geocoder(getApplicationContext());
-        try {
-            ArrayList<Address> adresses = (ArrayList<Address>) coder.getFromLocationName("Cyber Towers, Hyderabad, Telangana", 1);
-            for (Address add : adresses) {
-                if (adresses.size() > 0) {
-                    double destination_longitude = add.getLongitude();
-                    double destination_latitude = add.getLatitude();
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        GPSTracker tracker = new GPSTracker(getApplicationContext());
-        if (!tracker.canGetLocation()) {
-            tracker.showSettingsAlert();
-        } else {
-            double latitude = tracker.getLatitude();
-            double longitude = tracker.getLongitude();
-        }
-
-        //String uri = "http://maps.google.com/maps?saddr=" + latitude + ","+ longitude +"&daddr=+destination_latitude+","+destination_longitude;
-        //String uri = "http://maps.google.com/maps?saddr=17.4635067,78.3422077&daddr="+destination_latitude+","+destination_longitude;
-        String uri = "http://maps.google.com/maps?saddr=34.1605214,-84.179311,17&daddr=33.9156235,-84.3432829";
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        return intent;
     }
 
     @Override
@@ -390,6 +359,7 @@ public class HomeScreen extends AppCompatActivity
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            Log.d("getListOfVehicles()",response.toString());
                             try {
                                 JSONObject jsonobjListVehiclesResponse = new JSONObject(response);
 
@@ -441,10 +411,11 @@ public class HomeScreen extends AppCompatActivity
                                         }
 
 
-                                        mMyCarsViewPager.setAdapter(new MyCarsPageAdapter(HomeScreen.this, vehicleinfoList));
-
+                                        mMyCarsViewPager.setAdapter(new MyVehicleInHomeScreenPageAdapter(HomeScreen.this, vehicleinfoList));
+                                        mMyCarsViewPager.getAdapter().notifyDataSetChanged();
+                                        mMyCarsViewPager.setOffscreenPageLimit(vehicleinfoList.size()-1);
                                         dotsCount = vehicleinfoList.size();
-                                        //drawPageSelectionIndicator(0);
+                                        drawPageSelectionIndicator();
 
                                     }
 
@@ -502,7 +473,9 @@ public class HomeScreen extends AppCompatActivity
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                //finish();
+                //alertDialogBuilder.
+                //alertDialog.
             }
         });
 
@@ -563,4 +536,56 @@ public class HomeScreen extends AppCompatActivity
 
     }
 
+    @Override
+    public void setOnSubmitListener(int flag) {
+        if(flag ==1) {
+            Geocoder coder = new Geocoder(getApplicationContext());
+            try {
+                ArrayList<Address> adresses = (ArrayList<Address>) coder.getFromLocationName("Cyber Towers, Hyderabad, Telangana", 1);
+                for (Address add : adresses) {
+                    if (adresses.size() > 0) {
+                        double destination_longitude = add.getLongitude();
+                        double destination_latitude = add.getLatitude();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            GPSTracker tracker = new GPSTracker(getApplicationContext());
+            if (!tracker.canGetLocation()) {
+                tracker.showSettingsAlert();
+            } else {
+                double latitude = tracker.getLatitude();
+                double longitude = tracker.getLongitude();
+            }
+
+            //String uri = "http://maps.google.com/maps?saddr=" + latitude + ","+ longitude +"&daddr=+destination_latitude+","+destination_longitude;
+            //String uri = "http://maps.google.com/maps?saddr=17.4635067,78.3422077&daddr="+destination_latitude+","+destination_longitude;
+            String uri = "http://maps.google.com/maps?saddr=34.1605214,-84.179311,17&daddr=33.9156235,-84.3432829";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+            startActivity(intent);
+        }
+        else if(flag == 2)
+        {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:1234567890"));
+            startActivity(callIntent);
+        }
+        else if(flag == 3)
+        {
+            final Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("text/plain");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"xyz@gmail.com"});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Add Message here");
+            emailIntent.setType("message/rfc822");
+
+            try {
+                startActivity(Intent.createChooser(emailIntent, "Send email using..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(getApplicationContext(), "No email clients installed.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -33,10 +32,11 @@ import coxaxle.cox.automotive.com.android.model.Constants;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    EditText etEmail, etCurrentPassword, etNewPassword,etConfirmNewPassword ;
+    EditText etCurrentPassword, etNewPassword, etConfirmNewPassword;//etEmail,
 
     String strCurrentPassword, strNewPassword, strConfirmNewPassword, strEmail;
     UserSessionManager mUserSessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     void loadViews() {
 
-        etEmail = (EditText) findViewById(R.id.change_password_email_edt);
+        //etEmail = (EditText) findViewById(R.id.change_password_email_edt);
         etCurrentPassword = (EditText) findViewById(R.id.change_password_current_password_edt);
         etNewPassword = (EditText) findViewById(R.id.change_password_new_password_edt);
         etConfirmNewPassword = (EditText) findViewById(R.id.change_password_confirm_new_password_edt);
@@ -58,7 +58,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(isValidData()){
+                if (isValidData()) {
 
                     changePassword();
                 }
@@ -70,24 +70,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     boolean isValidData() {
 
-        boolean valid = false;
+        boolean valid = true;
+        etCurrentPassword.setError(null);
+        etNewPassword.setError(null);
+        etConfirmNewPassword.setError(null);
+        View focusView = null;
 
-
-        strEmail = etEmail.getText().toString();
+        //strEmail = etEmail.getText().toString();
         strCurrentPassword = etCurrentPassword.getText().toString();
         strNewPassword = etNewPassword.getText().toString();
         strConfirmNewPassword = etConfirmNewPassword.getText().toString();
 
-        /*strFirstName = etFirstName.getText().toString();
-        strLastName = etLastName.getText().toString();
-        strPassword = etPassword.getText().toString();
-        strEmail = etEmail.getText().toString();
-        strPhoneNumber = etPhoneNumber.getText().toString();*/
-        //Boolean valid_password = Utility.passwordValidation(strPassword);
-
 
         // Check for a valid email address.
-        if (!TextUtils.isEmpty(strEmail)) {
+       /* if (!TextUtils.isEmpty(strEmail)) {
             etEmail.setError(getString(R.string.error_field_required));
             etEmail = etEmail;
             valid = true;
@@ -95,37 +91,50 @@ public class ChangePasswordActivity extends AppCompatActivity {
             etEmail.setError(getString(R.string.error_invalid_email));
             //focusView = etEmail;
             valid = true;
+        }*/
+
+        if (strNewPassword.equals(strConfirmNewPassword)) {
+            valid = true;
+
+        } else {
+            etNewPassword.setError("New password and confirm password are different!");
+            focusView = etNewPassword;
+            valid = false;
+
+        }
+        // Check for a valid password, if the user entered one.
+        if ( !Utility.passwordValidation(strConfirmNewPassword)) {
+            etConfirmNewPassword.setError(getString(R.string.error_invalid_password));
+            focusView = etConfirmNewPassword;
+            valid = false;
+        }
+
+        if ( !Utility.passwordValidation(strNewPassword)) {
+            etNewPassword.setError(getString(R.string.error_invalid_password));
+            focusView = etNewPassword;
+            valid = false;
         }
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(strCurrentPassword) && !Utility.passwordValidation(strCurrentPassword)) {
+        if (! Utility.passwordValidation(strCurrentPassword)) {
             etCurrentPassword.setError(getString(R.string.error_invalid_password));
-            //focusView = etPassword;
-            valid = true;
-        }
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(strConfirmNewPassword) && !Utility.passwordValidation(strConfirmNewPassword)) {
-            etCurrentPassword.setError(getString(R.string.error_invalid_password));
-            //focusView = etPassword;
-            valid = true;
+            focusView = etCurrentPassword;
+            valid = false;
         }
 
 
         if (!valid) {
-            //focusView.requestFocus();
+            focusView.requestFocus();
         }
 
-        if(strNewPassword.equals(strConfirmNewPassword)){
-            valid = true;
-        }else{
-            Toast.makeText(ChangePasswordActivity.this, "New password and confirm password are different", Toast.LENGTH_LONG).show();
-        }
+
 
         return valid;
     }
 
     String strBase64NewPassword = "", strBase64CurrentPassword = "";
     String strUserId;
+
     private void changePassword() {
         mUserSessionManager = new UserSessionManager(this);
         strUserId = mUserSessionManager.getUserId();
@@ -170,7 +179,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 params.put("old_password", strBase64CurrentPassword);
                 params.put("new_password", strBase64NewPassword);
                 //uid":"[userid]","old_password":"[old_password]","new_password":"[
-                        Log.v("params>>>", "" + params);
+                Log.v("params>>>", "" + params);
                 return params;
             }
 

@@ -31,10 +31,10 @@ public class Constants {
     public static final String VEHICLE_INFO_URL = "http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicle/view";
 
     //Edit Vehicle
-    public static final String EDIT_VEHICLE_URL = "http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicle/id";
+    public static final String EDIT_VEHICLE_URL = "http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicle/update";
 
     //Delete Vehicle
-    public static final String DELETE_VEHICLE_URL = "http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicle/id";
+    public static final String DELETE_VEHICLE_URL = "http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicle/delete";
 
     //Garage Info
     public static final String GARAGE_INFO_URL = " http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicle/list";
@@ -42,8 +42,6 @@ public class Constants {
     public static final String GET_ACCOUNT_INFO ="http://192.168.8.101/ecommerce_crm/coxaxle_api/public/user/list";
 
     public static final String UPDATE_ACCOUNT_INFO ="http://192.168.8.101/ecommerce_crm/coxaxle_api/public/user/update";
-
-    public static final String LOGOUT_URL ="http://192.168.8.101/ecommerce_crm/coxaxle_api/public/customer/logout";
 
     public static final String XTIME_INFO_URL ="http://192.168.8.101/ecommerce_crm/coxaxle_api/public/xtime";
 

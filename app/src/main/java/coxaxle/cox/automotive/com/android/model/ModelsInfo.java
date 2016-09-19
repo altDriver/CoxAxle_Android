@@ -11,11 +11,35 @@ public class ModelsInfo {
     String modelName;
     ArrayList<TrimsInfo> trimsInfosArrayList;
 
-    ModelsInfo(String strModelCode, String strMaodelName, ArrayList<TrimsInfo> trimsInfosArrayList){
+   public ModelsInfo(String strModelCode, String strModelName, ArrayList<TrimsInfo> trimsInfosArrayList){
 
         this.modelCode = strModelCode;
-        this.modelName = strMaodelName;
+        this.modelName = strModelName;
         this.trimsInfosArrayList = trimsInfosArrayList;
 
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public ArrayList<TrimsInfo> getTrimsInfosArrayList() {
+        return trimsInfosArrayList;
+    }
+
+    public void setTrimsInfosArrayList(ArrayList<TrimsInfo> trimsInfosArrayList) {
+        this.trimsInfosArrayList = trimsInfosArrayList;
     }
 }
