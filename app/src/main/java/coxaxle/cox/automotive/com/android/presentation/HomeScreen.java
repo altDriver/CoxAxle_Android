@@ -236,6 +236,10 @@ public class HomeScreen extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+
+
+
+
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
@@ -327,6 +331,7 @@ public class HomeScreen extends AppCompatActivity
             } else {
                 Intent addVehicleIntent = new Intent(HomeScreen.this, AddVehicleActivity.class);
                 addVehicleIntent.putExtra("Vehicle_Flag", 0);
+                addVehicleIntent.putExtra("navToActivity", "HomeScreenActivity");
                 startActivity(addVehicleIntent);
             }
 
@@ -552,14 +557,14 @@ public class HomeScreen extends AppCompatActivity
                 e.printStackTrace();
             }
 
-            GPSTracker tracker = new GPSTracker(getApplicationContext());
-            if (!tracker.canGetLocation()) {
+            GPSTracker tracker = new GPSTracker(this);
+           /* if (!tracker.canGetLocation()) {
                 tracker.showSettingsAlert();
             } else {
-                double latitude = tracker.getLatitude();
-                double longitude = tracker.getLongitude();
-            }
 
+            }*/
+            double latitude = tracker.getLatitude();
+            double longitude = tracker.getLongitude();
             //String uri = "http://maps.google.com/maps?saddr=" + latitude + ","+ longitude +"&daddr=+destination_latitude+","+destination_longitude;
             //String uri = "http://maps.google.com/maps?saddr=17.4635067,78.3422077&daddr="+destination_latitude+","+destination_longitude;
             String uri = "http://maps.google.com/maps?saddr=34.1605214,-84.179311,17&daddr=33.9156235,-84.3432829";

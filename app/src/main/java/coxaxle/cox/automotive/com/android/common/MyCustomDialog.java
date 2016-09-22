@@ -3,13 +3,11 @@ package coxaxle.cox.automotive.com.android.common;
 /**
  * Created by Lakshmana on 14-09-2016.
  */
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -77,6 +75,7 @@ public class MyCustomDialog extends DialogFragment {
 
                 @Override
                 public void onClick(View v) {
+
                     mListener.setOnSubmitListener(mFlag);
                     dismiss();
                 }

@@ -7,14 +7,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -41,7 +43,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -52,6 +53,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,7 +62,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import coxaxle.cox.automotive.com.android.AxleApplication;
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.common.FontsOverride;
 import coxaxle.cox.automotive.com.android.common.MyCustomDialog;
@@ -89,7 +90,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
     private DatePickerDialog tagDatePickerDialog;
     private SimpleDateFormat dateFormatter, dateFormateToSend;
-    String strphotob64, strType;
+    String strphotob64, strType, navToActivity;
     Typeface fontBoldHelvetica, fontNormalHelvetica;
     //Edit vehile details
     VehicleInfo vehicleListItem;
@@ -97,7 +98,9 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
     ArrayList<Bitmap> bitmapArray;
     ViewPager AddCarsViewPager;
-    //ArrayList<String> arrimages;
+    LinearLayout llDotsCount;
+    private ImageView[] dots;
+    private int dotsCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +131,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
         //Edit Vehicle
         flag = this.getIntent().getIntExtra("Vehicle_Flag", 0);
+        navToActivity = this.getIntent().getStringExtra("navToActivity");
         if(flag == 1)
         {
             vehicleListItem = this.getIntent().getParcelableExtra("VehicleInfo");
@@ -277,6 +281,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                 if(b)
                 {
                     //showDialog(DATE_PICKER_ID);
+                    tagDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                     tagDatePickerDialog.show();
                 }
             }
@@ -336,64 +341,68 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
         if (vehicleListItem.vehicle_image.size() > 0) {
             AddCarsViewPager.setVisibility(View.VISIBLE);
+            imgAddPhoto.setVisibility(View.INVISIBLE);
+            tvAddPhotoText.setVisibility(View.INVISIBLE);
             ArrayList<String> arrImages = vehicleListItem.vehicle_image;
-            imgAddPhoto.setImageBitmap(null);
-            tvAddPhotoText.setText(null);
-            /*ArrayList<String> arrimages = new ArrayList<>();
-            for(int i =0; i< arrImages.size(); i++)
-            {
-                String strImg = vehicleListItem.vehicle_image.get(i);
+            ArrayList<String> arrimages = new ArrayList<>();
+            for(int i =0; i< arrImages.size(); i++) {
+                String strImg = arrImages.get(i);
                 strImg.replace("\\", "");
-                //Bitmap mBitmap = obj.getBitmap(strImg);
-                //bitmapArray.add(mBitmap);
                 arrimages.add(strImg);
-
-
             }
-*/
-            AddCarsViewPager.setAdapter(new EditVehicleImagesPageAdapter(this, arrImages));
-            //AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
-            AddCarsViewPager.getAdapter().notifyDataSetChanged();
-            AddCarsViewPager.setOffscreenPageLimit(arrImages.size()-1);
 
-            /*if(AddCarsViewPager.getChildCount()>0)
-            {
-                for (int i = 0; i < AddCarsViewPager.getChildCount(); i++)
-                {
-                    View v = AddCarsViewPager.getChildAt(i);
-                    if (v != null)
-                    {
-                        NetworkImageView imgCar = (NetworkImageView) v.findViewById(R.id.VehicleDetails_my_car_image);
-                        Bitmap bitmap = ((BitmapDrawable) imgCar.getDrawable()).getBitmap();
-                        bitmapArray.add(bitmap);
-                        //byte[] photo1_byte = convertBitmapToByteArray(bitmap);
-                        //String strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
-                        //strphotob64 = strphotoInsurance64 + ",";
-                    }
-                }
-            }*/
+            new GetImagesFromServer().execute(arrimages);
 
-
-           /* Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
+                /*Cache cache = AxleApplication.getInstance().getRequestQueue().getCache();
+                Cache.Entry entry = cache.get(strImg);
+                if(entry != null){
                     try {
-                        URL url = new URL(strImg);//"http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicles/7_9007_25080.png"
-                        Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                        //imgAddPhotoMain.setImageBitmap(image);
-                        byte[] photo1_byte = convertBitmapToByteArray(image);
-                        strphotob64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
-                    } catch (Exception e) {
+                        String data = new String(entry.data, "UTF-8");
+                        // handle data, like converting it to xml, json, bitmap etc.,
+
+
+                        byte[] encodeByte = Base64.decode(data, Base64.URL_SAFE);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                        bitmapArray.add(bitmap);
+                    } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
-            });
-            thread.start();*/
+                else{
+                // Cached response doesn't exists. Make network call here
+                    try
+                    {
+                        imageLoader.get(strImg,
+                                new ImageLoader.ImageListener(){
+
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                    }
+
+                                    @Override
+                                    public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+
+                                            Bitmap bpm = response.getBitmap();
+                                            if (bpm != null)
+                                                bitmapArray.add(bpm);
+
+                                    }
+                                });
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }*/
+
+
         } else {
-            imgAddPhoto.setImageBitmap(null);
-            tvAddPhotoText.setText(null);
-            //imgAddPhotoMain.setImageResource(R.mipmap.placeholder);
+            AddCarsViewPager.setVisibility(View.INVISIBLE);
+            llDotsCount.removeAllViews();
+            imgAddPhoto.setVisibility(View.VISIBLE);
+            tvAddPhotoText.setVisibility(View.VISIBLE);
         }
+
     }
 
     @Override
@@ -418,7 +427,10 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         }
         if (view == imgAddPhoto) {
             AddCarsViewPager.setVisibility(View.VISIBLE);
-            selectImage();
+            if(bitmapArray.size() <= 5)
+                selectImage();
+            else
+                Toast.makeText(getApplicationContext(), "You can't add more than 5 Vehicle Images. Please delete image", Toast.LENGTH_SHORT).show();
         }
         if(view == btnDelete)
         {
@@ -453,7 +465,6 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             Boolean valid_name = Utility.CommonValidation(strname);
             Boolean valid_tagExp = Utility.CommonValidation(strTagExp);
 
-
             Boolean valid_vehicle_photo;
             if (bitmapArray.size() > 0) {
                 valid_vehicle_photo = true;
@@ -464,24 +475,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                     strphotob64 = strphotoInsurance64 + ",";
                 }
             }else
-            {
-                if(AddCarsViewPager.getChildCount()>0) {
-                    valid_vehicle_photo = true;
-                    for (int i = 0; i < AddCarsViewPager.getChildCount(); i++) {
-                        View v = AddCarsViewPager.getChildAt(i);
-                        if (v != null) {
-                            NetworkImageView imgCar = (NetworkImageView) v.findViewById(R.id.VehicleDetails_my_car_image);
-                            Bitmap bitmap = ((BitmapDrawable) imgCar.getDrawable()).getBitmap();
-                            bitmapArray.add(bitmap);
-                            byte[] photo1_byte = convertBitmapToByteArray(bitmap);
-                            String strphotoInsurance64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
-                            strphotob64 = strphotoInsurance64 + ",";
-                        }
-                    }
-                }
-                else
-                    valid_vehicle_photo = false;
-            }
+                valid_vehicle_photo = false;
 
             if (!valid_vin) {
                 Toast.makeText(AddVehicleActivity.this, "Enter 16 digit VIN", Toast.LENGTH_SHORT).show();
@@ -520,19 +514,32 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                     strTagExp = dateFormateToSend.format(date.getTime());
                     page1Values.put("vehicle_tagexpiration", strTagExp);
                     page1Values.put("vehicle_type", strType);
-                    if (strphotob64.charAt(strphotob64.length() - 1) == ',')
-                        strphotob64 = strphotob64.substring(0, strphotob64.length() - 1);
+                    // if (strphotob64.charAt(strphotob64.length() - 1) == ',')
+                    //strphotob64 = strphotob64.substring(0, strphotob64.length() - 1);
                     page1Values.put("vehicle_photo", strphotob64);
 
                     if (flag == 1) {
                         Intent intent = new Intent(AddVehicleActivity.this, AddVehicle2of4Activity.class);
-                        intent.putExtra("Page1Values", page1Values);
-                        intent.putExtra("VehicleInfo", vehicleListItem);
-                        intent.putExtra("Vehicle_Flag", 1);
+
+                        Bundle extras = new Bundle();
+                        extras.putParcelable("VehicleInfo", vehicleListItem);
+                        extras.putSerializable("Page1Values", page1Values);
+                        extras.putString("navToActivity", navToActivity);
+                        extras.putInt("Vehicle_Flag", 1);
+                        intent.putExtras(extras);
+
+                        //intent.putExtra("Page1Values", page1Values);
+                        //intent.putExtra("VehicleInfo", vehicleListItem);
+                        //intent.putExtra("Vehicle_Flag", 1);
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(AddVehicleActivity.this, AddVehicle2of4Activity.class);
-                        intent.putExtra("Page1Values", page1Values);
+                        //intent.putExtra("Page1Values", page1Values);
+                        Bundle extras = new Bundle();
+                        extras.putSerializable("Page1Values", page1Values);
+                        extras.putInt("Vehicle_Flag", 0);
+                        extras.putString("navToActivity", navToActivity);
+                        intent.putExtras(extras);
                         startActivity(intent);
                     }
                 }catch (Exception e)
@@ -596,6 +603,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
     public void loadViews()
     {
+        llDotsCount = (LinearLayout) findViewById(R.id.AddVehicle_viewPagerCountDots);
         AddCarsViewPager = (ViewPager) findViewById(R.id.Add_vehicle_viewpager);
         tvVehicleDetailsHeader = (TextView) findViewById(R.id.AddVehicle_VehicleDetailsHeader_tv);
         tvNew = (TextView)findViewById(R.id.AddVehicle_New_tv);
@@ -611,7 +619,6 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         etSelectYear = (EditText) findViewById(R.id.AddVehicle_SelectYear_et);
         imgAddPhoto = (ImageView) findViewById(R.id.AddVehicle_AddImage_iv);
         btnNext = (Button) findViewById(R.id.AddVehicle_next_button);
-        //imgAddPhotoMain = (ImageView) findViewById(R.id.AddVehicle_AddImageMain_iv);
         btnDelete = (Button) findViewById(R.id.Add_Vehicle_Delete_vehicle);
         btnFindVIN = (Button) findViewById(R.id.AddVehicle_findMyVIN);
         btnFindVIN.setPaintFlags(btnFindVIN.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -630,6 +637,39 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         btnNext.setTypeface(fontBoldHelvetica);
         tvVehicleDetailsHeader.setTypeface(fontBoldHelvetica);
         btnDelete.setTypeface(fontNormalHelvetica);
+
+        AddCarsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < dotsCount; i++) {
+                    dots[i].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null));
+                }
+                dots[position].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    public void drawPageSelectionIndicator() {
+        if (llDotsCount != null) {
+            llDotsCount.removeAllViews();
+        }
+        dots = new ImageView[dotsCount];
+        for (int i = 0; i < dotsCount; i++) {
+            dots[i] = new ImageView(AddVehicleActivity.this);
+            dots[i].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            llDotsCount.addView(dots[i], params);
+        }
+        dots[0].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
     }
 
     public void selectImage() {
@@ -684,10 +724,8 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
-
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-
         File destination = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
 
         FileOutputStream fo;
@@ -702,25 +740,29 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             e.printStackTrace();
         }
 
-
-        bitmapArray.add(thumbnail);
-        AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
-        AddCarsViewPager.getAdapter().notifyDataSetChanged();
-        AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size()-1);
-        //imgAddPhotoMain.setImageBitmap(thumbnail);
-        imgAddPhoto.setImageBitmap(null);
-        tvAddPhotoText.setText(null);
-        // Convert bitmap to byte[]
-        //byte[] photo1_byte = convertBitmapToByteArray(thumbnail);
-        // convert byteArray to base64 String
-        // strphotob64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
-
+        if(thumbnail != null) {
+            bitmapArray.add(0, thumbnail);
+            AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
+            AddCarsViewPager.getAdapter().notifyDataSetChanged();
+            AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
+            dotsCount = bitmapArray.size();
+            drawPageSelectionIndicator();
+            imgAddPhoto.setVisibility(View.INVISIBLE);
+            tvAddPhotoText.setVisibility(View.INVISIBLE);
+        }
+        /*else
+        {
+            AddCarsViewPager.setVisibility(View.INVISIBLE);
+            llDotsCount.removeAllViews();
+            imgAddPhoto.setVisibility(View.VISIBLE);
+            tvAddPhotoText.setVisibility(View.VISIBLE);
+        }*/
     }
 
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
 
-        Bitmap bm=null;
+        Bitmap bm = null;
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
@@ -729,19 +771,16 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
-        bitmapArray.add(bm);
-
-        AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
-        AddCarsViewPager.getAdapter().notifyDataSetChanged();
-        AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size()-1);
-        //imgAddPhotoMain.setImageBitmap(bm);
-        imgAddPhoto.setImageBitmap(null);
-        tvAddPhotoText.setText(null);
-        // Convert bitmap to byte[]
-        // byte[] photo1_byte = convertBitmapToByteArray(bm);
-        // convert byteArray to base64 String
-        //strphotob64 = Base64.encodeToString(photo1_byte, Base64.DEFAULT);
-
+        if (bm != null) {
+            bitmapArray.add(0, bm);
+            AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
+            AddCarsViewPager.getAdapter().notifyDataSetChanged();
+            AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
+            dotsCount = bitmapArray.size();
+            drawPageSelectionIndicator();
+            imgAddPhoto.setVisibility(View.INVISIBLE);
+            tvAddPhotoText.setVisibility(View.INVISIBLE);
+        }
     }
     public static byte[] convertBitmapToByteArray(Bitmap bitmap) {
         if (bitmap == null) {
@@ -853,7 +892,6 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             mLayoutInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
-
         @Override
         public int getCount() {
             return objArrayList.size();
@@ -866,24 +904,50 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
 
         @Override
-        public Object instantiateItem(ViewGroup collection, int position) {
+        public Object instantiateItem(final ViewGroup collection, final int position) {
             View view = mLayoutInflater.inflate(R.layout.addcars_viewpager_row, null);
 
             ImageView imgCar = (ImageView) view.findViewById(R.id.add_car_image_row);
+            ImageView imgClose = (ImageView) view.findViewById(R.id.AddVehicle_ImageCross_iv);
 
             if (objArrayList.size() > 0) {
                 imgCar.setImageBitmap(objArrayList.get(position));
             } else
                 imgCar.setImageResource(R.mipmap.placeholder);
 
-            view.setOnClickListener(new View.OnClickListener() {
+            imgCar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    selectImage();
+                    if(bitmapArray.size() < 5)
+                        selectImage();
+                    else
+                        Toast.makeText(getApplicationContext(), "You can't add more than 5 Vehicle Images. Please delete image", Toast.LENGTH_SHORT).show();
                 }
             });
-            ((ViewPager) collection).addView(view);
+            imgClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    collection.removeViewAt(position);
+                    bitmapArray.remove(position);
+
+                    if(bitmapArray.size()>0) {
+                        AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(AddVehicleActivity.this, bitmapArray));
+                        AddCarsViewPager.getAdapter().notifyDataSetChanged();
+                        AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
+                        dotsCount = bitmapArray.size();
+                        drawPageSelectionIndicator();
+                    }else {
+                        AddCarsViewPager.setAdapter(null);
+                        AddCarsViewPager.setVisibility(View.INVISIBLE);
+                        llDotsCount.removeAllViews();
+                        imgAddPhoto.setVisibility(View.VISIBLE);
+                        tvAddPhotoText.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+
+            ((ViewPager) collection).addView(view);
             return view;
 
         }
@@ -917,93 +981,45 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
     }
 
 
-    public class EditVehicleImagesPageAdapter extends PagerAdapter {
-
-        private Context ctx;
-        ArrayList<String> objArrayList;
-        LayoutInflater mLayoutInflater;
-        com.android.volley.toolbox.ImageLoader imageLoader = AxleApplication.getInstance().getImageLoader();
-
-        public EditVehicleImagesPageAdapter(Context context, ArrayList<String> objList) {
-            this.ctx = context;
-            objArrayList = objList;
-            mLayoutInflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-
+    public class GetImagesFromServer extends AsyncTask<ArrayList<String>, Void, Void>
+    {
         @Override
-        public int getCount() {
-            return objArrayList.size();
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-
-        @Override
-        public Object instantiateItem(ViewGroup collection, int position) {
-
-            if (imageLoader == null)
-                imageLoader = AxleApplication.getInstance().getImageLoader();
-            View view = mLayoutInflater.inflate(R.layout.content_vehicle_details_screen_my_car_images, null);
-
-
-            NetworkImageView imgCar = (NetworkImageView) view.findViewById(R.id.VehicleDetails_my_car_image);
-
-            if (objArrayList.size() > 0) {
-                final String strImg = objArrayList.get(position);
-                strImg.replace("\\", "");
-
-                imgCar.setImageUrl(strImg, imageLoader);
-                //Bitmap bitmap = ((BitmapDrawable) imgCar.getDrawable()).getBitmap();
-                //bitmapArray.add(bitmap);
-            } else
-                imgCar.setImageResource(R.mipmap.placeholder);
-
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectImage();
+        protected Void doInBackground(ArrayList<String> ... imageUrl) {
+            // TODO Auto-generated method stub
+            try {
+                ArrayList<String> arrayList = imageUrl[0];
+                for (int i = 0; i < arrayList.size(); i++) {
+                    String strImg = arrayList.get(i);
+                    URL url = new URL(strImg);
+                    Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    if(image != null)
+                        bitmapArray.add(image);
                 }
-            });
 
-            ((ViewPager) collection).addView(view);
-
-            return view;
-
-        }
-
-        @Override
-        public void destroyItem(ViewGroup collection, int position, Object view) {
-            //((ViewPager) collection).removeView((View) view);
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public Parcelable saveState() {
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             return null;
         }
 
         @Override
-        public void restoreState(Parcelable arg0, ClassLoader arg1) {
-        }
-
-        @Override
-        public void startUpdate(ViewGroup arg0) {
-        }
-
-        @Override
-        public void finishUpdate(ViewGroup arg0) {
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if(bitmapArray.size()>0) {
+                AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(AddVehicleActivity.this, bitmapArray));
+                AddCarsViewPager.getAdapter().notifyDataSetChanged();
+                AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
+                dotsCount = bitmapArray.size();
+                drawPageSelectionIndicator();
+            }else {
+                AddCarsViewPager.setAdapter(null);
+                AddCarsViewPager.setVisibility(View.INVISIBLE);
+                llDotsCount.removeAllViews();
+                imgAddPhoto.setVisibility(View.VISIBLE);
+                tvAddPhotoText.setVisibility(View.VISIBLE);
+            }
         }
     }
-
-
-
 
 }

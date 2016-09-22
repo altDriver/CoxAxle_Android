@@ -48,6 +48,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="370dp"
                 android:background="@color/colorWhite" />
+            <LinearLayout
+                android:id="@+id/VehicleDetails_viewPagerCountDots"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="310dp"
+                android:gravity="center"
+                android:orientation="horizontal" />
 
             <ProgressBar
                 android:id="@+id/vehicle_details_profile_indicator"

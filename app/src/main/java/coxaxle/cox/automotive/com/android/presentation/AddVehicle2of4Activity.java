@@ -73,7 +73,7 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
     Typeface fontBoldHelvetica, fontNormalHelvetica;
     LinearLayout llAddImages;
     ArrayList<Bitmap> bitmapArray;
-    String strImages, strInsuranceExp;
+    String strImages, strInsuranceExp, navToActivity;
     int flag;
     VehicleInfo vehicleListItem;
     @Override
@@ -85,7 +85,14 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
         fontNormalHelvetica = Typeface.createFromAsset(getAssets(), "font/HelveticaNeue.ttf");
         FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
         fontsOverrideobj.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
-        page1Values = (HashMap<String, String>) getIntent().getExtras().get("Page1Values");
+        Bundle data = this.getIntent().getExtras();
+        if(data!=null) {
+            page1Values = (HashMap<String, String>) data.getSerializable("Page1Values");
+            flag = data.getInt("Vehicle_Flag");
+            navToActivity = data.getString("navToActivity");
+            //page1Values = (HashMap<String, String>) getIntent().getExtras().get("Page1Values");
+            //flag = this.getIntent().getIntExtra("Vehicle_Flag", 0);
+        }
         loadViews();
 
         bitmapArray = new ArrayList<Bitmap>();
@@ -99,11 +106,13 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
         dateFormateToSend = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         setTagExpirationDate();
         //Edit Vehicle
-        flag = this.getIntent().getIntExtra("Vehicle_Flag", 0);
+
         if(flag == 1)
         {
             btnSave.setText("Update");
-            vehicleListItem = this.getIntent().getParcelableExtra("VehicleInfo");
+            if(data != null)
+                vehicleListItem = data.getParcelable("VehicleInfo");
+            //vehicleListItem = this.getIntent().getParcelableExtra("VehicleInfo");
             String strDate = vehicleListItem.vehicle_insurance_expiration_date;
             try{
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -199,9 +208,13 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
             }
         }
         if (view == ivAddInsurancePhoto) {
-            selectImage();
+            if (bitmapArray.size() == 5)
+                Toast.makeText(getApplicationContext(), "You can't add more than 5 images. Please delete images", Toast.LENGTH_SHORT).show();
+            else
+                selectImage();
         }
         if (view == etInsuranceExpirationDate) {
+            tagDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
             tagDatePickerDialog.show();
         }
     }
@@ -219,9 +232,26 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                                 String strStatus = jsonobjListVehiclesResponse.getString("status");
                                 String strMessage = jsonobjListVehiclesResponse.getString("message");
                                 if (strStatus.equals("True")) {
-                                    Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreen.class);
-                                    startActivity(intent);
-                                    finish();
+                                    if(navToActivity.equalsIgnoreCase("HomeScreenActivity")) {
+                                        Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreen.class);
+                                        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }else if(navToActivity.equalsIgnoreCase("ScheduleAppointmentActivity"))
+                                    {
+                                        Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreen.class);//VehicleListActivity
+                                        intent.putExtra("navToActivity",navToActivity);
+                                        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else {
+                                        Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreen.class);//VehicleListActivity
+                                        intent.putExtra("navToActivity","vehicleDetails");
+                                        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 }
                                 Toast.makeText(AddVehicle2of4Activity.this, strMessage, Toast.LENGTH_LONG).show();
                             } catch (Exception e) {
@@ -277,9 +307,9 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                         e.printStackTrace();
                     }
                     params.put("insurance_expiration_date", strInsuranceExp);
-                    if (strImages.charAt(strImages.length() - 1) == ',')
-                        strImages = strImages.substring(0, strImages.length() - 1);
                     params.put("photo", page1Values.get("vehicle_photo")); //page1Values.get("vehicle_photo")
+                    //if (strImages.charAt(strImages.length() - 1) == ',')
+                    //strImages = strImages.substring(0, strImages.length() - 1);
                     params.put("insurance_document", strImages);
                     params.put("extended_waranty_document", "");
                     Log.v("params>>>", "" + params);

@@ -118,6 +118,7 @@
                         android:id="@+id/email_signup_password_edt"
                         style="@style/editTextStyle"
                         android:hint="@string/prompt_password"
+                        android:inputType="textPassword"
                         android:imeActionId="@+id/login"
                         android:imeActionLabel="@string/action_sign_in"
                         android:imeOptions="actionNext" />

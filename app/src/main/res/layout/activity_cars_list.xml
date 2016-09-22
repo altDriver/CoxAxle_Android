@@ -3,11 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.VehicleListActivity" >
-    <View
+    <RelativeLayout
         android:id="@+id/vehicle_list_header_bar"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/slate"></View>
+        android:background="@color/slate">
+        <TextView
+            android:id="@+id/vehicle_details_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="My Cars"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/MyCars_AddNewCar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="+"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="15pt" />
+    </RelativeLayout>
 
     <!--<Button
         android:id="@+id/vehicle_details_edit_vehicle"
@@ -22,26 +42,7 @@
         android:textAllCaps="false"
         android:textColor="@color/colorWhite" />-->
 
-    <TextView
-        android:id="@+id/vehicle_details_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="My Cars"
 
-        android:textColor="@color/colorWhite"
-        android:textSize="20dp" />
-
-    <Button
-        android:textSize="50sp"
-        android:layout_alignParentRight="true"
-        android:textColor="@color/colorMenuLight"
-        android:background="@color/transparentColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="+"/>
     <ListView
         android:id="@+id/list"
         android:layout_below="@id/vehicle_list_header_bar"

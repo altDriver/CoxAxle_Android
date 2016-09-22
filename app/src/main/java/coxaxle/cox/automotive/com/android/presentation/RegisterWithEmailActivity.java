@@ -40,6 +40,7 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
     Button btnSignUpEmail;
     String strFirstName, strLastName, strPassword, strEmail, strPhoneNumber;
 
+    String deviceType, osVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,9 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
     }
 
     void loadViews() {
+
+        deviceType = android.os.Build.MANUFACTURER+" "+ android.os.Build.MODEL ;
+        osVersion = android.os.Build.VERSION.RELEASE+"("+android.os.Build.VERSION.SDK_INT+")";
 
         etFirstName = (EditText) findViewById(R.id.email_signup_first_name_edt);
         etLastName = (EditText) findViewById(R.id.email_signup_last_name_edt);
@@ -173,6 +177,9 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
                 params.put("email", strEmail);
                 params.put("phone", strPhoneNumber);
                 params.put("dealer_code","KH001");
+                params.put("device_token", "");
+                params.put("device_type", deviceType);
+                params.put("os_version", osVersion);
 
                 Log.v("params>>>", "" + params);
                 return params;

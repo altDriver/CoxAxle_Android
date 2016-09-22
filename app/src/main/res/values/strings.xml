@@ -189,7 +189,7 @@
     <string name="select_basic_options">Select Basic Options</string>
     <string name="save_search">Save Search</string>
     <string name="price">Price</string>
-    <string name="Select_more_options">Select More Options</string>
+    <string name="select_more_options">Select More Options</string>
      <string name="mileage">Mileage</string>
     <string name="show_vehicles">Show Vehicles</string>
     <string name="min">Min</string>
@@ -199,6 +199,8 @@
     <string name="body_style">Body Style</string>
     <string name="engine_type">Engine Type</string>
 
+    <string name="demo_min_labl"> </string>
+    <string name="demo_max_labl"> </string>
 
     <string name="findvin_cantfindvin">Can\'t find your VIN</string>
     <string name="findvin_herecommonplaces">Here are some common placess to find it</string>

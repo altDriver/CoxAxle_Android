@@ -63,17 +63,18 @@ public class LoginActivity extends AppCompatActivity implements MyCustomDialog.o
     String strEmail, strPassword;
     String base64Password = "";
 
+    String deviceType, osVersion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().hide();
-
+        getDeviceDetails();
         FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
         fontsOverrideobj.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
-
+        deviceType = android.os.Build.MANUFACTURER+" "+ android.os.Build.MODEL ;
+       osVersion = android.os.Build.VERSION.RELEASE+"("+android.os.Build.VERSION.SDK_INT+")";
         //isrememberUser = false;
         //requestParams = new HashMap<String, String>();
         axleApplication = (AxleApplication) getApplicationContext();
@@ -211,6 +212,11 @@ public class LoginActivity extends AppCompatActivity implements MyCustomDialog.o
                     Log.d("Request", requestParams.get("password"));*/
                 params.put("email", strEmail);
                 params.put("password", base64Password);
+                params.put("device_token", "");
+                params.put("device_type", deviceType);
+                params.put("os_version", osVersion);
+
+
 
 
                 return params;
@@ -291,5 +297,14 @@ public class LoginActivity extends AppCompatActivity implements MyCustomDialog.o
     @Override
     public void setOnSubmitListener(int flag) {
 
+    }
+
+    void getDeviceDetails(){
+
+        //int deviceOS = ;
+        String deviceDetails =android.os.Build.MANUFACTURER+" "+ android.os.Build.MODEL +" "+android.os.Build.VERSION.RELEASE+"("+android.os.Build.VERSION.SDK_INT+")";
+        //String deviceMan = ;
+
+        Log.d("Device Details>>",android.os.Build.MODEL);
     }
 }

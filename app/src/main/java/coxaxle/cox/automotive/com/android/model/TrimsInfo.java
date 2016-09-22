@@ -7,8 +7,6 @@ package coxaxle.cox.automotive.com.android.model;
 
 public class TrimsInfo {
 
-
-
     String trimCode;
     String trimName;
 

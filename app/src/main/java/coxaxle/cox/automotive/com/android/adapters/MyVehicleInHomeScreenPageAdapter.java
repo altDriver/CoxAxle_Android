@@ -108,7 +108,7 @@ public class MyVehicleInHomeScreenPageAdapter extends PagerAdapter {
 
                 Intent vehicleDetailsIntent = new Intent(context, VehicleDetailsActivity.class);
                 //vehicleDetailsIntent.putExtra("CarsDetails", objArraylist.get(position));
-
+                vehicleDetailsIntent.putExtra("navToActivity", "HomeScreenActivity");
                 vehicleDetailsIntent.putExtra("VehicleInfo", objVehicle);
                 context.startActivity(vehicleDetailsIntent);
 

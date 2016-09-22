@@ -7,11 +7,13 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -36,6 +38,10 @@ public class VehicleDetailsActivity extends Activity implements View.OnClickList
     ViewPager mMyCarsViewPager;
     VehicleInfo vehicleListItem;
     ArrayList<String> arrImages;
+    LinearLayout llDotsCount;
+    private ImageView[] dots;
+    private int dotsCount;
+    String navToActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,7 @@ public class VehicleDetailsActivity extends Activity implements View.OnClickList
 
         Bundle bundle = this.getIntent().getExtras();
         vehicleListItem = bundle.getParcelable("VehicleInfo");
+        navToActivity = bundle.getString("navToActivity");
         arrImages = vehicleListItem.vehicle_image;
        /* vehicleListItem.getName();
         vehicleListItem.getVehicle_image();
@@ -64,10 +71,50 @@ public class VehicleDetailsActivity extends Activity implements View.OnClickList
         mMyCarsViewPager.getAdapter().notifyDataSetChanged();
         mMyCarsViewPager.setOffscreenPageLimit(arrImages.size()-1);
 
+        llDotsCount = (LinearLayout) findViewById(R.id.VehicleDetails_viewPagerCountDots);
+        dotsCount = arrImages.size();
+        drawPageSelectionIndicator();
+
+        mMyCarsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < dotsCount; i++) {
+                    dots[i].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null));
+                    //ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null);
+                }
+                dots[position].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
         initProfileIndicator();
         initProfileIndicator();
         initWarrentyMilesIndicatorProgress();
+    }
+
+
+    public void drawPageSelectionIndicator() {
+
+        if (llDotsCount != null) {
+            llDotsCount.removeAllViews();
+        }
+        dots = new ImageView[dotsCount];
+        for (int i = 0; i < dotsCount; i++) {
+            dots[i] = new ImageView(VehicleDetailsActivity.this);
+            dots[i].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            llDotsCount.addView(dots[i], params);
+        }
+        dots[0].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
     }
 
     void initProfileIndicator() {
@@ -181,6 +228,7 @@ public class VehicleDetailsActivity extends Activity implements View.OnClickList
            Intent intent = new Intent(VehicleDetailsActivity.this, AddVehicleActivity.class);
             intent.putExtra("VehicleInfo", vehicleListItem);
             intent.putExtra("Vehicle_Flag", 1);
+            intent.putExtra("navToActivity", navToActivity);
             startActivity(intent);
         }
 

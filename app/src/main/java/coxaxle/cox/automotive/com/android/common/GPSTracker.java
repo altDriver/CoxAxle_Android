@@ -61,7 +61,7 @@ public class GPSTracker extends Service implements com.google.android.gms.locati
 
         /*------- To get city name from coordinates -------- */
             //String cityName = null;
-            Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
+            Geocoder gcd = new Geocoder(mContext, Locale.getDefault());
             List<Address> addresses;
             try {
                 addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -197,6 +197,7 @@ public class GPSTracker extends Service implements com.google.android.gms.locati
      * On pressing Settings button will lauch Settings Options
      * */
     public void showSettingsAlert(){
+
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title

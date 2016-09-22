@@ -104,7 +104,6 @@
         <activity android:name=".presentation.RegisterWithEmailActivity" />
         <activity android:name=".presentation.ChangePasswordActivity" />
         <activity android:name=".presentation.ForgotPasswordEmailResetActivity" />
-        <activity android:name=".presentation.DealerInventorySearchActivity" />
         <activity android:name=".presentation.GuestUserActivity" />
         <activity android:name=".presentation.CarShoppingActivity" />
         <activity android:name=".presentation.DealerInventorySearchFiltersActivity"></activity>

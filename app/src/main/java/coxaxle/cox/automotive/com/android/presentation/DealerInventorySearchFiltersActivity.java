@@ -10,8 +10,9 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import coxaxle.cox.automotive.com.android.R;
@@ -38,20 +40,22 @@ import coxaxle.cox.automotive.com.android.model.EngineGroupsInfo;
 import coxaxle.cox.automotive.com.android.model.MakesInfo;
 import coxaxle.cox.automotive.com.android.model.ModelsInfo;
 import coxaxle.cox.automotive.com.android.model.TrimsInfo;
+import coxaxle.cox.automotive.com.android.model.VehicleColorInfo;
 
 public class DealerInventorySearchFiltersActivity extends AppCompatActivity {
     Spinner makeSpinner, modelSpinner, yearSpinner;
 
     ArrayList<MakesInfo> makesInfoArrayList;
     ArrayList<ModelsInfo> modelsInfoArrayList;
-    ArrayList<TrimsInfo> trimsInfoArrayList;
+    //ArrayList<TrimsInfo> trimsInfoArrayList;
     ArrayList<EngineGroupsInfo> engineGroupInfoArrayList;
-    ArrayList<String> modelYearArrayList;
-    ArrayList<String> bodyStyle, bodyColor;
-
-    String strMake, strModel, strTrim, strEngineGroup,strYear;
-
+    List<String> modelYearArrayList;
+    ArrayList<String> bodyStyle;
+    ArrayList<VehicleColorInfo> bodyColorList;
+    String strMake, strModel, strTrim, strEngineGroup, strYear;
     Typeface fontBoldHelvetica, fontNormalHelvetica;
+    TextView  moreOprtionsTv;
+    RelativeLayout moreSearchOptionsLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +65,15 @@ public class DealerInventorySearchFiltersActivity extends AppCompatActivity {
         fontNormalHelvetica = Typeface.createFromAsset(getAssets(), "font/HelveticaNeue.ttf");
         fontBoldHelvetica = Typeface.createFromAsset(getAssets(), "font/helvetica-neue-bold.ttf");
         FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
-        fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
+        fontsOverrideobj.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
 
         makesInfoArrayList = new ArrayList<>();
         modelsInfoArrayList = new ArrayList<>();
         modelYearArrayList = new ArrayList<>();
-        engineGroupInfoArrayList =new ArrayList<>();
+        modelYearArrayList.add("Year");
+        engineGroupInfoArrayList = new ArrayList<>();
+        bodyColorList = new ArrayList<>();
+        bodyStyle = new ArrayList<>();
         getDealerInventoryFilters();
 
         loadViews();
@@ -78,16 +85,60 @@ public class DealerInventorySearchFiltersActivity extends AppCompatActivity {
         makeSpinner = (Spinner) findViewById(R.id.dealer_inventory_search_filters_make_spinner);
         modelSpinner = (Spinner) findViewById(R.id.dealer_inventory_search_filters_model_spinner);
         yearSpinner = (Spinner) findViewById(R.id.dealer_inventory_search_filters_model_year_spinner);
-        //yearSpinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, modelYearArrayList);
 
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+       final TextView tvColorHeader    = (TextView)findViewById(R.id.dealer_inventory_search_filters_color_header_tv);
+        TextView tvSelectedColor  = (TextView)findViewById(R.id.dealer_inventory_search_filters_selected_color_tv);
 
-        // attaching data adapter to spinner
-        yearSpinner.setAdapter(dataAdapter);
 
-        yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        tvColorHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                /*PopupMenu popupMenu = new PopupMenu(DealerInventorySearchFiltersActivity.this, tvColorHeader);
+                //Inflating the Popup using xml file
+                popupMenu.getMenuInflater().inflate(R.menu.popup, popupMenu.getMenu());
+                //registering popup with OnMenuItemClickListener
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(DealerInventorySearchFiltersActivity.this,"Button Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+                popupMenu.show();
+                */
+                }
+            });
+
+        moreOprtionsTv = (TextView)findViewById(R.id.dealer_inventory_search_filters_select_more_options_tv);
+        moreSearchOptionsLayout = (RelativeLayout)findViewById (R.id.dealer_inventory_search_filters_select_more_options_layout);
+        moreSearchOptionsLayout.setVisibility(View.GONE);
+
+        final ImageView moreOptionsImge = (ImageView)findViewById(R.id.dealer_inventory_search_filters_select_more_options_iv);
+
+        moreOprtionsTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(moreSearchOptionsLayout.getVisibility() != View.VISIBLE){
+                    moreOprtionsTv.setText(getString(R.string.fewer_options));
+                    moreSearchOptionsLayout.setVisibility(View.VISIBLE);
+                    moreOptionsImge.setBackgroundResource(R.mipmap.minus_blue_btn);
+
+                }else {
+                    moreOprtionsTv.setText(getString(R.string.select_more_options));
+                    moreSearchOptionsLayout.setVisibility(View.GONE);
+                    moreOptionsImge.setBackgroundResource(R.mipmap.addvehicle_btn);
+
+
+                }
+            }
+        });
+
+
+
+        //modelSpinner.setAdapter(dataAdapter);
+        //makeSpinner.setAdapter(dataAdapter);
+
+       /* yearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 
             @Override
@@ -104,7 +155,7 @@ public class DealerInventorySearchFiltersActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
 
             }
-        });
+        });*/
 
 
     }
@@ -194,7 +245,7 @@ public class DealerInventorySearchFiltersActivity extends AppCompatActivity {
 
                             ModelsInfo modelInfoObject;
 
-                            Log.d("jsonMakeObject>","1");
+                            Log.d("jsonMakeObject>", "1");
 
                             modelsInfoArrayList = new ArrayList<>();
 
@@ -202,67 +253,67 @@ public class DealerInventorySearchFiltersActivity extends AppCompatActivity {
 
                                 JSONObject jsonModelsObject = modelArrayObject.getJSONObject(mo);
 
-                                Log.d("jsonModelsObject>","2");
+                                Log.d("jsonModelsObject>", "2");
 
                                 ArrayList<TrimsInfo> trimsInfoArrayList = new ArrayList<>();
 
-                                if(jsonModelsObject.has("trims")){
+                                if (jsonModelsObject.has("trims")) {
 
                                     JSONArray trimsArrayObject = jsonModelsObject.optJSONArray("trims");
 
-                                for (int trm = 0; trm < trimsArrayObject.length(); trm++) {
+                                    for (int trm = 0; trm < trimsArrayObject.length(); trm++) {
 
 
-                                    JSONObject trimObject = trimsArrayObject.getJSONObject(trm);
+                                        JSONObject trimObject = trimsArrayObject.getJSONObject(trm);
 
-                                    TrimsInfo trimInfoObject = new TrimsInfo(trimObject.getString("code"),trimObject.getString("name"));
+                                        TrimsInfo trimInfoObject = new TrimsInfo(trimObject.getString("code"), trimObject.getString("name"));
 
-                                    trimsInfoArrayList.add(trimInfoObject);
+                                        trimsInfoArrayList.add(trimInfoObject);
 
-                                    Log.d("trimObject>>",trimObject.toString());
-
+                                        Log.d("trimObject>>", trimObject.toString());
                                     }
-
-
                                 }
-                                ModelsInfo modelsInfoObject = new ModelsInfo(jsonModelsObject.getString("code"),jsonModelsObject.getString("name"),trimsInfoArrayList);
+                                ModelsInfo modelsInfoObject = new ModelsInfo(jsonModelsObject.getString("code"), jsonModelsObject.getString("name"), trimsInfoArrayList);
 
                                 modelsInfoArrayList.add(modelsInfoObject);
                             }
 
-                            MakesInfo makesInfoObject = new MakesInfo(jsonMakeObject.getString("code"),jsonMakeObject.getString("name"),modelsInfoArrayList);
+                            MakesInfo makesInfoObject = new MakesInfo(jsonMakeObject.getString("code"), jsonMakeObject.getString("name"), modelsInfoArrayList);
 
-                           makesInfoArrayList.add(makesInfoObject);
+                            makesInfoArrayList.add(makesInfoObject);
                         }
                     }
 
                     JSONArray jsonengineGroupsArray = jsonDataObject.optJSONArray("engineGroups");
 
-                    for(int eng= 0; eng < jsonengineGroupsArray.length() ; eng++){
-                       JSONObject jsonEngineGroup =  jsonengineGroupsArray.getJSONObject(eng);
+                    for (int eng = 0; eng < jsonengineGroupsArray.length(); eng++) {
+                        JSONObject jsonEngineGroup = jsonengineGroupsArray.getJSONObject(eng);
 
-                        EngineGroupsInfo engineGroupsInfoObj = new EngineGroupsInfo(jsonEngineGroup.getString("code"),jsonEngineGroup.getString("displayOrder"),
-                                jsonEngineGroup.getString("name"),jsonEngineGroup.getString("shortName"));
+                        EngineGroupsInfo engineGroupsInfoObj = new EngineGroupsInfo(jsonEngineGroup.getString("code"), jsonEngineGroup.getString("displayOrder"),
+                                jsonEngineGroup.getString("name"), jsonEngineGroup.getString("shortName"));
 
                         engineGroupInfoArrayList.add(engineGroupsInfoObj);
                     }
 
                     JSONArray jsonyearsArray = jsonDataObject.optJSONArray("years");
-                    for(int yrs= 0; yrs < jsonyearsArray.length() ; yrs++){
+                    for (int yrs = 0; yrs < jsonyearsArray.length(); yrs++) {
                         modelYearArrayList.add(jsonyearsArray.get(yrs).toString());
                     }
 
+                    setAdapters();
+
                     JSONArray jsonBodyStyleArray = jsonDataObject.optJSONArray("styles");
-                    for(int stl= 0; stl < jsonBodyStyleArray.length() ; stl++){
-                        JSONObject jsonBodyStyleObj =  jsonBodyStyleArray.getJSONObject(stl);
+                    for (int stl = 0; stl < jsonBodyStyleArray.length(); stl++) {
+                        JSONObject jsonBodyStyleObj = jsonBodyStyleArray.getJSONObject(stl);
                         bodyStyle.add(jsonBodyStyleObj.getString("name"));
                     }
 
                     JSONArray jsonBodyColorArray = jsonDataObject.optJSONArray("extColorGroups");
-                    for(int clr= 0; clr < jsonBodyColorArray.length() ; clr++){
-                        JSONObject jsonBodyColorObj =  jsonBodyColorArray.getJSONObject(clr);
-                        bodyColor.add(jsonBodyColorObj.getString("name"));
+                    for (int clr = 0; clr < jsonBodyColorArray.length(); clr++) {
+                        JSONObject jsonBodyColorObj = jsonBodyColorArray.getJSONObject(clr);
+                        bodyColorList.add(new VehicleColorInfo(jsonBodyColorObj.getString("name"),jsonBodyColorObj.getString("rgbHex")));
                     }
+
 
                 }
 
@@ -280,10 +331,8 @@ public class DealerInventorySearchFiltersActivity extends AppCompatActivity {
 
 
 
-    private void AlertDialogView(final String[] items, String title, String rgbHex, final int position)
-    {
 
-
+    private void AlertDialogView(final String[] items, String title, String rgbHex, final int position) {
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(
                 DealerInventorySearchFiltersActivity.this, R.layout.alertdialog_custom_view, items);
 
@@ -315,5 +364,15 @@ public class DealerInventorySearchFiltersActivity extends AppCompatActivity {
         alert.show();
     }
 
+    void setAdapters() {
+        //yearSpinner
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, modelYearArrayList);
 
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        yearSpinner.setAdapter(dataAdapter);
+        //dataAdapter.notifyDataSetChanged();
+    }
 }
