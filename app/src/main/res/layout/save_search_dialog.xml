@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name this search"
+            android:layout_marginTop="20dp"
+            android:textSize="17dp"
+            android:textColor="@color/colorTextDark"
+            android:id="@+id/savesearchdialog_title"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/saveSearch_dialog_et"
+            android:layout_below="@+id/savesearchdialog_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="20dp"
+            android:background="@color/colorIndicatorBlue"
+            android:layout_below="@+id/saveSearch_dialog_et"
+            android:id="@+id/SaveSearch_dialog_Savebutton"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textColor="@color/colorWhite"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorIndicatorBlue"
+            android:id="@+id/SaveSearch_dialog_Cancelbutton"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/SaveSearch_dialog_Savebutton"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</LinearLayout>

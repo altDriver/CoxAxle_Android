@@ -215,6 +215,7 @@ public class LoginActivity extends AppCompatActivity implements MyCustomDialog.o
                 params.put("device_token", "");
                 params.put("device_type", deviceType);
                 params.put("os_version", osVersion);
+                params.put("dealer_code",Constants.DEALER_CODE);
 
 
 
@@ -273,13 +274,14 @@ public class LoginActivity extends AppCompatActivity implements MyCustomDialog.o
                 userDetails.put(UserSessionManager.KEY_EMAIL, jsonObject.getString("email"));
                 userDetails.put(UserSessionManager.KEY_PHONENUMBER, jsonObject.getString("phone"));
                 userDetails.put(UserSessionManager.KEY_USERID, jsonObject.getString("uid"));
+
                 userDetails.put(UserSessionManager.IS_USER_LOGGED_IN, isSuccess + "");
 
                 UserSessionManager objManager = new UserSessionManager(this);
                 objManager.saveUserDetailsPref(userDetails);
 
                 Toast.makeText(LoginActivity.this, responceMessage, Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(LoginActivity.this, HomeScreen.class);
+                Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
                 intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
 

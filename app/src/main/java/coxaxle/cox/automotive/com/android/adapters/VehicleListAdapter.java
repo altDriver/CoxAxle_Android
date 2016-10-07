@@ -20,12 +20,22 @@ import coxaxle.cox.automotive.com.android.model.VehicleInfo;
  */
 public class VehicleListAdapter extends BaseAdapter {
 
+
+     Context mContext;
     private ArrayList<VehicleInfo> vehicleInfoList;
     com.android.volley.toolbox.ImageLoader imageLoader = AxleApplication.getInstance().getImageLoader();
 
     public VehicleListAdapter(Context context, int activity_cars_list_row, ArrayList<VehicleInfo> vehicleInfoList) {
         this.vehicleInfoList = new ArrayList<VehicleInfo>();
         this.vehicleInfoList.addAll(vehicleInfoList);
+
+
+    }
+
+    public VehicleListAdapter( Context context, ArrayList<VehicleInfo> vehicleInfoList) {
+        this.vehicleInfoList = vehicleInfoList;
+        mContext = context;
+        //this.vehicleInfoList.addAll(vehicleInfoList);
     }
 
     @Override
@@ -43,13 +53,12 @@ public class VehicleListAdapter extends BaseAdapter {
         TextView txtCarNextServicedate = (TextView) convertView.findViewById(R.id.car_list_next_service_date);
 
         VehicleInfo objVehicle = this.vehicleInfoList.get(position);
-        ArrayList<String> arrImageUrls = objVehicle.vehicle_image;
-        if(arrImageUrls.size()>0)
+        String arrImageUrls = objVehicle.photo;
+        if(arrImageUrls.length()>0)
         {
-            final String strImg = arrImageUrls.get(0);
-            strImg.replace("\\", "");
-
-            imgCar.setImageUrl(strImg, imageLoader);
+            //final String strImg = arrImageUrls.get(0);
+            arrImageUrls.replace("\\", "");
+            imgCar.setImageUrl(arrImageUrls, imageLoader);
             //String strUrl = Constants.GET_IMAGES + strImg;
 //            Thread thread = new Thread(new Runnable()
 //            {
@@ -73,7 +82,7 @@ public class VehicleListAdapter extends BaseAdapter {
         else
             imgCar.setImageResource(R.mipmap.placeholder);
         txtCarName.setText(objVehicle.name);
-        txtCarNextServicedate.setText(objVehicle.vehicle_model);
+        txtCarNextServicedate.setText(objVehicle.model);
         notifyDataSetChanged();
         return convertView;
     }

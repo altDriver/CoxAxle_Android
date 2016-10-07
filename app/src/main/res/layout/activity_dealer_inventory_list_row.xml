@@ -6,13 +6,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="305dp"
-        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/list_row_selector"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
 
         <!--<ImageView
             android:id="@+id/dealer_inventory_list_image"
@@ -30,65 +31,70 @@
             android:id="@+id/dealer_inventory_list_name"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/dealer_inventory_list_image"
             android:layout_gravity="left"
-            android:textStyle="bold"
-            android:paddingLeft="20dp"
             android:layout_marginTop="15dp"
+            android:paddingLeft="20dp"
             android:text="2010 Audi A3 2.0T"
             android:textColor="@color/home_screen_title_text_color"
             android:textSize="17sp"
-            android:layout_below="@+id/dealer_inventory_list_image"
-            android:layout_alignParentStart="true" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/dealer_inventory_list_miles"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_gravity="left"
-            android:paddingLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:text="3,745 Miles"
-            android:textSize="13sp"
+            android:layout_alignParentStart="true"
             android:layout_below="@+id/dealer_inventory_list_name"
-            android:layout_alignParentStart="true" />
+            android:layout_gravity="left"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="20dp"
+            android:text="3,745 Miles"
+            android:textSize="13sp" />
 
         <TextView
+            android:id="@+id/dealer_inventory_list_doller"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/dealer_inventory_list_name"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
             android:text="$ 15,999"
             android:textColor="@color/colorPumpkin"
             android:textSize="17sp"
-            android:textStyle="bold"
-            android:paddingRight="10dp"
-            android:id="@+id/dealer_inventory_list_doller"
-            android:layout_gravity="right"
-            android:layout_below="@+id/dealer_inventory_list_name"
-            android:layout_alignParentEnd="true" />
-<RelativeLayout
-    android:id="@+id/dealer_inventory_list_showtext_layout"
-    android:layout_width="50dp"
-    android:layout_height="30dp"
-    android:layout_marginTop="20dp"
-    android:layout_marginLeft="15dp"
-    android:background="@drawable/list_row_selector2">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:text="USED"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold"
-        android:id="@+id/dealer_inventory_list_showtext"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+            android:textStyle="bold" />
+
+     <!--   <RelativeLayout
+            android:id="@+id/dealer_inventory_list_showtext_layout"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/list_row_selector2">-->
+
+            <TextView
+                android:id="@+id/dealer_inventory_list_showtext"
+                android:layout_width="wrap_content"
+                android:background="@drawable/list_row_selector2"
+                android:layout_height="20dp"
+                android:padding="3dp"
+                android:textSize="11sp"
+                android:layout_marginTop="21dp"
+                android:layout_marginLeft="25dp"
+                android:text="USED"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold" />
+      <!--  </RelativeLayout>-->
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
             android:id="@+id/dealer_inventory_list_wish_image"
-            android:src="@mipmap/wish_icon"
-            android:layout_alignTop="@+id/dealer_inventory_list_showtext_layout"
+            android:layout_width="20dp"
+            android:layout_height="19dp"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:layout_alignStart="@+id/dealer_inventory_list_doller" />
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/wish_fill" />
     </RelativeLayout>
 </RelativeLayout>

@@ -1,7 +1,10 @@
 package coxaxle.cox.automotive.com.android.presentation;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -9,8 +12,16 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -42,11 +53,15 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
 
     String deviceType, osVersion;
 
+    WebView termsConditionsWebView;
+    RelativeLayout webview_layout;
+    ScrollView email_signup_scrollView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_with_email);
-
+        getSupportActionBar().hide();
         FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
         fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
 
@@ -84,6 +99,34 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
                 }
             }
         });
+
+        email_signup_scrollView = (ScrollView)findViewById(R.id.email_signup_scrollView);
+        webview_layout = (RelativeLayout)findViewById(R.id.signUp_terms_conditions_webview_layout);
+        termsConditionsWebView = (WebView)findViewById(R.id.signUp_terms_conditions_webview);
+        termsConditionsWebView.getSettings().setLoadsImagesAutomatically(true);
+        //xtimeWebView.getSettings().setDomStorageEnabled(true);
+        termsConditionsWebView.getSettings().setJavaScriptEnabled(true);
+        termsConditionsWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        //xtimeWebView.clearCache(true);
+        termsConditionsWebView.setWebViewClient(new TermsConditionsBrowserView());
+        termsConditionsWebView.loadUrl("http://getaxle.com/terms");
+        webview_layout.setVisibility(View.GONE);
+
+        CheckBox terms_conditions_checkbox = (CheckBox)findViewById(R.id.signUp_terms_conditions_checkbox);
+        TextView terms_conditions_checkbox_text = (TextView)findViewById(R.id.signUp_terms_conditions_checkbox_text);
+        //terms_conditions_checkbox
+
+        terms_conditions_checkbox_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                webview_layout.setVisibility(View.VISIBLE);
+                email_signup_scrollView.setVisibility(View.GONE);
+            }
+        });
+
+
+
+
     }
 
 
@@ -101,7 +144,7 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
 
 
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(strPassword) && !Utility.passwordValidation(strPassword)) {
+        if (!Utility.passwordValidation(strPassword)) {
             etPassword.setError(getString(R.string.error_invalid_password));
             focusView = etPassword;
             cancel = true;
@@ -180,6 +223,7 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
                 params.put("device_token", "");
                 params.put("device_type", deviceType);
                 params.put("os_version", osVersion);
+                params.put("dealer_code",Constants.DEALER_CODE);
 
                 Log.v("params>>>", "" + params);
                 return params;
@@ -198,6 +242,7 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
         boolean isSuccess = false;
         String responceMessage = "";
 
+        Log.d("Responce>>", response);
         try {
             JSONObject mainObject = new JSONObject(response);
             String strStatus = mainObject.getString("status");
@@ -220,7 +265,7 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
                 UserSessionManager objManager = new UserSessionManager(this);
                 objManager.saveUserDetailsPref(userDetails);
 
-                Intent intent = new Intent(RegisterWithEmailActivity.this, HomeScreen.class);
+                Intent intent = new Intent(RegisterWithEmailActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
                 finish();
 
@@ -232,5 +277,63 @@ public class RegisterWithEmailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+
+    class TermsConditionsBrowserView extends WebViewClient {
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            view.loadUrl(request.getUrl().toString());
+            return true;
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+            return super.shouldInterceptRequest(view, url);
+        }
+
+       /* @TargetApi(Build.VERSION_CODES.N)
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest webResourceRequest) {
+            WebResourceResponse response = super.shouldInterceptRequest(view, webResourceRequest);
+            String url = webResourceRequest.getUrl().toString();
+            return tryToInterceptRequests(view, url, response);
+        }*/
+
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+           /* progress.setVisibility(View.GONE);
+            RegisterWithEmailActivity.this.progress.setProgress(100);*/
+            super.onPageFinished(view, url);
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+           /* progress.setVisibility(View.VISIBLE);
+            RegisterWithEmailActivity.this.progress.setProgress(0);*/
+            super.onPageStarted(view, url, favicon);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if( email_signup_scrollView.getVisibility() == View.GONE){
+            webview_layout.setVisibility(View.GONE);
+            email_signup_scrollView.setVisibility(View.VISIBLE);
+        }else{
+            super.onBackPressed();
+        }
     }
 }

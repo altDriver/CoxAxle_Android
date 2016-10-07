@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp"
+            android:layout_toLeftOf="@+id/SavedSearch_DateTime_tv"
+            android:textColor="@color/colorTextDark"
+            android:id="@+id/SavedSearch_CarName_tv"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_toLeftOf="@+id/SavedSearch_DeleteRow_iv"
+            android:layout_marginRight="10dp"
+            android:gravity="end"
+            android:textSize="11sp"
+            android:textColor="@color/colorTextLight"
+            android:layout_centerVertical="true"
+            android:id="@+id/SavedSearch_DateTime_tv" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SavedSearch_DeleteRow_iv"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/deletecopy"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

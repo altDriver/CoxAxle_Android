@@ -29,6 +29,11 @@ public class DealerSearchInventoryResultsAdapter extends BaseAdapter {
         this.vehicleInfoList.addAll(vehicleInfoList);
     }
 
+    public DealerSearchInventoryResultsAdapter(Context context, ArrayList<VehicleInfo> vehicleInfoList) {
+        this.vehicleInfoList = new ArrayList<VehicleInfo>();
+        this.vehicleInfoList.addAll(vehicleInfoList);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (imageLoader == null)
@@ -44,12 +49,12 @@ public class DealerSearchInventoryResultsAdapter extends BaseAdapter {
         TextView txtCarprice = (TextView) convertView.findViewById(R.id.dealer_inventory_list_doller);
 
         VehicleInfo objVehicle = this.vehicleInfoList.get(position);
-        ArrayList<String> arrImageUrls = objVehicle.vehicle_image;
-        if(arrImageUrls.size()>0)
+        String arrImageUrls = objVehicle.photo;
+        if(arrImageUrls.length()>0)
         {
-            final String strImg = arrImageUrls.get(0);
-            strImg.replace("\\", "");
-            imgCar.setImageUrl(strImg, imageLoader);
+            //final String strImg = arrImageUrls.get(0);
+            arrImageUrls.replace("\\", "");
+            imgCar.setImageUrl(arrImageUrls, imageLoader);
 
             /*Thread thread = new Thread(new Runnable()
             {
@@ -73,7 +78,7 @@ public class DealerSearchInventoryResultsAdapter extends BaseAdapter {
         else
             imgCar.setImageResource(R.mipmap.placeholder);
         txtCarName.setText(objVehicle.name);
-        txtCarmiles.setText(objVehicle.vehicle_mileage+" Miles");
+        txtCarmiles.setText(objVehicle.mileage+" Miles");
         txtCarprice.setText("$"+objVehicle.kbb_price);
         notifyDataSetChanged();
         return convertView;

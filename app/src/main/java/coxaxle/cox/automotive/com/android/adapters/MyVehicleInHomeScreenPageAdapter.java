@@ -68,12 +68,13 @@ public class MyVehicleInHomeScreenPageAdapter extends PagerAdapter {
         TextView textService = (TextView) view.findViewById(R.id.my_car_next_service_date);
 
         objVehicle = this.objArraylist.get(position);
-        ArrayList<String> arrImageUrls = objVehicle.vehicle_image;
-        if (arrImageUrls.size() > 0) {
-            final String strImg = arrImageUrls.get(0);
-            strImg.replace("\\", "");
-            //String strUrl = Constants.GET_IMAGES + strImg;
-            imageCar.setImageUrl(strImg, imageLoader);
+        String arrImageUrls = objVehicle.photo;
+        if(arrImageUrls.length()>0)
+        {
+            //final String strImg = arrImageUrls.get(0);
+            arrImageUrls.replace("\\", "");
+            imageCar.setImageUrl(arrImageUrls, imageLoader);
+
 
 
 /*            Thread thread = new Thread(new Runnable() {
@@ -95,7 +96,7 @@ public class MyVehicleInHomeScreenPageAdapter extends PagerAdapter {
             imageCar.setImageResource(R.mipmap.placeholder);
 
         textCar.setText(objVehicle.name);
-        textService.setText(objVehicle.vehicle_model);
+        textService.setText(objVehicle.model);
 
         view.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -110,6 +111,7 @@ public class MyVehicleInHomeScreenPageAdapter extends PagerAdapter {
                 //vehicleDetailsIntent.putExtra("CarsDetails", objArraylist.get(position));
                 vehicleDetailsIntent.putExtra("navToActivity", "HomeScreenActivity");
                 vehicleDetailsIntent.putExtra("VehicleInfo", objVehicle);
+                vehicleDetailsIntent.putExtra("Flag_Add", 0);
                 context.startActivity(vehicleDetailsIntent);
 
             }

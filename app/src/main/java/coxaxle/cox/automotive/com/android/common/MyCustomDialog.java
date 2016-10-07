@@ -6,7 +6,9 @@ package coxaxle.cox.automotive.com.android.common;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +22,7 @@ import android.widget.TextView;
 import coxaxle.cox.automotive.com.android.R;
 
 public class MyCustomDialog extends DialogFragment {
-    Button buttonOk, btnCancel;
+    TextView buttonOk, btnCancel;
     TextView txtTitle, txtMessage;
     public onSubmitListener mListener;
     int mFlag, layout;
@@ -46,6 +48,7 @@ public class MyCustomDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(layout); //R.layout.custom_dialog
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
@@ -54,8 +57,8 @@ public class MyCustomDialog extends DialogFragment {
         if(layout == R.layout.custom_dialog) {
             txtTitle = (TextView) dialog.findViewById(R.id.textView_title);
             txtMessage = (TextView) dialog.findViewById(R.id.textView_Message);
-            buttonOk = (Button) dialog.findViewById(R.id.button_Ok);
-            btnCancel = (Button) dialog.findViewById(R.id.button_Cancel);
+            buttonOk = (TextView) dialog.findViewById(R.id.button_Ok);
+            btnCancel = (TextView) dialog.findViewById(R.id.button_Cancel);
 
             if(strPositiveButton.length() == 0)
                 buttonOk.setVisibility(View.GONE);

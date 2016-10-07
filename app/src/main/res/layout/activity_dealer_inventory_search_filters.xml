@@ -1,10 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:rsb="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="true"
+    android:orientation="vertical"
     android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:id="@+id/rl_searchfilters_header"
+        android:layout_alignParentTop="true"
+        android:background="@color/slate">
+        <TextView
+            android:id="@+id/SearchFilters_Headrname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="Filters"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp" />
+        <TextView
+            android:id="@+id/SearchFilters_saveSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="Save Search"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/colorMenuLight"
+            android:textSize="17dp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:scrollbars="none"
+        android:layout_below="@+id/rl_searchfilters_header"
+        android:layout_above="@+id/rl_searchfilters_footer"
+        android:layout_height="match_parent">
 
 
     <RelativeLayout
@@ -101,7 +134,7 @@
             android:layout_marginTop="1dp"
             android:text="@string/price" />
 
-        <coxaxle.cox.automotive.com.android.twothumbseekbar.RangeSeekBar
+        <coxaxle.cox.automotive.com.android.twothumbseekbar.RangeSeekBarwithSymbol
             android:id="@+id/dealer_inventory_search_filters_price_seek_bar"
             android:layout_below="@id/dealer_inventory_search_filters_price_tv"
             android:layout_width="match_parent"
@@ -114,8 +147,8 @@
             rsb:textAboveThumbsColor="@color/colorMenuLight"
             rsb:paddingEnd="25dp"
             rsb:paddingStart="5dp"
-            rsb:absoluteMaxValue="100"
-            rsb:absoluteMinValue="0" />
+            rsb:absoluteMaxValue="50000.00"
+            rsb:absoluteMinValue="0.00" />
 
         <!--<SeekBar
             android:id="@+id/dealer_inventory_search_filters_price_seek_bar"
@@ -166,7 +199,7 @@
             rsb:textAboveThumbsColor="@color/colorMenuLight"
             rsb:paddingEnd="25dp"
             rsb:paddingStart="5dp"
-            rsb:absoluteMaxValue="100"
+            rsb:absoluteMaxValue="50000"
             rsb:absoluteMinValue="0" />
 
        <!-- <SeekBar
@@ -224,14 +257,13 @@
             android:id="@+id/dealer_inventory_search_filters_select_more_options_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/dealer_inventory_search_filters_select_more_options_tv"
-            android:paddingBottom="65dp">
+            android:layout_below="@id/dealer_inventory_search_filters_select_more_options_tv">
 
             <TextView
                 android:id="@+id/dealer_inventory_search_filters_color_header_tv"
                 style="@style/searchFiltersFontStyleSize20"
                 android:layout_marginTop="1dp"
-                android:text="@string/Color" />
+                android:text="@string/color" />
 
             <TextView
                 android:id="@+id/dealer_inventory_search_filters_body_style_header_tv"
@@ -262,7 +294,18 @@
                 style="@style/searchFiltersSelectedFontStyleSize20"
                 android:layout_width="wrap_content"
                 android:layout_toLeftOf="@id/nav_search_new_car_image"
-                android:text="Color" />
+                android:text="" />
+
+            <TextView
+                android:id="@+id/dealer_inventory_search_filters_selected_color_look_tv"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="" />
+                <!--android:layout_toLeftOf="@id/dealer_inventory_search_filters_selected_color_tv"-->
+
 
             <TextView
                 android:id="@+id/dealer_inventory_search_filters_selected_body_type_tv"
@@ -270,7 +313,7 @@
                 android:layout_width="wrap_content"
                 android:layout_below="@id/dealer_inventory_search_filters_color_header_tv"
                 android:layout_toLeftOf="@id/nav_search_new_car_image"
-                android:text="Color" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/dealer_inventory_search_filters_selected_engine_type_tv"
@@ -278,7 +321,7 @@
                 android:layout_width="wrap_content"
                 android:layout_below="@id/dealer_inventory_search_filters_body_style_header_tv"
                 android:layout_toLeftOf="@id/nav_search_new_car_image"
-                android:text="enginetype" />
+                android:text="" />
 
             <ImageView
                 android:layout_width="7.5dp"
@@ -301,7 +344,7 @@
         </RelativeLayout>
 
 
-        <TextView
+        <!--<TextView
             android:id="@+id/dealer_inventory_search_filters_show_vehicles_btn"
             android:layout_width="match_parent"
             android:layout_height="65dp"
@@ -323,6 +366,56 @@
             android:paddingBottom="5dp"
             android:text="Results"
             android:textColor="@color/colorBlueLight"
-            android:textSize="16dp" />
+            android:textSize="16dp" />-->
     </RelativeLayout>
-</ScrollView>
+        </ScrollView>
+
+   <!-- <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:id="@+id/rl_searchfilters_footer"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorIndicatorBlue">-->
+
+
+        <TextView
+            android:id="@+id/rl_searchfilters_footer"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorIndicatorBlue"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/show_vehicles"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp" />
+
+   <!-- <Button
+        android:id="@+id/recently_searched"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="65dp"
+        android:background="@color/colorPumpkin"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/show_vehicles"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp" />-->
+      <!--  <TextView
+            android:id="@+id/dealer_inventory_search_filters_show_vehicles_results_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/dealer_inventory_search_filters_show_vehicles_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:text="Results"
+            android:textColor="@color/colorBlueLight"
+            android:textSize="16dp" />
+    </RelativeLayout>-->
+</RelativeLayout>

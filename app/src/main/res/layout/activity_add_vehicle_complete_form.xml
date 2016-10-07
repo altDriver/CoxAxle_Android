@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/activity_bg"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_addvehicletop"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorTextDark">
+
+        <TextView
+            android:id="@+id/AddVehicle_VehicleDetailsHeader_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/add_vehicle"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp" />
+        <Button
+            android:id="@+id/Add_Vehicle_Delete_vehicle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="21dp"
+            android:layout_centerVertical="true"
+            android:background="#00000000"
+            android:visibility="invisible"
+            android:text="Delete"
+            android:textColor="@color/colorWhite" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/add_vehicle_complete_vehicle_img"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@mipmap/car_img"/>
+            <ImageView
+                android:id="@+id/add_vehicle_complete_vehicle_profile_indicator_img"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/colorPumpkin"/>
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_nick_name_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:layout_below="@id/add_vehicle_complete_vehicle_img"
+                android:text="@string/vehicle_nick_name"/>
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_vin_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_nick_name_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/vehicle_vin"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_make_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_vin_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/make"/>
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_model_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_make_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/model"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_style_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_model_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/style"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_trim_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_style_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/trim"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_year_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_trim_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/year"/>
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_color_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_year_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/color"/>
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_mileage_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_color_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/current_mileage"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_tag_exp_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_mileage_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/tag_expiration"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_warranty_start_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_tag_exp_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/warranty_start"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_warranty_end_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_warranty_start_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/warranty_end"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_ext_warranty_start_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_warranty_end_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/extended_warranty_start"/>
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_ext_warranty_end_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_ext_warranty_start_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/extended_warranty_end"/>
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_ext_warranty_doc_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_ext_warranty_end_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/extended_warranty_document"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_insurence_exp_date_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_ext_warranty_doc_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/insurance_exp_date"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_insurence_card_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_insurence_exp_date_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/vehicle_insurance_card"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_vehicle_insurence_cost_txt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_insurence_card_txt"
+                style="@style/addVehicleCompleteScreenFontStyleSize17"
+                android:text="@string/insurance_cost"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_insurence_cost_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_insurence_card_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/insurance_cost"/>
+
+
+            <ImageView
+                android:id="@+id/dd_vehicle_complete_vehicle_insurence_card_img"
+                android:layout_below="@id/add_vehicle_complete_vehicle_insurence_exp_date_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/adddocumenticon"/>
+
+
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_insurence_exp_date_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_ext_warranty_doc_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/insurance_exp_date"/>
+
+            <ImageView
+                android:id="@+id/add_vehicle_complete_vehicle_ext_warranty_doc_img"
+                android:layout_below="@id/add_vehicle_complete_vehicle_ext_warranty_end_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/adddocumenticon"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_ext_warranty_end_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_ext_warranty_start_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                />
+
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_ext_warranty_start_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_warranty_end_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                />
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_warranty_end_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_warranty_start_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/warranty_end"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_warranty_start_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_tag_exp_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/warranty_start"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_tag_exp_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_mileage_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/tag_expiration"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_mileage_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_color_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/current_mileage"/>
+
+
+          <!--  <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_milage_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_color_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:text="@string/color"/>-->
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_color_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_year_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/color"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_year_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_trim_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/year"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_trim_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_style_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/trim"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_style_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_model_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/style"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_model_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_make_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/model"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_make_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_vin_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/make"/>
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_vin_edt"
+                android:layout_below="@id/add_vehicle_complete_vehicle_nick_name_txt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:hint="@string/vehicle_vin"/>
+
+            <EditText
+                android:id="@+id/add_vehicle_complete_vehicle_nick_name_edt"
+                style="@style/addVehicleCompleteScreenEditTextStyleSize17"
+                android:layout_below="@id/add_vehicle_complete_vehicle_img"
+                android:hint="@string/vehicle_nick_name"/>
+
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_save_vehicle"
+                android:background="@color/colorIndicatorBlue"
+                android:layout_width="match_parent"
+                android:layout_below="@id/add_vehicle_complete_vehicle_insurence_cost_txt"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                android:text="save"/>
+
+            <TextView
+                android:id="@+id/add_vehicle_complete_cancle_vehicle"
+                android:background="@color/colorPumpkin"
+                android:layout_width="match_parent"
+                android:layout_below="@id/add_vehicle_complete_save_vehicle"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
+                android:layout_height="60dp"
+                android:textSize="20sp"
+                android:text="Cancle"/>
+
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

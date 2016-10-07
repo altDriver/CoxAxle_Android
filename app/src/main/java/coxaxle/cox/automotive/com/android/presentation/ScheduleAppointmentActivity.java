@@ -73,7 +73,7 @@ public class ScheduleAppointmentActivity extends AppCompatActivity {
     void getVehicleDetails() {
 
         VehicleInfo objVehicle = this.getIntent().getParcelableExtra("VehicleInfo");
-        strVIN = objVehicle.vehicle_vin;
+        strVIN = objVehicle.vin;
 
         mUserSessionManager = new UserSessionManager(this);
         userData = mUserSessionManager.getUserDetails();

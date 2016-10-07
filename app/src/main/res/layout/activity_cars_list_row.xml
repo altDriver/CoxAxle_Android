@@ -4,15 +4,11 @@
     android:layout_height="match_parent"
     android:background="@color/activity_bg">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="305dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/list_row_selector"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/list_row_selector">
 
         <!--<ImageView
             android:id="@+id/cars_list_image"
@@ -22,15 +18,27 @@
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/cars_list_image"
             android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
             android:layout_height="223dp"
             android:adjustViewBounds="true"
             android:layout_gravity="center" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="25dp"
+            android:src="@mipmap/trash"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/CarsList_DeleteCar_iv" />
+
         <TextView
             android:id="@+id/cars_list_name"
+            android:layout_below="@+id/cars_list_image"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="17dp"
             android:textStyle="bold"
             android:textColor="@color/home_screen_title_text_color"
@@ -38,13 +46,14 @@
 
         <TextView
             android:id="@+id/car_list_next_service_date"
+            android:layout_below="@+id/cars_list_name"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="23dp"
             android:textSize="13sp" />
-    </LinearLayout>
+    </RelativeLayout>
 
 
 

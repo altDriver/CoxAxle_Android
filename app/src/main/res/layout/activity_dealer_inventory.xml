@@ -9,28 +9,28 @@
         android:layout_height="80dp">
 
         <TextView
-            android:id="@+id/dealer_inventory_title_text"
-            android:layout_width="157dp"
-            android:layout_height="24dp"
+            android:id="@+id/DealerInventory_Title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textSize="20sp"
-            android:textStyle="bold"
             android:textColor="@color/colorWhite"
             android:text="@string/dealer_inventory" />
-<!--        <ImageView
+        <ImageView
             android:id="@+id/dealer_inventory_menu_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="24dp"
+            android:layout_height="16dp"
             android:layout_marginRight="20dp"
-            android:src="@mipmap/hamburger_icon"
+            android:src="@mipmap/menu_icon_grey"
             android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true" />-->
-
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
+
     <ListView
         android:id="@+id/dealer_inventory_list"
-        android:layout_width="fill_parent"
+        android:background="@color/activity_bg"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@null"/>
     </LinearLayout>

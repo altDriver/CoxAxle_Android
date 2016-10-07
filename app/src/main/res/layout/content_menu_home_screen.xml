@@ -17,12 +17,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <ImageView
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager_DealerBanners"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="@color/colorWhite">
+            </android.support.v4.view.ViewPager>
+            <LinearLayout
+                android:id="@+id/viewPagerCountDots_DealerBanners"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="25dp"
+                android:gravity="center"
+                android:orientation="horizontal" />
+           <!-- <ImageView
                 android:id="@+id/home_screen_banner_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/featured_banner" />
+                android:background="@mipmap/featured_banner" />-->
 
             <TextView
                 android:id="@+id/dealer_services_title_text"
@@ -43,11 +55,9 @@
                 android:background="@color/colorWhite">
 
                 <RelativeLayout
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp"
                     android:id="@+id/nav_schedule_an_appointment_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="90dp">
 
                     <ImageView
                         android:id="@+id/calender_image"
@@ -74,12 +84,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="26dp"
+                        android:layout_centerInParent="true"
                         android:layout_toRightOf="@id/calender_image"
                         android:layout_toLeftOf="@id/nav_scheduled_appointment_image"
                         android:text="@string/schedule_appointment"
                         android:textColor="@color/home_screen_title_text_color"
                         android:textSize="17sp" />
-                    <TextView
+                   <!-- <TextView
                         android:id="@+id/appointment_description_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -89,7 +100,7 @@
                         android:layout_toLeftOf="@id/nav_scheduled_appointment_image"
                         android:layout_toRightOf="@id/calender_image"
                         android:text="At vero eos et accusamus et iusto odio dignissimos"
-                        android:textSize="13sp" />
+                        android:textSize="13sp" />-->
                 </RelativeLayout>
 
                 <ImageView
@@ -99,12 +110,11 @@
                     android:layout_below="@id/nav_schedule_an_appointment_layout"
                     android:layout_marginLeft="100dp"
                     android:src="@color/colorBg" />
+
             <RelativeLayout
                 android:id="@+id/nav_service_history_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:layout_height="90dp"
                 android:layout_below="@id/appointment_divider_image">
                 <ImageView
                     android:id="@+id/service_history_image"
@@ -120,6 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="26dp"
+                    android:layout_centerInParent="true"
                     android:layout_toRightOf="@id/service_history_image"
                     android:text="@string/service_history"
                     android:textColor="@color/home_screen_title_text_color"
@@ -131,10 +142,10 @@
                     android:layout_height="15dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="21.5dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_centerVertical="true"
                     android:background="@mipmap/learn_more_arrow" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/service_history_description_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -144,7 +155,7 @@
                     android:layout_toLeftOf="@id/nav_service_history_image"
                     android:layout_toRightOf="@id/service_history_image"
                     android:text="0000 At vero eos et accusamus et iusto odio dignissimos"
-                    android:textSize="13sp" />
+                    android:textSize="13sp" />-->
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -154,15 +165,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp">
 
-                <RelativeLayout
+             <!--   <RelativeLayout
                     android:id="@+id/my_car_title_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content">-->
 
                     <TextView
                         android:id="@+id/my_cars_title_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="60dp"
                         android:layout_marginBottom="1dp"
                         android:background="@color/colorWhite"
                         android:paddingBottom="18.5dp"
@@ -180,13 +191,13 @@
                         android:layout_marginRight="20dp"
                         android:layout_marginTop="15dp"
                         android:src="@mipmap/addvehicle_btn" />
-                </RelativeLayout>
+               <!-- </RelativeLayout>-->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_marginTop="40dp"
-                    android:layout_below="@id/my_car_title_layout"
+                    android:layout_below="@id/my_cars_title_text"
                     android:textColor="@color/activity_bg_black"
                     android:text="No vehicles added, Please add a Vehicle"/>
 
@@ -230,13 +241,14 @@
                 <RelativeLayout
                     android:id="@+id/nav_new_car_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="90dp"
                     android:padding="10dp">
 
                     <ImageView
                         android:id="@+id/search_new_car_image"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="21.5dp"
                         android:src="@mipmap/search_cars_icon" />
 
@@ -245,6 +257,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="26dp"
+                        android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/search_new_car_image"
                         android:text="@string/search_new_and_used_cars"
                         android:textColor="@color/home_screen_title_text_color"
@@ -256,12 +269,12 @@
                         android:layout_width="7.5dp"
                         android:layout_height="15dp"
                         android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginRight="21.5dp"
                         android:background="@mipmap/learn_more_arrow" />
 
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/search_new_car_description_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -270,7 +283,7 @@
                         android:layout_toLeftOf="@id/nav_search_new_car_image"
                         android:layout_toRightOf="@id/search_new_car_image"
                         android:text="At vero eos et accusamus et iusto odio dignissimos"
-                        android:textSize="13sp" />
+                        android:textSize="13sp" />-->
                 </RelativeLayout>
 
                 <ImageView
@@ -285,7 +298,7 @@
                 <RelativeLayout
                     android:id="@+id/nav_saved_cars_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="90dp"
                     android:layout_below="@id/search_new_car_divider_image"
                     android:padding="10dp">
 
@@ -293,18 +306,18 @@
                         android:id="@+id/saved_cars_image"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="21.5dp"
-                        android:layout_marginTop="28dp"
                         android:src="@mipmap/saved_cars_icon" />
 
                     <TextView
-                        android:id="@+id/saved_cars_title_text"
+                        android:id="@+id/saved_searches_title_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="26dp"
-                        android:layout_marginTop="23dp"
+                        android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/saved_cars_image"
-                        android:text="@string/saved_cars"
+                        android:text="@string/saved_searches"
                         android:textColor="@color/home_screen_title_text_color"
                         android:textSize="17sp" />
 
@@ -318,7 +331,7 @@
                         android:background="@mipmap/learn_more_arrow" />
 
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/saved_cars_description_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -327,7 +340,7 @@
                         android:layout_toLeftOf="@id/nav_saved_cars_image"
                         android:layout_toRightOf="@id/saved_cars_image"
                         android:text="At vero eos et accusamus et iusto odio dignissimos"
-                        android:textSize="13sp" />
+                        android:textSize="13sp" />-->
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -335,6 +348,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@color/colorWhite"
                 android:padding="10dp">
 
@@ -354,6 +370,7 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/call_us" />
 
+
                 <ImageView
                     android:id="@+id/message_image"
                     android:layout_width="40dp"
@@ -367,10 +384,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/message_image"
                     android:layout_centerHorizontal="true"
-
                     android:layout_marginTop="5dp"
                     android:text="@string/email_us" />
-
 
                 <ImageView
                     android:id="@+id/map_image"
@@ -389,6 +404,19 @@
                     android:layout_marginRight="38dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/direction" />
+
+
+                <View
+                    android:layout_toRightOf="@+id/call_us_text"
+                    android:layout_width="1dp"
+                    android:background="@color/activity_bg"
+                    android:layout_height="match_parent"/>
+                <View
+                    android:layout_toRightOf="@+id/message_text"
+                    android:layout_width="10dp"
+                    android:background="@color/colorPumpkin"
+                    android:layout_height="match_parent"/>
+
             </RelativeLayout>
 
 

@@ -20,9 +20,11 @@ public class Utility {
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final String FNAME_PATTERN = "[A-Z][a-zA-Z]*";
-    private static final String LNAME_PATTERN = "[a-zA-z]+([ '-][a-zA-Z]+)*";
 
+    private static final String FNAME_PATTERN = "[A-Z][a-zA-Z]*";
+
+    private static final String LNAME_PATTERN = "[a-zA-z]+([ '-][a-zA-Z]+)*";
+    private static final String passwordPattrn = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$";
     /**
      * Validate Email with regular expression
      *
@@ -72,7 +74,9 @@ public class Utility {
     }
 
     public static boolean passwordValidation(String password) {
-        if (!TextUtils.isEmpty(password) && password != null && password.length() > 5) {
+        if (!TextUtils.isEmpty(password) && password != null ) {
+            pattern = Pattern.compile(passwordPattrn);
+            matcher = pattern.matcher(password);
 
             return true;
         } else

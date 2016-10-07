@@ -2,6 +2,8 @@ package coxaxle.cox.automotive.com.android.presentation;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -51,15 +53,17 @@ import java.util.Map;
 
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.common.FontsOverride;
+import coxaxle.cox.automotive.com.android.common.MyCustomDialog2;
 import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 import coxaxle.cox.automotive.com.android.common.Utility;
 import coxaxle.cox.automotive.com.android.model.Constants;
 import coxaxle.cox.automotive.com.android.model.VehicleInfo;
+import coxaxle.cox.automotive.com.android.presentation.fragments.VehicleListFragment;
 
 /**
  * Created by Lakshmana on 29-08-2016.
  */
-public class AddVehicle2of4Activity extends Activity implements View.OnClickListener {
+public class AddVehicle2of4Activity extends Activity implements View.OnClickListener, MyCustomDialog2.onSubmitListener {
     //String strphotoInsurance64;
     Button btnSave;
     ImageView ivAddInsurancePhoto;
@@ -85,6 +89,7 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
         fontNormalHelvetica = Typeface.createFromAsset(getAssets(), "font/HelveticaNeue.ttf");
         FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
         fontsOverrideobj.replaceFonts((ViewGroup) this.findViewById(android.R.id.content));
+
         Bundle data = this.getIntent().getExtras();
         if(data!=null) {
             page1Values = (HashMap<String, String>) data.getSerializable("Page1Values");
@@ -113,9 +118,9 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
             if(data != null)
                 vehicleListItem = data.getParcelable("VehicleInfo");
             //vehicleListItem = this.getIntent().getParcelableExtra("VehicleInfo");
-            String strDate = vehicleListItem.vehicle_insurance_expiration_date;
+            String strDate = vehicleListItem.insurence_expiration_date;
             try{
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.US);
                 Date date = sdf.parse(strDate);
                 strDate = dateFormatter.format(date.getTime());
             }catch (Exception e)
@@ -124,23 +129,26 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
             }
             etInsuranceExpirationDate.setText(strDate);
 
-            if (vehicleListItem.vehicle_insurance_document.length() > 0) {
-                final String strImg = vehicleListItem.vehicle_insurance_document;
-                strImg.replace("\\", "");
-
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            URL url = new URL(strImg);//"http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicles/7_9007_25080.png"
-                            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                            addBitmapToLayout(image);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+            ArrayList<String> arrInsurance = vehicleListItem.insurance_document;
+            for(int i =0 ; i<arrInsurance.size(); i++)
+            {
+                final String strImg = arrInsurance.get(i);
+                if (strImg != null) {
+                    strImg.replace("\\", "");
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                URL url = new URL(strImg);//"http://192.168.8.101/ecommerce_crm/coxaxle_api/public/vehicles/7_9007_25080.png"
+                                Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                                addBitmapToLayout(image);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
-                thread.start();
+                    });
+                    thread.start();
+                }
             }
         }
 
@@ -209,7 +217,7 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
         }
         if (view == ivAddInsurancePhoto) {
             if (bitmapArray.size() == 5)
-                Toast.makeText(getApplicationContext(), "You can't add more than 5 images. Please delete images", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "You can't add more than 5 images. Please delete a image", Toast.LENGTH_SHORT).show();
             else
                 selectImage();
         }
@@ -233,24 +241,41 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                                 String strMessage = jsonobjListVehiclesResponse.getString("message");
                                 if (strStatus.equals("True")) {
                                     if(navToActivity.equalsIgnoreCase("HomeScreenActivity")) {
-                                        Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreen.class);
+                                        Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreenActivity.class);
                                         intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();
                                     }else if(navToActivity.equalsIgnoreCase("ScheduleAppointmentActivity"))
                                     {
-                                        Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreen.class);//VehicleListActivity
-                                        intent.putExtra("navToActivity",navToActivity);
+                                        Intent intent = new Intent(AddVehicle2of4Activity.this, VehicleListActivity.class);//VehicleListActivity
+                                        intent.putExtra("Flag_Add", 1);
                                         intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();
                                     }
                                     else {
-                                        Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreen.class);//VehicleListActivity
+                                        /*Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreenActivity.class);//VehicleListActivity
                                         intent.putExtra("navToActivity","vehicleDetails");
                                         intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
+                                        finish();*/
+
+                                        Intent intent = new Intent(AddVehicle2of4Activity.this, HomeScreenActivity.class);
+                                        intent.putExtra("Flag_Add", 1);
+                                        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
                                         finish();
+
+                                        //AddVehicleActivity.getInstance().finish();
+                                        //finish();
+
+                                        /*VehicleListFragment vehicledetailsfragment = new VehicleListFragment();
+                                        Bundle bundle = new Bundle();
+                                        bundle.putInt("Flag_Add", 1);
+                                        vehicledetailsfragment.setArguments(bundle);
+                                        FragmentManager manager = getFragmentManager();
+                                        FragmentTransaction transaction=manager.beginTransaction();
+                                        transaction.replace(R.id.fragment_place, vehicledetailsfragment).commit();*/
                                     }
                                 }
                                 Toast.makeText(AddVehicle2of4Activity.this, strMessage, Toast.LENGTH_LONG).show();
@@ -277,9 +302,10 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                     if (flag == 1)
                         params.put("vid", vehicleListItem.id);
                     params.put("uid", strUid);
-                    params.put("name", page1Values.get("vehicle_name"));
-                    params.put("dealer_id", "2");
+                    params.put("dealer_code", Constants.DEALER_CODE);
                     //params.put("manual", "");
+
+                    params.put("name", page1Values.get("vehicle_name"));
                     params.put("vin", page1Values.get("vehicle_vin"));
                     params.put("vehicle_type", page1Values.get("vehicle_type"));
                     params.put("make", page1Values.get("vehicle_make"));
@@ -287,16 +313,16 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                     params.put("year", page1Values.get("vehicle_year"));
                     params.put("tag_expiration_date", page1Values.get("vehicle_tagexpiration"));
                     params.put("color", "Red");
-                    params.put("emi", "10000");
-                    params.put("interest", "2000");
-                    params.put("loan_amount", "100000");
-                    params.put("loan_tenure", "36");
-                    params.put("waranty_from", "2");
-                    params.put("waranty_to", "3");
-                    params.put("extended_waranty_from", "4");
-                    params.put("extended_waranty_to", "5");
-                    params.put("trim", "6");
-                    params.put("style", "sports");
+                    //params.put("emi", "10000");
+                    //params.put("interest", "2000");
+                    //params.put("loan_amount", "100000");
+                    //params.put("loan_tenure", "36");
+                    params.put("waranty_from", "26-01-2012");
+                    params.put("waranty_to", "26-01-2017");
+                    params.put("extended_waranty_from", "26-01-2017");
+                    params.put("extended_waranty_to", "26-01-2019");
+                    params.put("trim", page1Values.get("vehicle_trim"));
+                    params.put("style", page1Values.get("vehicle_style"));
                     params.put("mileage", page1Values.get("vehicle_miles"));
                     params.put("kbb_price", "100");
                     try {
@@ -308,11 +334,11 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                     }
                     params.put("insurance_expiration_date", strInsuranceExp);
                     params.put("photo", page1Values.get("vehicle_photo")); //page1Values.get("vehicle_photo")
-                    //if (strImages.charAt(strImages.length() - 1) == ',')
-                    //strImages = strImages.substring(0, strImages.length() - 1);
+                    if (strImages.charAt(strImages.length() - 1) == ',')
+                        strImages = strImages.substring(0, strImages.length() - 1);
                     params.put("insurance_document", strImages);
                     params.put("extended_waranty_document", "");
-                    Log.v("params>>>", "" + params);
+                    Log.v("addVehicle>>>", "" + params);
 
                     return params;
                 }
@@ -341,7 +367,7 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
     }
 
     private void selectImage() {
-        final CharSequence[] items = {"Take Photo", "Choose from Library"};
+        /*final CharSequence[] items = {"Take Photo", "Choose from Library"};
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AddVehicle2of4Activity.this);
         builder.setTitle("Add Photo!");
@@ -363,8 +389,16 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                 }
             }
         });
-        builder.show();
+        builder.show();*/
+        MyCustomDialog2 fragmentDialog = new MyCustomDialog2();
+        fragmentDialog.mListener = AddVehicle2of4Activity.this;
+        fragmentDialog.setDialog(R.layout.custom_dialog2, getApplicationContext(), 2, "Take a Photo", "Choose from Camera Roll", "Cancel");
+        fragmentDialog.show(getFragmentManager(), "");
+
     }
+
+
+
 
     private void galleryIntent() {
         Intent intent = new Intent();
@@ -489,6 +523,19 @@ public class AddVehicle2of4Activity extends Activity implements View.OnClickList
                 e.printStackTrace();
             }
             return b;
+        }
+    }
+
+    @Override
+    public void setOnSubmitListener(int flag) {
+        if(flag == 2)
+            cameraIntent();
+    }
+
+    @Override
+    public void setOnSubmitListener2(int flag) {
+        if(flag == 2){
+            galleryIntent();
         }
     }
 }

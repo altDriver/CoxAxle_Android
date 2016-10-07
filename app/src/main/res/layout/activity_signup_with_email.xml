@@ -2,10 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background_img"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin">
+   >
 
     <!-- Login progress -->
     <ProgressBar
@@ -17,8 +15,12 @@
         android:visibility="gone" />
 
     <ScrollView
+        android:id="@+id/email_signup_scrollView"
+        android:background="@mipmap/background_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:fillViewport="true"
         android:isScrollContainer="true"
         android:scrollbars="none">
@@ -52,7 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/login_activity_login_with_email_seperator"
                 android:layout_marginTop="30dp"
-                android:background="@drawable/round_corner_shape"
+                android:background="@drawable/white_round_corner_shape"
+                android:paddingBottom="5dp"
                 android:orientation="vertical">
 
                 <android.support.design.widget.TextInputLayout
@@ -147,21 +150,51 @@
 
             </LinearLayout>
 
+
+
+
             <Button
                 android:id="@+id/email_signup_button"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@id/signup_form_layout"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="33dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="50dp"
-                android:background="@mipmap/login_btn_bg"
+                android:background="@drawable/blue_round_corner_shape"
                 android:text="@string/sign_up_with_email"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textSize="16sp" />
 
+            <CheckBox
+                android:id="@+id/signUp_terms_conditions_checkbox"
+                android:layout_above="@id/email_signup_button"
+
+                android:layout_marginBottom="-40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+<TextView
+    android:id="@+id/signUp_terms_conditions_checkbox_text"
+    android:layout_above="@id/email_signup_button"
+    android:layout_toRightOf="@id/signUp_terms_conditions_checkbox"
+    android:layout_marginBottom="-35dp"
+    android:layout_width="wrap_content"
+    android:text="I agree to Cox Axle Terms Conditions"
+    android:layout_height="wrap_content" />
+
         </RelativeLayout>
     </ScrollView>
+    <RelativeLayout
+        android:id="@+id/signUp_terms_conditions_webview_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <WebView
+            android:id="@+id/signUp_terms_conditions_webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </WebView>
+
+    </RelativeLayout>
 </LinearLayout>

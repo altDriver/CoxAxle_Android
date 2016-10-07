@@ -8,7 +8,9 @@
         android:id="@+id/vehicle_details_header_bar"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="@color/slate"></View>
+        android:background="@color/slate">
+
+    </View>
 
     <Button
         android:id="@+id/vehicle_details_edit_vehicle"
@@ -48,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="370dp"
                 android:background="@color/colorWhite" />
+
             <LinearLayout
                 android:id="@+id/VehicleDetails_viewPagerCountDots"
                 android:layout_width="match_parent"
@@ -176,102 +179,120 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/vehicle_details_manufacture_warranty_layout"
+
+            <LinearLayout
+                android:id="@+id/vehicle_details_manufacture_warranty_indicator_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/vehicle_details_service_data_layout"
                 android:layout_marginTop="5dp"
-                android:background="@color/colorWhite">
+                android:background="@color/colorWhite"
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/vehicle_details_manufacture_warranty_indicator_layout"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="30dp">
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Manufacturer Warranty"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Up to 36,000 miles"
+                    android:textColor="@color/colorTextLight"
+                    android:textSize="13sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/VehicleDetails_MonthsRemaining"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        android:text="24"
+                        android:textColor="@color/colorIndicatorBlue"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/monthsRemaingtext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/VehicleDetails_MonthsRemaining"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:text="months remaining"
+                        android:textColor="@color/colorTextLight"
+                        android:textSize="13sp" />
+
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_below="@+id/monthsRemaingtext"
+                        >
 
-                        <ProgressBar
+                        <coxaxle.cox.automotive.com.android.common.SemicircularProgressBar
                             android:id="@+id/vehicle_details_manufacturer_warranty_months_indicator"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="250dp"
-                            android:layout_height="250dp"
-                            android:layout_centerInParent="true"
-                            android:indeterminate="false"
-                            android:max="100"
-                            android:progress="75"
-                            android:progressDrawable="@drawable/circular_progress_pumpkin_bg"
-                            android:secondaryProgress="100" />
+                            android:layout_width="150dp"
+                            android:layout_height="80dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="20dp" />
 
-                        <TextView
-                            android:id="@+id/vehicle_details_warranty_months_completed_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="18"
-                            android:textSize="20dp" />
-
-                        <TextView
-                            android:id="@+id/vehicle_details_warranty_months_tv"
-                            android:layout_width="match_parent"
+                        <RelativeLayout
+                            android:layout_width="150dp"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/vehicle_details_manufacturer_warranty_months_indicator"
-                            android:layout_marginTop="15.5dp"
-                            android:gravity="center"
-                            android:text="Manufacturer Warranty Months"
-                            android:textSize="13sp" />
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="50dp"
+                            android:paddingLeft="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:text="0"
+                                android:textSize="20dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="36"
+                                android:textSize="20dp" />
+
+                        </RelativeLayout>
+
+
+                        <ImageView
+                            android:id="@+id/vehicle_details_pb_indicator_iv"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/vehicle_details_manufacturer_warranty_months_indicator"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="-15dp"
+                            android:src="@mipmap/rectangle" />
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                </RelativeLayout>
 
-                        <ProgressBar
-                            android:id="@+id/vehicle_details_manufacturer_warranty_miles_indicator"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="250dp"
-                            android:layout_height="250dp"
-                            android:layout_centerInParent="true"
-                            android:indeterminate="false"
-                            android:max="100"
-                            android:progress="75"
-                            android:progressDrawable="@drawable/circular_progress_blue_bg"
-                            android:secondaryProgress="100" />
-
-                        <TextView
-                            android:id="@+id/vehicle_details_warranty_miles_completed_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:text="18958"
-                            android:textSize="20dp" />
-
-                        <TextView
-                            android:id="@+id/vehicle_details_warranty_miles_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/vehicle_details_manufacturer_warranty_miles_indicator"
-                            android:layout_marginTop="15.5dp"
-                            android:gravity="center"
-                            android:text="Manufacturer Warranty Miles"
-                            android:textSize="13sp" />
-                    </RelativeLayout>
-                </LinearLayout>
-
-
-            </RelativeLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/vehicle_details_vin_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/vehicle_details_manufacture_warranty_layout"
+                android:layout_below="@id/vehicle_details_manufacture_warranty_indicator_layout"
                 android:layout_marginTop="5dp"
                 android:background="@color/colorWhite"
                 android:paddingLeft="20dp"
@@ -435,6 +456,31 @@
                 android:layout_marginRight="21.5dp"
                 android:layout_marginTop="15dp"
                 android:background="@mipmap/call_icon" />
+
+            <TextView
+                android:id="@+id/vehicle_details_delete_vehicle_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/vehicle_details_roadside_assistance_title_tv"
+                android:layout_marginTop="1dp"
+                android:background="@color/colorWhite"
+                android:paddingBottom="22dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="19.5dp"
+                android:text="Delete Vehicle"
+                android:textColor="@color/colorTextDark"
+                android:textSize="20sp" />
+
+
+            <ImageView
+                android:id="@+id/vehicle_details_delete_vehicle_iv"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/vehicle_details_roadside_assistance_nav_iv"
+                android:layout_marginRight="21.5dp"
+                android:layout_marginTop="15dp"
+                android:background="@mipmap/delete_vehicle" />
 
 
         </RelativeLayout>

@@ -3,6 +3,7 @@ package coxaxle.cox.automotive.com.android.presentation;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,15 +31,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,6 +50,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -59,12 +64,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.common.FontsOverride;
 import coxaxle.cox.automotive.com.android.common.MyCustomDialog;
+import coxaxle.cox.automotive.com.android.common.MyCustomDialog2;
 import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 import coxaxle.cox.automotive.com.android.common.Utility;
 import coxaxle.cox.automotive.com.android.model.Constants;
@@ -73,15 +80,15 @@ import coxaxle.cox.automotive.com.android.model.VehicleInfo;
 /**
  * Created by Lakshman on 24-08-2016.
  */
-public class AddVehicleActivity extends AppCompatActivity implements View.OnClickListener, MyCustomDialog.onSubmitListener{
-    Button btnNext, btnDelete, btnFindVIN;
+public class AddVehicleActivity extends AppCompatActivity implements View.OnClickListener, MyCustomDialog.onSubmitListener, MyCustomDialog2.onSubmitListener{
+    Button btnNext, btnFindVIN; //, btnDelete
     LinearLayout llNew, llUsed, llCPO;
     TextView tvNew, tvUsed, tvCPO, tvAddPhotoText, tvVehicleDetailsHeader;
     ImageView imgAddPhoto; //imgAddPhotoMain
-    EditText etVehicleName, etVin, etMake, etModel, etMilesDriven, etTagExpiration, etSelectYear;
-    final String[] modelitems = { "Accent", "Azera", "Elantra", "SE Sedan 4D" , "Limited Sedan 4D", "Sport Sedan 4D", "Coupe 2D", "GT Hatchback 4D", "Equus", "Genesis", "Genesis Coupe", "Santa Fe", "Santa Fe Sport"};
-    final String[] makeitems = { "Acura", "Alfa Romeo", "Aston Martin", "Audi" , "Bentley", "BMW", "Bugatti", "Buick"};
-    String[] yearArray;
+    EditText etVehicleName, etVin,  etMilesDriven, etTagExpiration; //etMake, etModel, etSelectYear
+    //final String[] modelitems = { "Accent", "Azera", "Elantra", "SE Sedan 4D" , "Limited Sedan 4D", "Sport Sedan 4D", "Coupe 2D", "GT Hatchback 4D", "Equus", "Genesis", "Genesis Coupe", "Santa Fe", "Santa Fe Sport"};
+    //final String[] makeitems = { "Acura", "Alfa Romeo", "Aston Martin", "Audi" , "Bentley", "BMW", "Bugatti", "Buick"};
+    //String[] yearArray;
     private DatePicker datePicker;
     private Calendar calendar;
     private int year, month, day;
@@ -98,20 +105,42 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
     ArrayList<Bitmap> bitmapArray;
     ViewPager AddCarsViewPager;
-    LinearLayout llDotsCount;
-    private ImageView[] dots;
-    private int dotsCount;
+    //LinearLayout llDotsCount;
+    //private ImageView[] dots;
+    //private int dotsCount;
+
+    ProgressDialog pdialog;
+    List<String> yearArrayList, makeArraylist, modelArraylist, styleArrayList, trimArrayList;
+    Spinner makeSpinner, modelSpinner, yearSpinner, trimSpinner, styleSpinner;
+
+    static AddVehicleActivity activityADD1of4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_add_vehicle);
+        getSupportActionBar().hide();
         fontNormalHelvetica = Typeface.createFromAsset(getAssets(), "font/HelveticaNeue.ttf");
         fontBoldHelvetica = Typeface.createFromAsset(getAssets(), "font/helvetica-neue-bold.ttf");
         FontsOverride fontsOverrideobj = new FontsOverride(getAssets(), "font/HelveticaNeue.ttf");
         fontsOverrideobj.replaceFonts((ViewGroup)this.findViewById(android.R.id.content));
 
+        activityADD1of4 = this;
+
+        yearArrayList = new ArrayList<>();
+        yearArrayList.add("Year");
+        makeArraylist = new ArrayList<>();
+        makeArraylist.add("Make");
+        styleArrayList = new ArrayList<>();
+        styleArrayList.add("Style");
         loadViews();
+
+        pdialog = new ProgressDialog(AddVehicleActivity.this);
+        pdialog.setMessage("Loading...");
+        pdialog.show();
+        getVehicleModelItems();
+        getVehicleStyleandTrim();
+
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -119,13 +148,13 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         dateFormatter = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
         dateFormateToSend = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         setTagExpirationDate();
-        ArrayList<String> years = new ArrayList<>();
+        /*ArrayList<String> years = new ArrayList<>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = thisYear; i >= 1980; i--) {
             years.add(Integer.toString(i));
         }
         yearArray = new String[years.size()];
-        yearArray = years.toArray(yearArray);
+        yearArray = years.toArray(yearArray);*/
 
         bitmapArray = new ArrayList<>();
 
@@ -155,7 +184,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                     etVehicleName.setTypeface(fontNormalHelvetica);
             }
         });
-        etMake.addTextChangedListener(new TextWatcher() {
+        /*etMake.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) {}
@@ -171,7 +200,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                 else
                     etMake.setTypeface(fontNormalHelvetica);
             }
-        });
+        });*/
         etVin.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -189,7 +218,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                     etVin.setTypeface(fontNormalHelvetica);
             }
         });
-        etModel.addTextChangedListener(new TextWatcher() {
+        /*etModel.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void afterTextChanged(Editable s) {}
@@ -222,7 +251,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                 else
                     etSelectYear.setTypeface(fontNormalHelvetica);
             }
-        });
+        });*/
         etTagExpiration.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -257,7 +286,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                     etMilesDriven.setTypeface(fontNormalHelvetica);
             }
         });
-        etMake.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*etMake.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(b)
@@ -275,17 +304,6 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                 }
             }
         });
-        etTagExpiration.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b)
-                {
-                    //showDialog(DATE_PICKER_ID);
-                    tagDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                    tagDatePickerDialog.show();
-                }
-            }
-        });
         etSelectYear.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
@@ -299,19 +317,31 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                     e.printStackTrace();
                 }
             }
+        });*/
+        etTagExpiration.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b)
+                {
+                    //showDialog(DATE_PICKER_ID);
+                    tagDatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                    tagDatePickerDialog.show();
+                }
+            }
         });
+
     }
 
     public  void setDataToView()
     {
         tvVehicleDetailsHeader.setText("Edit vehicle");
-        btnDelete.setVisibility(View.VISIBLE);
+        //btnDelete.setVisibility(View.VISIBLE);
         etVehicleName.setText(vehicleListItem.name);
-        etVin.setText(vehicleListItem.vehicle_vin);
-        etMake.setText(vehicleListItem.vehicle_make);
-        etModel.setText(vehicleListItem.vehicle_model);
-        etMilesDriven.setText(vehicleListItem.vehicle_mileage);
-        String strDate = vehicleListItem.vehicle_tag_expiration_date;
+        etVin.setText(vehicleListItem.vin);
+        //etMake.setText(vehicleListItem.make);
+        //etModel.setText(vehicleListItem.model);
+        etMilesDriven.setText(vehicleListItem.mileage);
+        String strDate = vehicleListItem.tag_expiration_date;
         try{
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = sdf.parse(strDate);
@@ -321,7 +351,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             e.printStackTrace();
         }
         etTagExpiration.setText(strDate);
-        etSelectYear.setText(vehicleListItem.vehicle_year);
+        //etSelectYear.setText(vehicleListItem.year);
 
         strType = vehicleListItem.vehicle_type;
         if(strType.equalsIgnoreCase("New")) {
@@ -339,16 +369,16 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             tvCPO.setTypeface(fontBoldHelvetica);
         }
 
-        if (vehicleListItem.vehicle_image.size() > 0) {
+        if (vehicleListItem.photo.length() > 0) {
             AddCarsViewPager.setVisibility(View.VISIBLE);
             imgAddPhoto.setVisibility(View.INVISIBLE);
             tvAddPhotoText.setVisibility(View.INVISIBLE);
-            ArrayList<String> arrImages = vehicleListItem.vehicle_image;
+            String strImages = vehicleListItem.photo;
             ArrayList<String> arrimages = new ArrayList<>();
-            for(int i =0; i< arrImages.size(); i++) {
-                String strImg = arrImages.get(i);
-                strImg.replace("\\", "");
-                arrimages.add(strImg);
+            if(strImages.length()>0){
+                //String strImg = arrImages.get(i);
+                strImages.replace("\\", "");
+                arrimages.add(strImages);
             }
 
             new GetImagesFromServer().execute(arrimages);
@@ -398,7 +428,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
         } else {
             AddCarsViewPager.setVisibility(View.INVISIBLE);
-            llDotsCount.removeAllViews();
+            //llDotsCount.removeAllViews();
             imgAddPhoto.setVisibility(View.VISIBLE);
             tvAddPhotoText.setVisibility(View.VISIBLE);
         }
@@ -432,14 +462,14 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             else
                 Toast.makeText(getApplicationContext(), "You can't add more than 5 Vehicle Images. Please delete image", Toast.LENGTH_SHORT).show();
         }
-        if(view == btnDelete)
+        /*if(view == btnDelete)
         {
             MyCustomDialog fragmentDialog = new MyCustomDialog();
             fragmentDialog.mListener = AddVehicleActivity.this;
             fragmentDialog.setDialog(R.layout.custom_dialog, AddVehicleActivity.this, 1, "Cox Axle", "Are you sure want to delete vehicle?", "Ok", "Cancel");
             fragmentDialog.show(getFragmentManager(), "");
             //deleteVehicle();
-        }
+        }*/
         if(view == btnFindVIN)
         {
             MyCustomDialog fragmentDialog = new MyCustomDialog();
@@ -451,9 +481,11 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         {
             String strname = etVehicleName.getText().toString();
             String strVIN = etVin.getText().toString();
-            String strMake = etMake.getText().toString();
-            String strModel = etModel.getText().toString();
-            String strYear = etSelectYear.getText().toString();
+            String strMake = makeSpinner.getSelectedItem().toString();//etMake.getText().toString();
+            String strModel = modelSpinner.getSelectedItem().toString();//etModel.getText().toString();
+            String strYear = yearSpinner.getSelectedItem().toString();
+            String strStyle = styleSpinner.getSelectedItem().toString();
+            String strTrim = trimSpinner.getSelectedItem().toString();
             String strMiles = etMilesDriven.getText().toString();
             String strTagExp = etTagExpiration.getText().toString();
 
@@ -486,13 +518,13 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(AddVehicleActivity.this, "Select valid Vehicle Photo", Toast.LENGTH_SHORT).show();
             }else if (!valid_vehicle_make) {
                 Toast.makeText(AddVehicleActivity.this, "Enter valid Vehicle Make", Toast.LENGTH_SHORT).show();
-                etMake.requestFocus();
+                //etMake.requestFocus();
             }else if (!valid_vehicle_model) {
                 Toast.makeText(AddVehicleActivity.this, "Enter valid Vehicle Model", Toast.LENGTH_SHORT).show();
-                etModel.requestFocus();
+                //etModel.requestFocus();
             }else if (!valid_vehicle_year) {
                 Toast.makeText(AddVehicleActivity.this, "Enter valid Vehicle Year", Toast.LENGTH_SHORT).show();
-                etSelectYear.requestFocus();
+                //etSelectYear.requestFocus();
             }else if (!valid_name) {
                 Toast.makeText(AddVehicleActivity.this, "Enter valid Vehicle Name", Toast.LENGTH_SHORT).show();
                 etVehicleName.requestFocus();
@@ -509,6 +541,8 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                     page1Values.put("vehicle_model", strModel);
                     page1Values.put("vehicle_year", strYear);
                     page1Values.put("vehicle_miles", strMiles);
+                    page1Values.put("vehicle_style", strStyle);
+                    page1Values.put("vehicle_trim", strTrim);
 
                     Date date = dateFormatter.parse(strTagExp);
                     strTagExp = dateFormateToSend.format(date.getTime());
@@ -549,61 +583,20 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             }
         }
     }
-    private void deleteVehicle()
-    {
-        try {
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.DELETE_VEHICLE_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.v("Delete Vehicle>>>", "" + response);
 
-                            try {
-                                JSONObject jsonobjListVehiclesResponse = new JSONObject(response);
-                                String strStatus = jsonobjListVehiclesResponse.getString("status");
-                                String strMessage = jsonobjListVehiclesResponse.getString("message");
-                                if (strStatus.equals("True")) {
-                                    Intent intent = new Intent(AddVehicleActivity.this, HomeScreen.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                                Toast.makeText(AddVehicleActivity.this, strMessage, Toast.LENGTH_LONG).show();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.v("Error delete vehicle>>>", "" + error);
-                            Toast.makeText(AddVehicleActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }) {
-                @Override
-                protected Map<String, String> getParams() {
-
-                    UserSessionManager obj = new UserSessionManager(AddVehicleActivity.this);
-                    String strUid = obj.getUserId();
-
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("vid", vehicleListItem.id);
-                    params.put("uid", strUid);
-
-                    Log.v("params>>>", "" + params);
-                    return params;
-                }
-            };
-            RequestQueue requestQueue = Volley.newRequestQueue(AddVehicleActivity.this);
-            requestQueue.add(stringRequest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static AddVehicleActivity getInstance(){
+        return   activityADD1of4;
     }
 
     public void loadViews()
     {
-        llDotsCount = (LinearLayout) findViewById(R.id.AddVehicle_viewPagerCountDots);
+        makeSpinner = (Spinner) findViewById(R.id.AddVehicle_Make_spinner);
+        modelSpinner = (Spinner) findViewById(R.id.AddVehicle_Model_spinner);
+        yearSpinner = (Spinner) findViewById(R.id.AddVehicle_Year_spinner);
+        styleSpinner = (Spinner) findViewById(R.id.AddVehicle_Style_spinner);
+        trimSpinner = (Spinner) findViewById(R.id.AddVehicle_Trim_spinner);
+
+        //llDotsCount = (LinearLayout) findViewById(R.id.AddVehicle_viewPagerCountDots);
         AddCarsViewPager = (ViewPager) findViewById(R.id.Add_vehicle_viewpager);
         tvVehicleDetailsHeader = (TextView) findViewById(R.id.AddVehicle_VehicleDetailsHeader_tv);
         tvNew = (TextView)findViewById(R.id.AddVehicle_New_tv);
@@ -612,14 +605,14 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         tvAddPhotoText = (TextView)findViewById(R.id.AddVehicle_AddPhotoText_tv);
         etVehicleName = (EditText) findViewById(R.id.AddVehicle_VehicleName_et);
         etVin = (EditText) findViewById(R.id.AddVehicle_VIN_et);
-        etMake = (EditText) findViewById(R.id.AddVehicle_Make_et);
-        etModel = (EditText) findViewById(R.id.Addvehicle_Model_et);
+        //etMake = (EditText) findViewById(R.id.AddVehicle_Make_et);
+        //etModel = (EditText) findViewById(R.id.Addvehicle_Model_et);
         etMilesDriven = (EditText) findViewById(R.id.AddVehicle_MilesDriven_et);
         etTagExpiration = (EditText) findViewById(R.id.AddVehicle_TagExpiration_et);
-        etSelectYear = (EditText) findViewById(R.id.AddVehicle_SelectYear_et);
+        //etSelectYear = (EditText) findViewById(R.id.AddVehicle_SelectYear_et);
         imgAddPhoto = (ImageView) findViewById(R.id.AddVehicle_AddImage_iv);
         btnNext = (Button) findViewById(R.id.AddVehicle_next_button);
-        btnDelete = (Button) findViewById(R.id.Add_Vehicle_Delete_vehicle);
+        //btnDelete = (Button) findViewById(R.id.Add_Vehicle_Delete_vehicle);
         btnFindVIN = (Button) findViewById(R.id.AddVehicle_findMyVIN);
         btnFindVIN.setPaintFlags(btnFindVIN.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
@@ -631,14 +624,14 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         llCPO.setOnClickListener(this);
         imgAddPhoto.setOnClickListener(this);
         btnNext.setOnClickListener(this);
-        btnDelete.setOnClickListener(this);
+        //btnDelete.setOnClickListener(this);
         btnFindVIN.setOnClickListener(this);
 
         btnNext.setTypeface(fontBoldHelvetica);
         tvVehicleDetailsHeader.setTypeface(fontBoldHelvetica);
-        btnDelete.setTypeface(fontNormalHelvetica);
+        //btnDelete.setTypeface(fontNormalHelvetica);
 
-        AddCarsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        /*AddCarsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
@@ -653,10 +646,10 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
     }
 
-    public void drawPageSelectionIndicator() {
+    /*public void drawPageSelectionIndicator() {
         if (llDotsCount != null) {
             llDotsCount.removeAllViews();
         }
@@ -670,10 +663,10 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             llDotsCount.addView(dots[i], params);
         }
         dots[0].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
-    }
+    }*/
 
     public void selectImage() {
-        final CharSequence[] items = { "Take Photo", "Choose from Library"};
+        /*final CharSequence[] items = { "Take Photo", "Choose from Library"};
 
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(AddVehicleActivity.this);
         builder.setTitle("Add Photo!");
@@ -693,8 +686,16 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                 }
             }
         });
-        builder.show();
-    }
+        builder.show();*/
+
+        MyCustomDialog2 fragmentDialog = new MyCustomDialog2();
+        fragmentDialog.mListener = AddVehicleActivity.this;
+        fragmentDialog.setDialog(R.layout.custom_dialog2, getApplicationContext(), 2, "Take a Photo", "Choose from Camera Roll", "Cancel");
+        fragmentDialog.show(getFragmentManager(), "");
+
+        }
+
+
     private void galleryIntent()
     {
         Intent intent = new Intent();
@@ -725,7 +726,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        //thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File destination = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis() + ".jpg");
 
         FileOutputStream fo;
@@ -741,12 +742,13 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         }
 
         if(thumbnail != null) {
-            bitmapArray.add(0, thumbnail);
+            bitmapArray.clear();
+            bitmapArray.add(thumbnail);
             AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
             AddCarsViewPager.getAdapter().notifyDataSetChanged();
-            AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
-            dotsCount = bitmapArray.size();
-            drawPageSelectionIndicator();
+            //AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
+            //dotsCount = bitmapArray.size();
+            //drawPageSelectionIndicator();
             imgAddPhoto.setVisibility(View.INVISIBLE);
             tvAddPhotoText.setVisibility(View.INVISIBLE);
         }
@@ -772,12 +774,13 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         }
 
         if (bm != null) {
-            bitmapArray.add(0, bm);
+            bitmapArray.clear();
+            bitmapArray.add(bm);
             AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(this, bitmapArray));
             AddCarsViewPager.getAdapter().notifyDataSetChanged();
-            AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
-            dotsCount = bitmapArray.size();
-            drawPageSelectionIndicator();
+            //AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
+            //dotsCount = bitmapArray.size();
+            //drawPageSelectionIndicator();
             imgAddPhoto.setVisibility(View.INVISIBLE);
             tvAddPhotoText.setVisibility(View.INVISIBLE);
         }
@@ -817,12 +820,12 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
         builder.setSingleChoiceItems(adapter, -1,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
-                        if(position == 1)
+                        /*if(position == 1)
                             etMake.setText(items[item]);
                         if(position == 2)
                             etModel.setText(items[item]);
                         if(position == 3)
-                            etSelectYear.setText(items[item]);
+                            etSelectYear.setText(items[item]);*/
                         dialog.dismiss();
                     }
                 });
@@ -872,8 +875,15 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void setOnSubmitListener(int flag) {
-        if(flag == 1)
-            deleteVehicle();
+        if(flag == 2)
+            cameraIntent();
+    }
+
+    @Override
+    public void setOnSubmitListener2(int flag) {
+        if(flag == 2){
+            galleryIntent();
+        }
     }
 
 
@@ -908,7 +918,7 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             View view = mLayoutInflater.inflate(R.layout.addcars_viewpager_row, null);
 
             ImageView imgCar = (ImageView) view.findViewById(R.id.add_car_image_row);
-            ImageView imgClose = (ImageView) view.findViewById(R.id.AddVehicle_ImageCross_iv);
+            //ImageView imgClose = (ImageView) view.findViewById(R.id.AddVehicle_ImageCross_iv);
 
             if (objArrayList.size() > 0) {
                 imgCar.setImageBitmap(objArrayList.get(position));
@@ -918,13 +928,13 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             imgCar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(bitmapArray.size() < 5)
+                    //if(bitmapArray.size() < 5)
                         selectImage();
-                    else
-                        Toast.makeText(getApplicationContext(), "You can't add more than 5 Vehicle Images. Please delete image", Toast.LENGTH_SHORT).show();
+                    //else
+                        //Toast.makeText(getApplicationContext(), "You can't add more than 5 Vehicle Images. Please delete image", Toast.LENGTH_SHORT).show();
                 }
             });
-            imgClose.setOnClickListener(new View.OnClickListener() {
+            /*imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -934,18 +944,18 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
                     if(bitmapArray.size()>0) {
                         AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(AddVehicleActivity.this, bitmapArray));
                         AddCarsViewPager.getAdapter().notifyDataSetChanged();
-                        AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
-                        dotsCount = bitmapArray.size();
-                        drawPageSelectionIndicator();
+                        //AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
+                        //dotsCount = bitmapArray.size();
+                        //drawPageSelectionIndicator();
                     }else {
                         AddCarsViewPager.setAdapter(null);
                         AddCarsViewPager.setVisibility(View.INVISIBLE);
-                        llDotsCount.removeAllViews();
-                        imgAddPhoto.setVisibility(View.VISIBLE);
-                        tvAddPhotoText.setVisibility(View.VISIBLE);
+                        //llDotsCount.removeAllViews();
+                        //imgAddPhoto.setVisibility(View.VISIBLE);
+                        //tvAddPhotoText.setVisibility(View.VISIBLE);
                     }
                 }
-            });
+            });*/
 
             ((ViewPager) collection).addView(view);
             return view;
@@ -1009,17 +1019,237 @@ public class AddVehicleActivity extends AppCompatActivity implements View.OnClic
             if(bitmapArray.size()>0) {
                 AddCarsViewPager.setAdapter(new AddCarsViewPagerAdapter(AddVehicleActivity.this, bitmapArray));
                 AddCarsViewPager.getAdapter().notifyDataSetChanged();
-                AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
-                dotsCount = bitmapArray.size();
-                drawPageSelectionIndicator();
+                //AddCarsViewPager.setOffscreenPageLimit(bitmapArray.size() - 1);
+                //dotsCount = bitmapArray.size();
+                //drawPageSelectionIndicator();
             }else {
                 AddCarsViewPager.setAdapter(null);
                 AddCarsViewPager.setVisibility(View.INVISIBLE);
-                llDotsCount.removeAllViews();
+                //llDotsCount.removeAllViews();
                 imgAddPhoto.setVisibility(View.VISIBLE);
                 tvAddPhotoText.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+
+    //Getting Make, model, year, style, trim from Edmund and bind ti spinners
+    void getVehicleModelItems() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.VEHICLE_MAKE_MODEL_YEAR_EDMUND_URL,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        parseMakeModelYear(response);
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    void parseMakeModelYear(String responce) {
+
+        try {
+            JSONObject mainresponceObject = new JSONObject(responce);
+            JSONArray makesJsonArray = mainresponceObject.getJSONArray("makes");
+            if(makesJsonArray.length()>0) {
+                for (int mk = 0; mk < makesJsonArray.length(); mk++) {
+
+                    JSONObject jsonMakeObject = makesJsonArray.getJSONObject(mk);
+                    String strMake = jsonMakeObject.getString("name");
+                    makeArraylist.add(strMake);
+                }
+                setMakeAdapter(makesJsonArray);
+            }
+            pdialog.dismiss();
+        } catch (Exception e) {
+
+        }
+    }
+
+    void setMakeAdapter(final JSONArray jsonArrObj) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, makeArraylist);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        makeSpinner.setAdapter(dataAdapter);
+        makeSpinner.setSelection(0);
+
+        makeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                try {
+                    if(i ==0) {
+                        modelSpinner.setAdapter(null);
+                        yearSpinner.setAdapter(null);
+                    }
+                    else {
+                        modelArraylist = new ArrayList<>();
+                        modelArraylist.add("Model");
+                        JSONObject jsonModelObj = jsonArrObj.getJSONObject(i - 1);
+                        JSONArray objModelsArray = jsonModelObj.getJSONArray("models");
+                        for (int model = 0; model < objModelsArray.length(); model++) {
+                            JSONObject obj = objModelsArray.getJSONObject(model);
+                            String strModel = obj.getString("name");
+                            modelArraylist.add(strModel);
+                        }
+                        setModelAdapter(objModelsArray);
+                    }
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                modelSpinner.setAdapter(null);
+                yearSpinner.setAdapter(null);
+            }
+        });
+    }
+    void setModelAdapter(final JSONArray modelArray)
+    {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, modelArraylist);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        modelSpinner.setAdapter(dataAdapter);
+        //dataAdapter.notifyDataSetChanged();
+        modelSpinner.setSelection(0);
+
+        modelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                try {
+                    if(i ==0)
+                        yearSpinner.setAdapter(null);
+                    else {
+                        yearArrayList = new ArrayList<>();
+                        yearArrayList.add("Year");
+                        JSONObject jsonYearObj = modelArray.getJSONObject(i - 1);
+                        JSONArray objYearArray = jsonYearObj.getJSONArray("years");
+                        for (int yr = 0; yr < objYearArray.length(); yr++) {
+                            JSONObject obj = objYearArray.getJSONObject(yr);
+                            String strModel = obj.getString("year");
+                            yearArrayList.add(strModel);
+                        }
+                        setYearAdapter();
+                    }
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                yearSpinner.setAdapter(null);
+            }
+        });
+    }
+
+    void setYearAdapter() {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, yearArrayList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        yearSpinner.setAdapter(dataAdapter);
+        yearSpinner.setSelection(0);
+    }
+
+    void getVehicleStyleandTrim() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.VEHICLE_STYLE_TRIM_EDMUND_URL,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject mainresponceObject = new JSONObject(response);
+                            JSONArray stylesJsonArray = mainresponceObject.getJSONArray("styles");
+                            if(stylesJsonArray.length()>0) {
+                                for (int style = 0; style < stylesJsonArray.length(); style++) {
+
+                                    JSONObject jsonstyleObject = stylesJsonArray.getJSONObject(style);
+                                    String strStyle = jsonstyleObject.getString("name");
+                                    styleArrayList.add(strStyle);
+                                }
+                                setStyleAdapter(stylesJsonArray);
+                            }
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+    void setStyleAdapter(final JSONArray jsonArrObj) {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, styleArrayList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        styleSpinner.setAdapter(dataAdapter);
+        styleSpinner.setSelection(0);
+        //dataAdapter.notifyDataSetChanged();
+
+        styleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                try {
+                    if(i ==0)
+                        trimSpinner.setAdapter(null);
+                    else {
+                        trimArrayList = new ArrayList<>();
+                        trimArrayList.add("Trim");
+                        JSONObject jsonTrimObj = jsonArrObj.getJSONObject(i - 1);
+                        String strTrim = jsonTrimObj.getString("trim");
+                        trimArrayList.add(strTrim);
+                        setTrimAdapter();
+                    }
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                trimSpinner.setAdapter(null);
+            }
+        });
+    }
+    void setTrimAdapter()
+    {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, trimArrayList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        trimSpinner.setAdapter(dataAdapter);
+        dataAdapter.notifyDataSetChanged();
     }
 
 }

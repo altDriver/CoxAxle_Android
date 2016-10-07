@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="70dp"
-                android:background="@mipmap/login_with_facebookbtn"
+                android:background="@drawable/blue_round_corner_shape"
                 android:visibility="invisible" />
 
             <ImageView
@@ -52,7 +52,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/login_activity_login_with_email_seperator"
                 android:layout_marginTop="60dp"
-                android:background="@drawable/round_corner_shape"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/white_round_corner_shape"
                 android:orientation="vertical"
                 android:padding="5dp">
 
@@ -96,10 +98,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@id/username_password_layout"
-                android:layout_marginLeft="33dp"
-                android:layout_marginRight="33dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_marginTop="30dp"
-                android:background="@mipmap/login_btn_bg"
+                android:background="@drawable/blue_round_corner_shape"
                 android:text="Log in with Email"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"

@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    tools:context=".presentation.VehicleListActivity" >
+    <RelativeLayout
+        android:id="@+id/recent_search__list_header_bar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/slate">
+        <TextView
+            android:id="@+id/recent_search_title_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="Recent Search"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp" />
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/recent_search_list"
+        android:layout_below="@id/recent_search__list_header_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"/>
+
+</RelativeLayout>

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager_DealerBanners"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:background="@color/colorWhite">
+            </android.support.v4.view.ViewPager>
+
+            <LinearLayout
+                android:id="@+id/viewPagerCountDots_DealerBanners"
+                android:layout_alignBottom="@id/viewpager_DealerBanners"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp" />
+           </RelativeLayout>
+            <!-- <ImageView
+                 android:id="@+id/home_screen_banner_image"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="@mipmap/featured_banner" />-->
+
+            <TextView
+                android:id="@+id/dealer_services_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:paddingBottom="18.5dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="18.5dp"
+                android:text="@string/dealer_services"
+                android:textColor="@color/home_screen_title_text_color"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/colorWhite">
+
+                <RelativeLayout
+                    android:id="@+id/nav_schedule_an_appointment_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp">
+
+                    <ImageView
+                        android:id="@+id/calender_image"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="21.5dp"
+                        android:src="@mipmap/calendar_icon" />
+
+
+                    <ImageView
+                        android:id="@+id/nav_scheduled_appointment_image"
+                        android:layout_width="7.5dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="21.5dp"
+                        android:background="@mipmap/learn_more_arrow" />
+
+                    <TextView
+                        android:id="@+id/appointment_title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="26dp"
+                        android:layout_toLeftOf="@id/nav_scheduled_appointment_image"
+                        android:layout_toRightOf="@id/calender_image"
+                        android:text="@string/schedule_appointment"
+                        android:textColor="@color/home_screen_title_text_color"
+                        android:textSize="17sp" />
+                    <!-- <TextView
+                         android:id="@+id/appointment_description_text"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_below="@id/appointment_title_text"
+                         android:layout_marginLeft="26dp"
+                         android:layout_marginRight="5dp"
+                         android:layout_toLeftOf="@id/nav_scheduled_appointment_image"
+                         android:layout_toRightOf="@id/calender_image"
+                         android:text="At vero eos et accusamus et iusto odio dignissimos"
+                         android:textSize="13sp" />-->
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/appointment_divider_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/nav_schedule_an_appointment_layout"
+                    android:layout_marginLeft="100dp"
+                    android:src="@color/activity_bg" />
+
+                <RelativeLayout
+                    android:id="@+id/nav_service_history_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_below="@id/appointment_divider_image">
+
+                    <ImageView
+                        android:id="@+id/service_history_image"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="21.5dp"
+                        android:src="@mipmap/service_history_icon" />
+
+                    <TextView
+                        android:id="@+id/service_title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="26dp"
+                        android:layout_toRightOf="@id/service_history_image"
+                        android:text="@string/service_history"
+                        android:textColor="@color/home_screen_title_text_color"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:id="@+id/nav_service_history_image"
+                        android:layout_width="7.5dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="21.5dp"
+                        android:background="@mipmap/learn_more_arrow" />
+
+                    <!--<TextView
+                        android:id="@+id/service_history_description_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/service_title_text"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="26dp"
+                        android:layout_toLeftOf="@id/nav_service_history_image"
+                        android:layout_toRightOf="@id/service_history_image"
+                        android:text="0000 At vero eos et accusamus et iusto odio dignissimos"
+                        android:textSize="13sp" />-->
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/my_cars_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <RelativeLayout
+                    android:id="@+id/my_car_title_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/my_cars_title_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:background="@color/colorWhite"
+                        android:paddingBottom="18.5dp"
+                        android:paddingLeft="26dp"
+                        android:paddingTop="18.5dp"
+                        android:text="@string/my_cars"
+                        android:textColor="@color/home_screen_title_text_color"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:id="@+id/add_new_vehicle"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/addvehicle_btn" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/my_car_title_layout"
+                    android:layout_marginTop="40dp"
+                    android:gravity="center"
+                    android:text="No vehicles added, Please add a Vehicle"
+                    android:textColor="@color/activity_bg_black" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="340dp"
+                    android:layout_below="@id/my_car_title_layout"
+                    android:background="@color/colorWhite"
+                    android:visibility="invisible"></android.support.v4.view.ViewPager>
+
+                <LinearLayout
+                    android:id="@+id/viewPagerCountDots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="25dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/dealer_inventory_title_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorWhite"
+                android:paddingBottom="18.5dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="18.5dp"
+                android:text="@string/dealer_inventory"
+                android:textColor="@color/home_screen_title_text_color"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite">
+
+                <RelativeLayout
+                    android:id="@+id/nav_new_car_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/search_new_car_image"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="21.5dp"
+                        android:src="@mipmap/search_cars_icon" />
+
+                    <TextView
+                        android:id="@+id/search_new_car__title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="26dp"
+                        android:layout_toRightOf="@id/search_new_car_image"
+                        android:text="@string/search_new_and_used_cars"
+                        android:textColor="@color/home_screen_title_text_color"
+                        android:textSize="17sp" />
+
+
+                    <ImageView
+                        android:id="@+id/nav_search_new_car_image"
+                        android:layout_width="7.5dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="21.5dp"
+                        android:background="@mipmap/learn_more_arrow" />
+
+
+                    <!--<TextView
+                        android:id="@+id/search_new_car_description_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/search_new_car__title_text"
+                        android:layout_marginLeft="26dp"
+                        android:layout_toLeftOf="@id/nav_search_new_car_image"
+                        android:layout_toRightOf="@id/search_new_car_image"
+                        android:text="At vero eos et accusamus et iusto odio dignissimos"
+                        android:textSize="13sp" />-->
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/search_new_car_divider_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/nav_new_car_layout"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="23dp"
+                    android:src="@color/activity_bg" />
+
+                <RelativeLayout
+                    android:id="@+id/nav_saved_cars_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_below="@id/search_new_car_divider_image"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:id="@+id/saved_cars_image"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="21.5dp"
+                        android:src="@mipmap/saved_cars_icon" />
+
+                    <TextView
+                        android:id="@+id/saved_searches_title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="26dp"
+                        android:layout_toRightOf="@id/saved_cars_image"
+                        android:text="@string/saved_searches"
+                        android:textColor="@color/home_screen_title_text_color"
+                        android:textSize="17sp" />
+
+                    <ImageView
+                        android:id="@+id/nav_saved_cars_image"
+                        android:layout_width="7.5dp"
+                        android:layout_height="15dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="21.5dp"
+                        android:background="@mipmap/learn_more_arrow" />
+
+
+                    <!--<TextView
+                        android:id="@+id/saved_cars_description_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/saved_cars_title_text"
+                        android:layout_marginLeft="26dp"
+                        android:layout_toLeftOf="@id/nav_saved_cars_image"
+                        android:layout_toRightOf="@id/saved_cars_image"
+                        android:text="At vero eos et accusamus et iusto odio dignissimos"
+                        android:textSize="13sp" />-->
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="99dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorWhite">
+
+
+                    <ImageView
+                        android:id="@+id/call_us_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="19dp"
+                        android:src="@mipmap/call_icon" />
+
+                    <TextView
+                        android:id="@+id/call_us_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/call_us_image"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/call_us" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorWhite">
+
+
+                    <ImageView
+                        android:id="@+id/message_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="19dp"
+                        android:src="@mipmap/message_icon" />
+
+                    <TextView
+                        android:id="@+id/message_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/message_image"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/email_us" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorWhite">
+
+
+                    <ImageView
+                        android:id="@+id/map_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="19dp"
+                        android:src="@mipmap/map_icon" />
+
+                    <TextView
+                        android:id="@+id/map_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/map_image"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/direction" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

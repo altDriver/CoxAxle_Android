@@ -6,7 +6,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
-
+    <string name="login">Log In</string>
     <string name="mygarage">My Garage</string>
     <string name="dealership_services">Dealership Services</string>
     <string name="ondemand_services">On-Demand Services</string>
@@ -16,6 +16,7 @@
     <string name="my_cars">My Cars</string>
     <string name="search_new_and_used_cars">Search New and Used Cars</string>
     <string name="saved_cars">Saved Cars</string>
+
     <string name="call_us">Call Us</string>
     <string name="email_us">Email Us</string>
     <string name="direction">Direction</string>
@@ -111,6 +112,7 @@
     <string name="my_cars_value">My Car’s Value</string>
 
     <string name="vehicle_name">Vehicle Name</string>
+    <string name="vehicle_nick_name">Vehicle Nickname</string>
     <string name="vehicle_new">New</string>
     <string name="vehicle_used">Used</string>
     <string name="vehicle_cpo">CPO</string>
@@ -121,6 +123,8 @@
     <string name="vehicle_year">Select Year</string>
     <string name="vehicle_tag_expiration">Tag Expiration</string>
     <string name="vehicle_addphoto_text">Sed ut perspiciatis unde omnis \n iste natus error sit voluptatem</string>
+    <string name="current_mileage">Current Mileage</string>
+    <string name="model">Model</string>
 
     <string name="vehicle_entername">Enter Vehicle Name</string>
     <string name="vehicle_selectmake">Select Make</string>
@@ -136,6 +140,8 @@
     <string name="vehicle_done">done</string>
     <string name="vehicle_next">Next</string>
     <string name="year">Year</string>
+    <string name="insurance_cost">Insurance Cost</string>
+
 
     <!-- Strings Related to Vehicle Details -->
     <string name="car_name">Audi A4 2.0T Premium</string>
@@ -144,7 +150,7 @@
     <string name="engine">Engine</string>
     <string name="vin">Vehicle identification number (VIN)</string>
     <string name="licence_plate_no">Licence plate no</string>
-    <string name="tag_expiration">Tag expiration</string>
+    <string name="tag_expiration">Tag Expiration</string>
     <string name="loan_finance_info">Loan / Finance Info</string>
     <string name="amount_financed">Amount financed</string>
     <string name="payments_terms">Payment terms</string>
@@ -181,21 +187,31 @@
     <string name="vehicle_last_service_apt">Vehicle Last Service Apt</string>
     <string name="vehicle_next_service_apt">Vehicle Next Service Apt</string>
     <string name="vehicle_trim">Vehicle Trim</string>
+    <string name="trim">Trim</string>
     <string name="vehicle_style">Vehicle Style</string>
+    <string name="style">Style</string>
     <string name="vehicle_mileage">Vehicle Mileage</string>
     <string name="vehicle_ownership_type">Vehicle Ownership Type</string>
+    <string name="warranty_start">Warranty Start</string>
+    <string name="warranty_end">Warranty End</string>
+    <string name="extended_warranty_start">Extended Warranty Start</string>
+    <string name="extended_warranty_end">Extended Warranty End</string>
+    <string name="extended_warranty_document">Extended Warranty Document</string>
+    <string name="insurance_exp_date">Insurance Exp. Date</string>
+
+
 
     <string name="filters">Filters</string>
     <string name="select_basic_options">Select Basic Options</string>
     <string name="save_search">Save Search</string>
     <string name="price">Price</string>
     <string name="select_more_options">Select More Options</string>
-     <string name="mileage">Mileage</string>
+    <string name="mileage">Mileage</string>
     <string name="show_vehicles">Show Vehicles</string>
     <string name="min">Min</string>
     <string name="max">Max</string>
     <string name="fewer_options">Fewer Options</string>
-    <string name="Color">Color</string>
+    <string name="color">Color</string>
     <string name="body_style">Body Style</string>
     <string name="engine_type">Engine Type</string>
 
@@ -210,4 +226,7 @@
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

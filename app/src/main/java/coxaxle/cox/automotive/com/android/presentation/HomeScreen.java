@@ -43,6 +43,7 @@ import java.util.Map;
 
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.adapters.MyVehicleInHomeScreenPageAdapter;
+import coxaxle.cox.automotive.com.android.adapters.VehicleDetailsImagesPageAdapter;
 import coxaxle.cox.automotive.com.android.common.FontsOverride;
 import coxaxle.cox.automotive.com.android.common.GPSTracker;
 import coxaxle.cox.automotive.com.android.common.MyCustomDialog;
@@ -56,18 +57,19 @@ public class HomeScreen extends AppCompatActivity
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    ViewPager mMyCarsViewPager;
+    ViewPager mMyCarsViewPager, dealerBannersViewPager;
     ScrollView mHomeScreenScrollView;
     ImageView ivDrection, ivAddNewCars, ivCall, ivMail;
     //MyVehicleInHomeScreenPageAdapter mMyCarsPageAdapter;
-    String strUserId;
+    ArrayList<String> arrDealerBanners;
+    String strUserId, strDealerPhone, strDealerEmail;;
     UserSessionManager mUserSessionManager;
 
     ArrayList<VehicleInfo> vehicleinfoList;
 
-    LinearLayout linearLayout;
-    private ImageView[] dots;
-    private int dotsCount;
+    LinearLayout linearLayout, linearLayoutBanners;
+    private ImageView[] dots, dotsBanners;
+    private int dotsCount, dotsCountBanners;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class HomeScreen extends AppCompatActivity
         strUserId = mUserSessionManager.getUserId();
 
         getListOfVehicles();
-
+        getDealerInfo();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.hamburger_icon);
@@ -140,6 +142,27 @@ public class HomeScreen extends AppCompatActivity
             }
         });
 
+        dealerBannersViewPager = (ViewPager) findViewById(R.id.viewpager_DealerBanners);
+        linearLayoutBanners = (LinearLayout) findViewById(R.id.viewPagerCountDots_DealerBanners);
+        dealerBannersViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < dotsCountBanners; i++) {
+                    dotsBanners[i].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null));
+                }
+                dotsBanners[position].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         RelativeLayout serchUsedAndNewCars = (RelativeLayout) findViewById(R.id.nav_new_car_layout);
         serchUsedAndNewCars.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +187,15 @@ public class HomeScreen extends AppCompatActivity
                 startActivity(scheduleAppointment);*/
 
 
+            }
+        });
+
+        RelativeLayout savedCars = (RelativeLayout) findViewById(R.id.nav_saved_cars_layout);
+        savedCars.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent savedCarsIntent = new Intent(HomeScreen.this, SavedSearchActivity.class);
+                startActivity(savedCarsIntent);
             }
         });
 
@@ -197,6 +229,23 @@ public class HomeScreen extends AppCompatActivity
         }
         dots[0].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
         //dots[0].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
+    }
+    public void drawPageSelectionIndicatorforBanners() {
+
+        if (linearLayoutBanners != null) {
+            linearLayoutBanners.removeAllViews();
+        }
+        dotsCountBanners = arrDealerBanners.size();
+        dotsBanners = new ImageView[dotsCountBanners];
+        for (int i = 0; i < dotsCountBanners; i++) {
+            dotsBanners[i] = new ImageView(HomeScreen.this);
+            dotsBanners[i].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_unselected, null));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(10, 0, 10, 0);
+            linearLayoutBanners.addView(dotsBanners[i], params);
+        }
+        dotsBanners[0].setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.item_selected, null));
     }
 
     @Override
@@ -265,6 +314,9 @@ public class HomeScreen extends AppCompatActivity
 
 
         } else if (id == R.id.nav_ondemand_services) {
+
+            Intent changePasswordIntent = new Intent(HomeScreen.this, CarShoppingActivity.class);
+            startActivity(changePasswordIntent);
 
         } else if (id == R.id.nav_changepassword) {
 
@@ -392,14 +444,14 @@ public class HomeScreen extends AppCompatActivity
                                                 if (strpath.length() != 0)
                                                     arrImageUrls.add(strpath);
                                             }
-                                            VehicleInfo VehicleInfo = new VehicleInfo(obj.getString("id"), obj.getString("date_entered"), obj.getString("date_modified"), obj.getString("deleted"), obj.getString("name"),
+                                           /* VehicleInfo VehicleInfo = new VehicleInfo(obj.getString("id"), obj.getString("date_entered"), obj.getString("date_modified"), obj.getString("deleted"), obj.getString("name"),
                                                     obj.getString("user_id"), obj.getString("dealer_id"), obj.getString("vin"), obj.getString("vehicle_type"),
                                                     obj.getString("make"), obj.getString("model"), obj.getString("year"), obj.getString("color"), obj.getString("mileage"),
                                                     obj.getString("style"), obj.getString("trim"), obj.getString("tag_renewal_date"), obj.getString("waranty_from"), obj.getString("waranty_to"),
                                                     obj.getString("extended_waranty_from"), obj.getString("extended_waranty_to"), obj.getString("kbb_price"), obj.getString("manual"), obj.getString("loan_amount"),
                                                     obj.getString("emi"), obj.getString("interest"), obj.getString("loan_tenure"), obj.getString("insurance_document"), obj.getString("extended_waranty_document"),
                                                     obj.getString("insurance_expiration_date"), obj.getString("tag_expiration_date"), arrImageUrls);
-                                            vehicleinfoList.add(VehicleInfo);
+                                            vehicleinfoList.add(VehicleInfo);*/
 
                                            /* ArrayList<String> arrImageUrls = new ArrayList<>();
                                             JSONArray objUrls = obj.getJSONArray("vechicle_image");
@@ -459,6 +511,73 @@ public class HomeScreen extends AppCompatActivity
         }
     }
 
+    private void getDealerInfo() {
+        try {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.DEALER_INFO_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("Dealer Info",response.toString());
+                            try {
+                                JSONObject dealerInfoResponse = new JSONObject(response);
+
+                                String strStatus = dealerInfoResponse.getString("status");
+                                String strMessage = dealerInfoResponse.getString("message");
+                                if (strStatus.equalsIgnoreCase("True")) {
+                                    JSONObject jsonData = dealerInfoResponse.getJSONObject("response");
+
+                                    //strDealerPhone = jsonData.getString("phone");
+                                    strDealerEmail = jsonData.getString("email");
+                                    // get Twitter id, FB id, Dealer Logo
+                                    arrDealerBanners = new ArrayList<>();
+                                    JSONArray jsonBanners = jsonData.getJSONArray("banner_image");
+                                    for (int i = 0; i< jsonBanners.length(); i++)
+                                    {
+                                        JSONObject obj = jsonBanners.getJSONObject(i);
+                                        String imageUrl = obj.getString("banner");
+                                        arrDealerBanners.add(imageUrl);
+                                    }
+
+                                    dealerBannersViewPager.setAdapter(new VehicleDetailsImagesPageAdapter(HomeScreen.this, arrDealerBanners));
+                                    dealerBannersViewPager.getAdapter().notifyDataSetChanged();
+                                    dealerBannersViewPager.setOffscreenPageLimit(arrDealerBanners.size()-1);
+                                    dotsCountBanners = arrDealerBanners.size();
+                                    drawPageSelectionIndicatorforBanners();
+
+                                } else {
+                                    Toast.makeText(HomeScreen.this, strMessage, Toast.LENGTH_LONG).show();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.v("error>>>", "" + error);
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("uid", strUserId);
+                    params.put("dealer_id", "37");
+
+                    Log.v("params>>>", "" + params);
+                    return params;
+                }
+
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(HomeScreen.this);
+            requestQueue.add(stringRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     void logoutUser() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -488,56 +607,7 @@ public class HomeScreen extends AppCompatActivity
         alertDialog.show();
     }
 
-
-    void userLogOutRequest() {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.LOGIN_URL,
-
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //parseJsonAndNavToHomeScreen(response);
-                        parseLogoutResponceAndNavToLoginScreen(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Toast.makeText(HomeScreen.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-
-                params.put("uid", strUserId);
-
-
-                return params;
-            }
-        };
-
-        /*stringRequest.setRetryPolicy(new RetryPolicy() {
-            @Override
-            public int getCurrentTimeout() {
-                return 50000;
-            }
-
-            @Override
-            public int getCurrentRetryCount() {
-                return 50000;
-            }
-
-            @Override
-            public void retry(VolleyError error) throws VolleyError {
-
-            }
-        });*/
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
-    void parseLogoutResponceAndNavToLoginScreen(String response) {
+    void parseDealerDetails(String response) {
 
     }
 

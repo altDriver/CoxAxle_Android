@@ -22,7 +22,7 @@
             android:text="@string/add_vehicle"
             android:textColor="@color/colorWhite"
             android:textSize="20sp" />
-        <Button
+        <!--<Button
             android:id="@+id/Add_Vehicle_Delete_vehicle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:background="#00000000"
             android:visibility="invisible"
             android:text="Delete"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite" />-->
     </RelativeLayout>
 
     <LinearLayout
@@ -83,25 +83,25 @@
             <RelativeLayout
                 android:layout_width="match_parent"
 				android:background="@color/colorWhite"
-                android:layout_height="wrap_content">
+                android:layout_height="219dp">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/Add_vehicle_viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="370dp"
+                    android:layout_height="match_parent"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:visibility="invisible"
+                    android:visibility="gone"
                     android:background="@color/colorWhite" />
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:id="@+id/AddVehicle_viewPagerCountDots"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="35dp"
                     android:layout_below="@+id/Add_vehicle_viewpager"
                     android:gravity="center"
-                    android:orientation="horizontal" />
+                    android:orientation="horizontal" />-->
 
                 <!--<ImageView
                     android:id="@+id/AddVehicle_AddImageMain_iv"
@@ -123,11 +123,14 @@
                     style="@style/CustomFontStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:paddingBottom="80dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:lines="2"
+                    android:singleLine="false"
                     android:layout_below="@+id/AddVehicle_AddImage_iv"
                     android:layout_centerHorizontal="true"
                     android:text="@string/vehicle_addphoto_text" />
+
             </RelativeLayout>
 
             <View
@@ -300,43 +303,7 @@
                 android:layout_marginTop="20dp"
                 android:background="#E4EAEE" />
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
 
-                <TextView
-                    style="@style/CustomFontStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="1"
-                    android:text="@string/vehicle_year" />
-
-                <EditText
-                    android:id="@+id/AddVehicle_SelectYear_et"
-                    style="@style/CustomFontStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_weight="2"
-                    android:background="@android:color/transparent"
-                    android:gravity="right"
-                    android:inputType="number"
-                    android:hint="@string/vehicle_year"
-                    android:imeOptions="actionNext" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="#E4EAEE" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -353,7 +320,19 @@
                     android:layout_weight="1"
                     android:text="@string/vehicle_make" />
 
-                <EditText
+
+                <Spinner
+                    android:id="@+id/AddVehicle_Make_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:background="@color/colorWhite"/>
+
+                <!--<EditText
                     android:id="@+id/AddVehicle_Make_et"
                     style="@style/CustomFontStyle"
                     android:layout_width="0dp"
@@ -365,7 +344,7 @@
                     android:background="@android:color/transparent"
                     android:gravity="right"
                     android:hint="@string/vehicle_selectmake"
-                    android:imeOptions="actionNext" />
+                    android:imeOptions="actionNext" />-->
             </LinearLayout>
 
             <View
@@ -389,7 +368,18 @@
                     android:layout_weight="1"
                     android:text="@string/vehicle_model" />
 
-                <EditText
+                <Spinner
+                    android:id="@+id/AddVehicle_Model_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:background="@color/colorWhite"/>
+
+                <!--<EditText
                     android:id="@+id/Addvehicle_Model_et"
                     style="@style/CustomFontStyle"
                     android:layout_width="0dp"
@@ -401,7 +391,154 @@
                     android:background="@android:color/transparent"
                     android:gravity="right"
                     android:hint="@string/vehicle_selectmodel"
-                    android:imeOptions="actionNext" />
+                    android:imeOptions="actionNext" />-->
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="#E4EAEE" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/CustomFontStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:text="@string/vehicle_year" />
+
+                <Spinner
+                    android:id="@+id/AddVehicle_Year_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:background="@color/colorWhite"/>
+
+                <!--<EditText
+                    android:id="@+id/AddVehicle_SelectYear_et"
+                    style="@style/CustomFontStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="2"
+                    android:background="@android:color/transparent"
+                    android:gravity="right"
+                    android:inputType="number"
+                    android:hint="@string/vehicle_year"
+                    android:imeOptions="actionNext" />-->
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="#E4EAEE" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/CustomFontStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:text="Style" />
+
+                <Spinner
+                    android:id="@+id/AddVehicle_Style_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:background="@color/colorWhite"/>
+
+                <!--<EditText
+                    android:id="@+id/AddVehicle_Style_et"
+                    style="@style/CustomFontStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="2"
+                    android:background="@android:color/transparent"
+                    android:gravity="right"
+                    android:inputType="number"
+                    android:hint="@string/vehicle_year"
+                    android:imeOptions="actionNext" />-->
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="#E4EAEE" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <TextView
+                    style="@style/CustomFontStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:text="Trim" />
+
+                <Spinner
+                    android:id="@+id/AddVehicle_Trim_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:background="@color/colorWhite"/>
+
+                <!--<EditText
+                    android:id="@+id/AddVehicle_Trim_et"
+                    style="@style/CustomFontStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="2"
+                    android:background="@android:color/transparent"
+                    android:gravity="right"
+                    android:inputType="number"
+                    android:hint="@string/vehicle_year"
+                    android:imeOptions="actionNext" />-->
+
             </LinearLayout>
 
             <View

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="12dp"
+    android:background="@color/transparentColor">
+
+    <ListView
+        android:id="@+id/dialoglist"
+        android:layout_width="match_parent"
+        android:layout_height="391dp"
+        android:layout_weight="0.87"
+        android:layout_above="@+id/notification_button_Ok"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/notification_button_Ok"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@drawable/round_corner_shape"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:text="OK"
+        android:textColor="#00A6ED"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

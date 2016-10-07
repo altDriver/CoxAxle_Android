@@ -168,9 +168,9 @@ public class RangeSeekBar<T extends Number> extends ImageView {
 
     private void init(Context context, AttributeSet attrs) {
         float barHeight;
-        int thumbNormal = R.mipmap.seek_thumb_normal;
-        int thumbPressed = R.mipmap.seek_thumb_pressed;
-        int thumbDisabled = R.mipmap.seek_thumb_disabled;
+        int thumbNormal = R.mipmap.oval;
+        int thumbPressed = R.mipmap.oval;
+        int thumbDisabled = R.mipmap.oval;
         int thumbShadowColor;
         int defaultShadowColor = Color.argb(75, 0, 0, 0);
         int defaultShadowYOffset = PixelUtil.dpToPx(context, 2);
@@ -226,7 +226,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
                 thumbShadowYOffset = a.getDimensionPixelSize(R.styleable.RangeSeekBar_thumbShadowYOffset, defaultShadowYOffset);
                 thumbShadowBlur = a.getDimensionPixelSize(R.styleable.RangeSeekBar_thumbShadowBlur, defaultShadowBlur);
 
-                activateOnDefaultValues = a.getBoolean(R.styleable.RangeSeekBar_activateOnDefaultValues, false);
+                activateOnDefaultValues = a.getBoolean(R.styleable.RangeSeekBar_activateOnDefaultValues, true);
             } finally {
                 a.recycle();
             }

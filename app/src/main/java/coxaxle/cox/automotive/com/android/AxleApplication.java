@@ -15,6 +15,9 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import coxaxle.cox.automotive.com.android.common.LruBitmapCache;
 
 /**
@@ -25,7 +28,7 @@ public class AxleApplication extends Application{
     private static GoogleAnalytics analytics;
 
     private static Tracker tracker;
-
+    public String dealerLogoUrl = "";
     //Lazy loading
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
@@ -36,7 +39,7 @@ public class AxleApplication extends Application{
     public static GoogleAnalytics analytics() {
         return analytics;
     }
-
+    public static ArrayList<HashMap<String, String>> recentSerches = new ArrayList<HashMap<String, String>>();
 
     public static Tracker tracker() {
         return tracker;

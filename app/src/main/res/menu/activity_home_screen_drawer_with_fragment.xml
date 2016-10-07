@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+        <group android:checkableBehavior="single">
+            &lt;!&ndash;Home, Notification, Settings, My Garage, Dealer Services, On-Demand Services, Dealership &ndash;&gt;
+        </group>-->
+    <group
+        android:id="@+id/menu_home"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:state_pressed="true"
+            android:icon="@mipmap/ic_home_black"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_my_cars"
+            android:checked="false"
+            android:icon="@mipmap/ic_my_cars"
+            android:title="My Cars" />
+
+        <item
+            android:id="@+id/nav_dealer_services"
+            android:checked="false"
+            android:icon="@mipmap/ic_service"
+            android:title="Service" />
+
+        <item
+            android:id="@+id/road_side_assistance"
+            android:checked="false"
+            android:icon="@mipmap/ic_road_side_assistance"
+            android:title="Road Side Assistance" />
+
+       <!-- <item
+            android:id="@+id/accident_help"
+            android:checked="false"
+            android:icon="@mipmap/ic_accident_help"
+            android:title="Accident Help" />-->
+
+        <item
+            android:id="@+id/car_shopping"
+            android:checked="false"
+            android:icon="@mipmap/ic_car_shopping"
+            android:title="Car Shopping" />
+
+
+        <item
+            android:id="@+id/contact_dealership"
+            android:checked="false"
+            android:icon="@mipmap/ic_contact_dealership"
+            android:title="Contact Dealership" />
+
+        <item
+            android:id="@+id/settings"
+            android:checked="false"
+            android:icon="@mipmap/ic_settings"
+            android:title="Settings" />
+
+    </group>
+
+</menu>

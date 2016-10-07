@@ -37,7 +37,8 @@ public class UserSessionManager {
     public static final String KEY_PHONENUMBER = "phone";
     public static final String KEY_USERID = "user_id";
     public static final String KEY_EMAIL = "email";
-    //public static final String REMEMBER_ME = "rememberMe";
+
+    public static final String DEALER_ID = "dealer_id";
 
     public static final String IS_USER_LOGGED_IN = "isUserLoggedIn";
 
