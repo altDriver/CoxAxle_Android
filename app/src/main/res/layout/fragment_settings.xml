@@ -1,13 +1,149 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    android:background="@color/activity_bg"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="coxaxle.cox.automotive.com.android.presentation.fragments.SettingsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:layout_height="match_parent">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/settings_user_name"
+            android:text="@string/name"
+            style="@style/CarShoppingFontStyleSize20"/>
 
-</FrameLayout>
+
+
+        <TextView
+            android:id="@+id/settings_user_email"
+            android:text="@string/email"
+            android:layout_below="@id/settings_user_name"
+            style="@style/CarShoppingFontStyleSize20"/>
+        <TextView
+            android:id="@+id/settings_user_phone"
+            android:text="@string/phone"
+            android:layout_below="@id/settings_user_email"
+            style="@style/CarShoppingFontStyleSize20"/>
+
+        <RelativeLayout
+            android:id="@+id/settings_user_address_layout"
+            android:layout_marginTop="1dp"
+            android:background="@color/colorWhite"
+            android:layout_width="match_parent"
+
+            android:paddingBottom="20dp"
+            android:layout_below="@id/settings_user_phone"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/settings_user_address_edt"
+                android:hint="enter address"
+                android:gravity="start"
+                android:paddingStart="200dp"
+                android:background="@color/colorWhite"
+                android:paddingEnd="20dp"
+                android:paddingTop="20dp"
+                android:maxHeight="180dp"
+                android:minHeight="180dp"
+                android:maxLines="7"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/settings_user_address"
+            android:text="@string/address"
+            android:paddingTop="20dp"
+            android:paddingLeft="70dp"
+            android:textSize="17sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+           <ImageView
+               android:layout_marginLeft="29dp"
+               android:layout_marginTop="18dp"
+               android:background="@mipmap/map_icon"
+               android:layout_width="25dp"
+               android:layout_height="25dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/settings_user_notifications"
+            android:text="@string/notification"
+            android:layout_below="@id/settings_user_address_layout"
+            style="@style/CarShoppingFontStyleSize20"/>
+
+        <TextView
+            android:id="@+id/settings_user_change_password"
+            android:text="@string/change_password"
+            android:layout_below="@id/settings_user_notifications"
+            style="@style/CarShoppingFontStyleSize20"/>
+        <TextView
+            android:id="@+id/settings_user_logout"
+            android:text="@string/logout"
+            android:layout_below="@id/settings_user_change_password"
+            style="@style/CarShoppingFontStyleSize20"/>
+
+        <ImageView
+            android:layout_marginLeft="29dp"
+            android:layout_marginTop="18dp"
+            android:background="@mipmap/message_icon"
+            android:layout_below="@id/settings_user_name"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+        <ImageView
+            android:layout_marginLeft="29dp"
+            android:layout_marginTop="18dp"
+            android:background="@mipmap/call_icon"
+            android:layout_below="@id/settings_user_email"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+
+        <EditText
+            android:id="@+id/settings_user_name_edt"
+            style="@style/settingsScreenEditTextStyleSize17"
+            android:hint="@string/name"
+            />
+        <EditText
+            android:id="@+id/settings_user_email_edt"
+            android:layout_below="@+id/settings_user_name"
+            style="@style/settingsScreenEditTextStyleSize17"
+            android:hint="@string/email"
+            />
+
+        <EditText
+            android:id="@+id/settings_user_phone_edt"
+            android:layout_below="@+id/settings_user_email"
+            style="@style/settingsScreenEditTextStyleSize17"
+            android:hint="@string/phone"
+            />
+
+
+        <EditText
+            android:id="@+id/settings_user_notification_edt"
+            android:layout_below="@+id/settings_user_address_layout"
+            style="@style/settingsScreenEditTextStyleSize17"
+            android:hint="@string/on"
+            />
+       <ImageView
+           android:background="@mipmap/learn_more_arrow"
+           android:layout_below="@+id/settings_user_notifications"
+           android:layout_alignParentRight="true"
+           android:layout_marginTop="20dp"
+           android:layout_marginRight="20dp"
+           android:layout_width="7.5dp"
+           android:layout_height="15dp" />
+        <ImageView
+            android:background="@mipmap/learn_more_arrow"
+            android:layout_below="@+id/settings_user_change_password"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="7.5dp"
+            android:layout_height="15dp" />
+
+    </RelativeLayout>
+
+</ScrollView>

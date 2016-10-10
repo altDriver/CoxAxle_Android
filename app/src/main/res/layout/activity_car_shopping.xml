@@ -11,10 +11,23 @@
         android:layout_height="wrap_content"
         android:background="@color/activity_bg">
 
+        <TextView
+            android:id="@+id/car_shopping_newest_inventory"
+            style="@style/CarShoppingFontStyleSize21"
+            android:text="@string/newest_inventory" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager_cars_shopping"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_below="@id/car_shopping_newest_inventory"
+            android:background="@color/colorWhite">
+        </android.support.v4.view.ViewPager>
 
         <TextView
             android:id="@+id/car_shopping_dealer_inventory_tv"
             style="@style/CarShoppingFontStyleSize20"
+            android:layout_below="@id/viewpager_cars_shopping"
             android:text="@string/dealer_inventory" />
 
         <TextView
@@ -24,9 +37,15 @@
             android:text="@string/saved_searches" />
 
         <TextView
-            android:id="@+id/car_shopping_favorite_cars_tv"
+            android:id="@+id/car_shopping_recent_searches_tv"
             style="@style/CarShoppingFontStyleSize20"
             android:layout_below="@id/car_shopping_saved_searches_tv"
+            android:text="@string/recent_searches" />
+
+        <TextView
+            android:id="@+id/car_shopping_favorite_cars_tv"
+            style="@style/CarShoppingFontStyleSize20"
+            android:layout_below="@id/car_shopping_recent_searches_tv"
             android:text="@string/favorite_cars" />
 
         <LinearLayout
@@ -180,6 +199,7 @@
             android:id="@+id/car_shopping_dealer_inventory_iv"
             android:layout_width="25.5dp"
             android:layout_height="23.5dp"
+            android:layout_below="@id/viewpager_cars_shopping"
             android:layout_marginLeft="26dp"
             android:layout_marginTop="18.5dp"
             android:src="@mipmap/blue_car_icon" />
@@ -194,11 +214,21 @@
             android:src="@mipmap/group" />
 
         <ImageView
+            android:id="@+id/car_recent_serches_iv"
             android:layout_width="25.5dp"
             android:layout_height="23.5dp"
             android:layout_below="@id/car_shopping_saved_searches_tv"
             android:layout_marginLeft="26dp"
             android:layout_marginTop="18.5dp"
+            android:src="@mipmap/recent_search_icon" />
+
+        <ImageView
+            android:id="@+id/car_favourite_serches_iv"
+            android:layout_width="25.5dp"
+            android:layout_height="23.5dp"
+            android:layout_below="@id/car_recent_serches_iv"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="36.5dp"
             android:src="@mipmap/saved_cars_icon" />
 
         <ImageView
@@ -212,7 +242,6 @@
 
         <ImageView
             android:id="@+id/car_shopping_saved_searches_iv"
-
             android:layout_width="25dp"
             android:layout_height="22dp"
             android:layout_marginLeft="26dp"

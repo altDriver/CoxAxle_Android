@@ -50,6 +50,17 @@
                     android:background="@color/colorPumpkin"
                     android:text="o"
                     android:textSize="5sp"/>
+                <TextView
+                    android:id="@+id/toolbar_right_text"
+                    android:layout_width="wrap_content"
+                    android:text="Edit"
+                    android:layout_centerVertical="true"
+                    android:textSize="17sp"
+                    android:visibility="gone"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/colorMenuLight"
+                    android:layout_height="wrap_content" />
+
             </RelativeLayout>
 
 

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import coxaxle.cox.automotive.com.android.common.LruBitmapCache;
+import coxaxle.cox.automotive.com.android.model.DealerInfo;
 
 /**
  * Created by Kishore on 7/21/2016.
@@ -34,6 +35,8 @@ public class AxleApplication extends Application{
     private ImageLoader mImageLoader;
     private static AxleApplication mInstance;
     public static final String TAG = AxleApplication.class.getSimpleName();
+
+    public static ArrayList<DealerInfo> dealerInfo;
 
     @SuppressWarnings("unused") // Method is unused in codebase; kept here for reference.
     public static GoogleAnalytics analytics() {
@@ -67,6 +70,8 @@ public class AxleApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        dealerInfo = new ArrayList<>();
+
         mInstance = this;
         analytics = GoogleAnalytics.getInstance(this);
 

@@ -119,15 +119,47 @@
 
     <style name="addVehicleCompleteScreenEditTextStyleSize17">
         <item name="android:textSize">17sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingLeft">170dp</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginTop">1dp</item>
         <item name="android:paddingRight">21dp</item>
         <item name="android:background">@color/color_transparent</item>
         <item name="android:textColor">@color/colorTextLight</item>/>
-        <item name="android:gravity">center_vertical</item>
+        <item name="android:gravity">right|center_vertical</item>
         <item name="android:layout_height">60dp</item>
+        <item name="android:singleLine">true</item>
         <item name="android:layout_width">wrap_content</item>
 
     </style>
+
+
+    <style name="CarShoppingFontStyleSize21">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/colorTextDark</item>/>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="settingsScreenEditTextStyleSize17">
+        <item name="android:textSize">17sp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingLeft">170dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:paddingRight">21dp</item>
+        <item name="android:background">@color/color_transparent</item>
+        <item name="android:textColor">@color/colorTextLight</item>/>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_width">wrap_content</item>
+
+    </style>
+
 
 </resources>

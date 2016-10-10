@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_dealer_inventory_vehicle_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    tools:context="coxaxle.cox.automotive.com.android.presentation.DealerInventoryVehicleDetailsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/dealer_inventory_vehicle_details_img"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@mipmap/car_img" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_details_year_make_model"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dealer_inventory_vehicle_details_img"
+            android:layout_marginTop="30dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="30dp"
+            android:text="2014 Mazda MX5 Miata"/>
+
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_details_miles_driven"
+            android:layout_below="@id/dealer_inventory_vehicle_details_year_make_model"
+            android:text="18,235 Miles"
+            android:layout_marginLeft="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_details_price"
+            android:layout_below="@id/dealer_inventory_vehicle_details_miles_driven"
+            android:text="$19,991*"
+            android:textColor="@color/colorPumpkin"
+            android:layout_marginLeft="30dp"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_exterior_color_txt"
+            android:layout_below="@id/dealer_inventory_vehicle_details_price"
+            android:text="Exterior:"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_exterior_color_value"
+            android:layout_below="@id/dealer_inventory_vehicle_details_price"
+            android:text="Jet Black"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/dealer_inventory_vehicle_exterior_color_txt"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_interior_color_txt"
+            android:layout_below="@id/dealer_inventory_vehicle_exterior_color_value"
+            android:text="Interior:"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_interior_color_value"
+            android:layout_below="@id/dealer_inventory_vehicle_exterior_color_value"
+            android:text="Jet Black"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/dealer_inventory_vehicle_interior_color_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_fuel_type_txt"
+            android:layout_below="@id/dealer_inventory_vehicle_interior_color_txt"
+            android:text="21 City MPG"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_transmission_txt"
+            android:layout_below="@id/dealer_inventory_vehicle_fuel_type_txt"
+            android:text="Transmission:"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_transmission_value_txt"
+            android:layout_below="@id/dealer_inventory_vehicle_fuel_type_txt"
+            android:text="Automatic"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/dealer_inventory_vehicle_transmission_txt"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_engine_type_txt"
+            android:layout_below="@id/dealer_inventory_vehicle_transmission_value_txt"
+            android:text="Engine:"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_engine_type_value_txt"
+            android:layout_below="@id/dealer_inventory_vehicle_transmission_value_txt"
+            android:text="Automatic"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/dealer_inventory_vehicle_engine_type_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_doors_txt"
+            android:layout_below="@id/dealer_inventory_vehicle_engine_type_value_txt"
+            android:text="Doors:"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/dealer_inventory_vehicle_doors_value_txt"
+            android:layout_below="@id/dealer_inventory_vehicle_engine_type_value_txt"
+            android:text="2"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/dealer_inventory_vehicle_doors_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+</ScrollView>

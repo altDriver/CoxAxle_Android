@@ -26,14 +26,20 @@
     <string name="notification">Notification</string>
     <string name="settings">Settings</string>
 
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="logout">Log Out</string>
+    <string name="on">On</string>
 
     <!-- Strings related to login/registration/settings -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+
+    <string name="password">Password</string>
     <string name="forgot_password">Forgot password?</string>
-    <string name="prompt_current_password">Current Password</string>
-    <string name="prompt_new_password">New Password</string>
-    <string name="prompt_confirm_password">Confirm New Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm New Password</string>
     <string name="remember_me">Remember me</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
@@ -49,6 +55,7 @@
     <string name="vehicle_type">Vehicle Type </string>
     <string name="sign_up_with_email">Sign up with Email</string>
     <string name="do_not_have_account">Don’t have an account? Sign up</string>
+
 
     <string name="action_sign_in">Sign in </string>
     <string name="action_sign_up">Sign up </string>
@@ -141,8 +148,8 @@
     <string name="vehicle_next">Next</string>
     <string name="year">Year</string>
     <string name="insurance_cost">Insurance Cost</string>
-
-
+    <string name="recent_searches">Recent Searches</string>
+    <string name="newest_inventory">Newest Inventory</string>
     <!-- Strings Related to Vehicle Details -->
     <string name="car_name">Audi A4 2.0T Premium</string>
     <string name="make">Make</string>
@@ -198,7 +205,6 @@
     <string name="extended_warranty_end">Extended Warranty End</string>
     <string name="extended_warranty_document">Extended Warranty Document</string>
     <string name="insurance_exp_date">Insurance Exp. Date</string>
-
 
 
     <string name="filters">Filters</string>

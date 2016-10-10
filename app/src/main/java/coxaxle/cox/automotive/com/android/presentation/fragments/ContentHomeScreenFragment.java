@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import coxaxle.cox.automotive.com.android.AxleApplication;
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.adapters.MyVehicleInHomeScreenPageAdapter;
 import coxaxle.cox.automotive.com.android.adapters.VehicleDetailsImagesPageAdapter;
@@ -46,6 +47,7 @@ import coxaxle.cox.automotive.com.android.common.FontsOverride;
 import coxaxle.cox.automotive.com.android.common.GPSTracker;
 import coxaxle.cox.automotive.com.android.common.MyCustomDialog;
 import coxaxle.cox.automotive.com.android.model.Constants;
+import coxaxle.cox.automotive.com.android.model.DealerInfo;
 import coxaxle.cox.automotive.com.android.model.VehicleInfo;
 import coxaxle.cox.automotive.com.android.presentation.AddVehicleActivity;
 import coxaxle.cox.automotive.com.android.presentation.DealerInventorySearchResultsActivity;
@@ -106,7 +108,7 @@ public class ContentHomeScreenFragment extends Fragment implements View.OnClickL
     }
 
     void loadViews() {
-        getDealerInfo();
+
         //dotsCount = vehicleinfoList.size();
         ivDrection = (ImageView) view.findViewById(R.id.map_image);
         ivDrection.setOnClickListener(this);
@@ -122,8 +124,9 @@ public class ContentHomeScreenFragment extends Fragment implements View.OnClickL
         linearLayout = (LinearLayout) view.findViewById(R.id.viewPagerCountDots);
 
         dealerBannersViewPager = (ViewPager)view.findViewById(R.id.viewpager_DealerBanners);
-        linearLayoutBanners = (LinearLayout)view.findViewById(R.id.viewPagerCountDots_DealerBanners);
 
+        linearLayoutBanners = (LinearLayout)view.findViewById(R.id.viewPagerCountDots_DealerBanners);
+        getDealerInfo();
         serchUsedAndNewCars = (RelativeLayout) view.findViewById(R.id.nav_new_car_layout);
         serchUsedAndNewCars.setOnClickListener(this);
 
@@ -194,7 +197,7 @@ public class ContentHomeScreenFragment extends Fragment implements View.OnClickL
         }
     }
     private void getDealerInfo() {
-        try {
+       /* try {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.DEALER_INFO_URL,
                     new Response.Listener<String>() {
                         @Override
@@ -207,18 +210,24 @@ public class ContentHomeScreenFragment extends Fragment implements View.OnClickL
                                 String strMessage = dealerInfoResponse.getString("message");
                                 if (strStatus.equalsIgnoreCase("True")) {
                                     JSONObject jsonData = dealerInfoResponse.getJSONObject("response");
-                                    arrImageUrls = new ArrayList<>();
+
                                     JSONArray jsonBanners = jsonData.getJSONArray("banner_image");
                                     for (int i = 0; i< jsonBanners.length(); i++)
                                     {
                                         JSONObject obj = jsonBanners.getJSONObject(i);
                                         String imageUrl = obj.getString("banner");
                                         arrImageUrls.add(imageUrl);
-                                    }
+                                    }*/
                                   /*  dealerInfo = new VehicleInfo(jsonData.getString("name"), jsonData.getString("dealer_code"), jsonData.getString("phone"), jsonData.getString("address"),
                                             jsonData.getString("email"), jsonData.getString("dealer_twiter_page_link"), jsonData.getString("dealer_fb_page_link"), jsonData.getString("main_contact_number"),jsonData.getString("sale_contact"),
                                             jsonData.getString("service_desk_contact"), jsonData.getString("collision_desk_contact"), jsonData.getString("dealer_logo"), jsonData.getString("date_modified"), arrImageUrls);
 */
+                                      //DealerInfo objDealerInfo = AxleApplication.dealerInfo.get(0);
+                                      arrImageUrls = new ArrayList<>();
+                                      arrImageUrls = AxleApplication.dealerInfo.get(0).getBanner_image_urls();
+
+                                       Log.d("bannerUrl>>",arrImageUrls.get(0));
+
                                     if(arrImageUrls.size()>0)
                                     {
 
@@ -229,36 +238,7 @@ public class ContentHomeScreenFragment extends Fragment implements View.OnClickL
                                         drawPageSelectionIndicatorforBanners();
                                     }
 
-                                } else {
-                                    Toast.makeText(getActivity(), strMessage, Toast.LENGTH_LONG).show();
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.v("error>>>", "" + error);
-                        }
-                    }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("dealer_code", Constants.DEALER_CODE);
 
-                    Log.v("params>>>", "" + params);
-                    return params;
-                }
-
-            };
-
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            requestQueue.add(stringRequest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void drawPageSelectionIndicator() {

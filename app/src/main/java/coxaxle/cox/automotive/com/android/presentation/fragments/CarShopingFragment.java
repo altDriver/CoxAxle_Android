@@ -15,6 +15,7 @@ import coxaxle.cox.automotive.com.android.presentation.DealerInventorySearchFilt
 import coxaxle.cox.automotive.com.android.presentation.DealerInventorySearchResultsActivity;
 import coxaxle.cox.automotive.com.android.presentation.FavoriteCarsActivity;
 import coxaxle.cox.automotive.com.android.presentation.HomeScreenActivity;
+import coxaxle.cox.automotive.com.android.presentation.RecentSearchActivity;
 import coxaxle.cox.automotive.com.android.presentation.SavedSearchActivity;
 
 public class CarShopingFragment extends Fragment {
@@ -63,7 +64,16 @@ public class CarShopingFragment extends Fragment {
             }
 
         });
+        TextView recentSerches = (TextView) view.findViewById(R.id.car_shopping_recent_searches_tv);
 
+        recentSerches.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), RecentSearchActivity.class);
+                startActivity(intent);
+            }
+
+        });
 
         TextView favoriteCars = (TextView) view.findViewById(R.id.car_shopping_favorite_cars_tv);
 

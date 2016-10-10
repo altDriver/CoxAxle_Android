@@ -15,8 +15,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ import coxaxle.cox.automotive.com.android.AxleApplication;
 import coxaxle.cox.automotive.com.android.R;
 import coxaxle.cox.automotive.com.android.common.UserSessionManager;
 import coxaxle.cox.automotive.com.android.model.Constants;
+import coxaxle.cox.automotive.com.android.model.DealerInfo;
 
 /**
  */
@@ -33,7 +36,6 @@ public class SplashScreen extends Activity {
     UserSessionManager mUserSessionManager;
     String strDealerLogoUrl;
     AxleApplication axleApplication;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -83,6 +85,8 @@ public class SplashScreen extends Activity {
                         @Override
                         public void onResponse(String response) {
                             Log.d("Dealer Info",response.toString());
+
+                            DealerInfo objDealerInfo;
                             try {
                                 JSONObject dealerInfoResponse = new JSONObject(response);
 
@@ -90,8 +94,25 @@ public class SplashScreen extends Activity {
                                 String strMessage = dealerInfoResponse.getString("message");
                                 if (strStatus.equalsIgnoreCase("True")) {
                                     JSONObject jsonData = dealerInfoResponse.getJSONObject("response");
+                                    ArrayList<String> arrImageUrls = new ArrayList<>();
+                                    JSONArray jsonBanners = jsonData.getJSONArray("banner_image");
+                                    for (int i = 0; i< jsonBanners.length(); i++)
+                                    {
+                                        JSONObject obj = jsonBanners.getJSONObject(i);
+                                        String imageUrl = obj.getString("banner");
+                                        arrImageUrls.add(imageUrl);
+                                    }
+
+                                    objDealerInfo = new DealerInfo(jsonData.getString("name"),jsonData.getString("phone"),
+                                            jsonData.getString("address"),jsonData.getString("dealer_code"),jsonData.getString("email"),
+                                            jsonData.getString("dealer_twiter_page_link"),jsonData.getString("dealer_fb_page_link"),jsonData.getString("main_contact_number"),
+                                            jsonData.getString("sale_contact"),jsonData.getString("service_desk_contact"),jsonData.getString("collision_desk_contact"),
+                                            jsonData.getString("dealer_logo"),"",jsonData.getString("privacy_policy"),arrImageUrls);
+
                                     strDealerLogoUrl = jsonData.getString("dealer_logo");
                                     axleApplication.dealerLogoUrl = strDealerLogoUrl;
+
+                                    AxleApplication.dealerInfo.add(objDealerInfo);
 
                                 } else {
                                     Toast.makeText(SplashScreen.this, strMessage, Toast.LENGTH_LONG).show();

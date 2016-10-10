@@ -55,6 +55,7 @@ public class DealerInventorySearchResultsActivity extends Activity{
     int pageValue = 1, total_count;
     boolean loadingMore = false;
     DealerSearchInventoryResultsAdapter objAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,25 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:gravity="center"
+    android:background="@color/colorTextDark"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/nointernet_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/noconnection" />
 
-    <Button
-        android:id="@+id/button_TryAgain"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="17sp"
-        android:background="#00A6ED"
-        android:textColor="@color/colorWhite"
+    <TextView
+        android:id="@+id/oops_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/try_again" />
+        android:text="Oops!"
+        android:textSize="21sp"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="65dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Try Again"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="17sp"
+        android:textColor="@color/colorMenuLight"
+        android:layout_marginBottom="40dp"
+        android:id="@+id/txt_TryAgain" />
+
+    <ImageView
+        android:layout_width="8.1dp"
+        android:layout_height="16.2dp"
+        app:srcCompat="@mipmap/right_arrow"
+        android:id="@+id/try_again"
+        android:layout_toRightOf="@id/txt_TryAgain"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="41dp"/>
+
+    <TextView
+        android:text="No Internet Connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="21sp"
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="25dp"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="173dp"
+        android:layout_height="173dp"
+        app:srcCompat="@mipmap/no_internet"
+        android:id="@+id/imageView"
+        android:layout_marginTop="61dp"
+        android:layout_below="@+id/oops_message"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

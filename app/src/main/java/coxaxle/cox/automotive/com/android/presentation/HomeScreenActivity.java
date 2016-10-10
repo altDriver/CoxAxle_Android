@@ -68,7 +68,7 @@ public class HomeScreenActivity extends AppCompatActivity implements MyCustomDia
     private DrawerLayout drawerLayout;
     ImageView facebook_iv, twitter_iv;
     FragmentTransaction fragmentTransaction;
-    public TextView toolbar_title, toolbar_notifications_count;
+    public TextView toolbar_title, toolbar_notifications_count, toolbar_right_text;
     ViewPager mMyCarsViewPager;
     String strUserId;
     ArrayList<VehicleInfo> vehicleinfoList;
@@ -76,7 +76,7 @@ public class HomeScreenActivity extends AppCompatActivity implements MyCustomDia
     String navToActivity;
     String FACEBOOK_URL = "https://www.facebook.com/VensaiTechnologies";
     int flag=0;
-
+    MyCustomDialog fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +85,7 @@ public class HomeScreenActivity extends AppCompatActivity implements MyCustomDia
         vehicleinfoList = new ArrayList<>();
         flag = this.getIntent().getIntExtra("Flag_Add", 0);
         loadViews();
-
+        fragment = new MyCustomDialog();
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,12 +94,14 @@ public class HomeScreenActivity extends AppCompatActivity implements MyCustomDia
         toolbar.setNavigationIcon(R.mipmap.hamburger_icon);
         toolbar_title = (TextView) findViewById(R.id.app_bar_home_title_tv);
         toolbar_notifications_count = (TextView) findViewById(R.id.toolbar_notifications_count);
-
+        toolbar_right_text = (TextView) findViewById(R.id.toolbar_right_text);
         toolbar_icon = (ImageView) findViewById(R.id.toolbar_icon);
         toolbar_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopUp();
+                fragment.mListener = HomeScreenActivity.this;
+                fragment.setDialog(R.layout.notification_dialog, HomeScreenActivity.this, 3, "", "", "", "Ok");
+                fragment.show(getFragmentManager(), "");
             }
         });
         //Initializing NavigationView
@@ -110,19 +112,19 @@ public class HomeScreenActivity extends AppCompatActivity implements MyCustomDia
         facebook_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyCustomDialog fragment1 = new MyCustomDialog();
-                fragment1.mListener = HomeScreenActivity.this;
-                fragment1.setDialog(R.layout.custom_dialog, HomeScreenActivity.this, 1, "Cox Axle", "Are you sure want to go to Facebook?", "Ok", "Cancel");
-                fragment1.show(getFragmentManager(), "");
+
+                fragment.mListener = HomeScreenActivity.this;
+                fragment.setDialog(R.layout.custom_dialog, HomeScreenActivity.this, 1, "Cox Axle", "Are you sure want to go to Facebook?", "Ok", "Cancel");
+                fragment.show(getFragmentManager(), "");
             }
         });
         twitter_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyCustomDialog fragment1 = new MyCustomDialog();
-                fragment1.mListener = HomeScreenActivity.this;
-                fragment1.setDialog(R.layout.custom_dialog, HomeScreenActivity.this, 2, "Cox Axle", "Are you sure want to go to Twitter?", "Ok", "Cancel");
-                fragment1.show(getFragmentManager(), "");
+
+                fragment.mListener = HomeScreenActivity.this;
+                fragment.setDialog(R.layout.custom_dialog, HomeScreenActivity.this, 2, "Cox Axle", "Are you sure want to go to Twitter?", "Ok", "Cancel");
+                fragment.show(getFragmentManager(), "");
             }
         });
 
@@ -489,49 +491,7 @@ public class HomeScreenActivity extends AppCompatActivity implements MyCustomDia
             startActivity(intent);
         }
     }
-    public void showPopUp(){
 
-        // add your items, this can be done programatically
-        // your items can be from a database
-        NotificationInfo[] NotificationInfomData = new NotificationInfo[6];
-
-        NotificationInfomData[0] = new NotificationInfo("Albert's Car", "Due for an oilchange 09/01/2016");
-        NotificationInfomData[1] = new NotificationInfo("Michelle's Car", "Appointment Reminder 10/15/2016");
-        NotificationInfomData[2] = new NotificationInfo("Adam's Car", "100,000 Mile Tune Up December");
-        NotificationInfomData[3] = new NotificationInfo("Albert's Car", "Due for an oilchange 09/01/2016");
-        NotificationInfomData[4] = new NotificationInfo("Michelle's Car", "Appointment Reminder 10/15/2016");
-        NotificationInfomData[5] = new NotificationInfo("Adam's Car", "100,000 Mile Tune Up December");
-
-        // our adapter instance
-        NotificationAdapter adapter = new NotificationAdapter(this, R.layout.notification_list_row, NotificationInfomData);
-
-        // create a new ListView, set the adapter and item click listener
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.notification_dialog);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        ListView listViewItems = (ListView) dialog.findViewById(R.id.dialoglist);
-        listViewItems.setAdapter(adapter);
-        listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
-                /*Context context = view.getContext();
-                Toast.makeText(context, "Item Clicked ", Toast.LENGTH_SHORT).show();*/
-
-            }
-        });
-        TextView dialogButton = (TextView) dialog.findViewById(R.id.notification_button_Ok);
-        // if button is clicked, close the custom dialog
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-
-    }
 
     // Craeting Interface to passing arraylist of vehicleinfoList
     public ArrayList<VehicleInfo> getDataList() {

@@ -12,41 +12,43 @@ import java.util.HashMap;
 
 public class DealerInfo implements Parcelable{
 
-    String name;//: "Sabitha",
-     //: "(276) 343-7669",
-    String email;//: "sabitha@vensaiinc.com",
-    String dealer_twiter_page_link;//: "",
+    String name;
+    String phone;
+    String address;
+    String email;
+    String dealer_twiter_page_link;
     String dealer_fb_page_link;
-    /*"mon_from//": "8AM",
-    "mon_to": "10PM",
-    "tue_from": "8AM",
-    "tue_to": "10PM",
-    "thu_from": "8AM",
-    "thu_to": "10PM",
-    "fri_from": "8AM",
-    "fri_to": "10PM",
-    "sat_from": "8AM",
-    "sat_to": "10PM",
-    "sun_from": "8AM",
-    "sun_to": "10PM",*/
-    String main_contact_number;//": "(888) 888-8888",
-    String sale_contact;//": "(888) 888-8888",
-    String service_desk_contact;//": "(555) 555-5555",
-    String collision_desk_contact;//": "(999) 999-9999",
-    String dealer_logo;//": "http://192.168.8.101/ecommerce_crm/coxaxle/public/dealers_logo/dealers_thumb/Test111_30758_Penguins.jpg",
+    String owner_id;
+    String main_contact_number;
+    String sale_contact;
+    String service_desk_contact;
+    String collision_desk_contact;
+    String dealer_logo;
+    String manual;
+    String privacy_policy;
+    ArrayList<String> banner_image_urls;
 
 
 
-
-    ArrayList<String> banner_image_urls;//":
-
-    public HashMap<String, String> getPhoneNumbers() {
-        return phoneNumbers;
+    public DealerInfo(String name, String phone, String address, String email, String dealer_twiter_page_link, String dealer_fb_page_link, String owner_id, String main_contact_number, String sale_contact, String service_desk_contact, String collision_desk_contact, String dealer_logo, String manual, String privacy_policy, ArrayList<String> banner_image_urls) {
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.email = email;
+        this.dealer_twiter_page_link = dealer_twiter_page_link;
+        this.dealer_fb_page_link = dealer_fb_page_link;
+        this.owner_id = owner_id;
+        this.main_contact_number = main_contact_number;
+        this.sale_contact = sale_contact;
+        this.service_desk_contact = service_desk_contact;
+        this.collision_desk_contact = collision_desk_contact;
+        this.dealer_logo = dealer_logo;
+        this.manual = manual;
+        this.privacy_policy = privacy_policy;
+        this.banner_image_urls = banner_image_urls;
     }
 
-    public void setPhoneNumbers(HashMap<String, String> phoneNumbers) {
-        this.phoneNumbers = phoneNumbers;
-    }
+
 
     public String getName() {
         return name;
@@ -56,25 +58,21 @@ public class DealerInfo implements Parcelable{
         this.name = name;
     }
 
-    HashMap<String,String> phoneNumbers;
-
-
-    public DealerInfo(String name, String email, String dealer_twiter_page_link, String dealer_fb_page_link, String main_contact_number, String sale_contact, String service_desk_contact, String collision_desk_contact, String dealer_logo, ArrayList<String> banner_image_urls,  HashMap<String,String> phoneNumbers) {
-        this.name = name;
-
-        this.email = email;
-        this.dealer_twiter_page_link = dealer_twiter_page_link;
-        this.dealer_fb_page_link = dealer_fb_page_link;
-        this.main_contact_number = main_contact_number;
-        this.sale_contact = sale_contact;
-        this.service_desk_contact = service_desk_contact;
-        this.collision_desk_contact = collision_desk_contact;
-        this.dealer_logo = dealer_logo;
-        this.banner_image_urls = banner_image_urls;
-        this.phoneNumbers = phoneNumbers;
+    public String getPhone() {
+        return phone;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getEmail() {
         return email;
@@ -98,6 +96,14 @@ public class DealerInfo implements Parcelable{
 
     public void setDealer_fb_page_link(String dealer_fb_page_link) {
         this.dealer_fb_page_link = dealer_fb_page_link;
+    }
+
+    public String getOwner_id() {
+        return owner_id;
+    }
+
+    public void setOwner_id(String owner_id) {
+        this.owner_id = owner_id;
     }
 
     public String getMain_contact_number() {
@@ -140,6 +146,22 @@ public class DealerInfo implements Parcelable{
         this.dealer_logo = dealer_logo;
     }
 
+    public String getManual() {
+        return manual;
+    }
+
+    public void setManual(String manual) {
+        this.manual = manual;
+    }
+
+    public String getPrivacy_policy() {
+        return privacy_policy;
+    }
+
+    public void setPrivacy_policy(String privacy_policy) {
+        this.privacy_policy = privacy_policy;
+    }
+
     public ArrayList<String> getBanner_image_urls() {
         return banner_image_urls;
     }
@@ -147,6 +169,8 @@ public class DealerInfo implements Parcelable{
     public void setBanner_image_urls(ArrayList<String> banner_image_urls) {
         this.banner_image_urls = banner_image_urls;
     }
+
+
 
     @Override
     public int describeContents() {
@@ -157,6 +181,22 @@ public class DealerInfo implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
+
+        dest.writeString(name);
+        dest.writeString(phone);
+        dest.writeString(address);
+        dest.writeString(email);
+        dest.writeString(dealer_twiter_page_link);
+        dest.writeString(dealer_fb_page_link);
+        dest.writeString(owner_id);
+        dest.writeString(main_contact_number);
+        dest.writeString(sale_contact);
+        dest.writeString(service_desk_contact);
+        dest.writeString(collision_desk_contact);
+        dest.writeString(dealer_logo);
+        dest.writeString(manual);
+        dest.writeString(privacy_policy);
+        dest.writeList(banner_image_urls);
     }
 
     // Creator
@@ -172,18 +212,28 @@ public class DealerInfo implements Parcelable{
     };
 
 
-    public DealerInfo (Parcel in){
+
+
+
+
+        public DealerInfo (Parcel in){
+
 
         this.name = in.readString();
-        this.email =in.readString();
+        this.phone = in.readString();
+        this.address = in.readString();
+        this.email = in.readString();
         this.dealer_twiter_page_link = in.readString();
         this.dealer_fb_page_link = in.readString();
+        this.owner_id = in.readString();
         this.main_contact_number = in.readString();
         this.sale_contact = in.readString();
         this.service_desk_contact = in.readString();
         this.collision_desk_contact = in.readString();
         this.dealer_logo = in.readString();
-        this.banner_image_urls = banner_image_urls;
+        this.manual = in.readString();
+        this.privacy_policy = in.readString();
+        this.banner_image_urls = in.readArrayList(DealerInfo.class.getClassLoader());
 
 
     }

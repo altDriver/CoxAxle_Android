@@ -15,11 +15,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import coxaxle.cox.automotive.com.android.R;
+import coxaxle.cox.automotive.com.android.adapters.NotificationAdapter;
+import coxaxle.cox.automotive.com.android.model.NotificationInfo;
 
 public class MyCustomDialog extends DialogFragment {
     TextView buttonOk, btnCancel;
@@ -112,7 +116,7 @@ public class MyCustomDialog extends DialogFragment {
         {
             Window window = dialog.getWindow();
             window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            Button tryAgain = (Button) dialog.findViewById(R.id.button_TryAgain);
+            TextView tryAgain = (TextView) dialog.findViewById(R.id.txt_TryAgain);
             tryAgain.setTypeface(fontNormalHelvetica);
             tryAgain.setOnClickListener(new OnClickListener() {
                 @Override
@@ -120,7 +124,42 @@ public class MyCustomDialog extends DialogFragment {
                     dismiss();
                 }
             });
+        }else if(layout == R.layout.notification_dialog)
+        {
+            NotificationInfo[] NotificationInfomData = new NotificationInfo[6];
+
+            NotificationInfomData[0] = new NotificationInfo("Albert's Car", "Due for an oilchange 09/01/2016");
+            NotificationInfomData[1] = new NotificationInfo("Michelle's Car", "Appointment Reminder 10/15/2016");
+            NotificationInfomData[2] = new NotificationInfo("Adam's Car", "100,000 Mile Tune Up December");
+            NotificationInfomData[3] = new NotificationInfo("Albert's Car", "Due for an oilchange 09/01/2016");
+            NotificationInfomData[4] = new NotificationInfo("Michelle's Car", "Appointment Reminder 10/15/2016");
+            NotificationInfomData[5] = new NotificationInfo("Adam's Car", "100,000 Mile Tune Up December");
+
+            // our adapter instance
+            NotificationAdapter adapter = new NotificationAdapter(getActivity(), R.layout.notification_list_row, NotificationInfomData);
+
+            ListView listViewItems = (ListView) dialog.findViewById(R.id.dialoglist);
+            listViewItems.setAdapter(adapter);
+            listViewItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long l) {
+                /*Context context = view.getContext();
+                Toast.makeText(context, "Item Clicked ", Toast.LENGTH_SHORT).show();*/
+
+                }
+            });
+            TextView dialogButton = (TextView) dialog.findViewById(R.id.notification_button_Ok);
+            // if button is clicked, close the custom dialog
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
         }
         return dialog;
     }
+
 }
